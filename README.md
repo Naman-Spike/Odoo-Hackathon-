@@ -4,6 +4,17 @@
 
 ---
 
+## 👥 Engineering Team & Core Contributors
+
+| Name | Role / Subsystem Area | GitHub Profile |
+| :--- | :--- | :--- |
+| **Naman** | Team Lead & Full-Stack Architect (Layout, Shell, Core Routing) | [@Naman-Spike](https://github.com/Naman-Spike) |
+| **Vanshika** | Auth, Personnel Profiles & Compensation Ledger | [@Vanshika_01_M](https://github.com/Vanshika_01_M) |
+| **Vaishnavi** | UI Kit, White Crystal Design System & Executive Dashboards | [@Vaishnavi1143](https://github.com/Vaishnavi1143) |
+| **Varnit** | Attendance Telemetry & Leave Quota Management Engine | [@Varnit-T](https://github.com/Varnit-T) |
+
+---
+
 ## 🌟 Key Features
 
 ### 1. 🔐 Authentication & Role-Based Access Control (RBAC)
@@ -14,7 +25,7 @@
 ### 2. 📊 Role-Tailored Dashboards
 - **Employee Dashboard**:
   - Personalized time-of-day greeting.
-  - Live check-in/out interactive timer widget.
+  - Live check-in/out interactive timer widget with digital stopwatch telemetry.
   - Leave balance snapshot cards (Paid, Sick, Unpaid).
   - Monthly work hours and attendance tracking.
   - Recent activity feed and one-click quick navigation cards.
@@ -33,7 +44,7 @@
   - Automatic work hours calculation and half-day status detection (< 4 hours).
 - **Calendar & Timecard Views**:
   - Color-coded monthly calendar view (Present, Absent, Half-day, Leave).
-  - Detailed daily/weekly tabular logs with check-in/out timestamps and total hours.
+  - Detailed daily/weekly tabular logs with check-in/out timestamps, CSV export, and total hours.
   - Admin team-wide attendance overview with date filters.
 
 ### 5. 🌴 Leave Management & Approval Engine
@@ -63,43 +74,25 @@
 - Node.js (v18+)
 - npm or yarn
 
-### 2. Installation
+### 2. Fast 1-Command Launch
 ```bash
-# Clone or navigate to the project directory
-cd dayflow-hrms
+# In the root directory:
+node start.js
+```
+*(Or double-click `start-dayflow.bat` on Windows)*
 
-# Install server dependencies
+### 3. Manual Setup & Seeding
+```bash
+# Server setup
 cd server
 npm install
+npx prisma migrate dev --name init
+npm run db:seed
+npm run dev
 
-# Install client dependencies
+# Client setup (in second terminal)
 cd ../client
 npm install
-```
-
-### 3. Database Setup & Seeding
-```bash
-cd ../server
-
-# Run Prisma migrations to create SQLite database (dev.db)
-npx prisma migrate dev --name init
-
-# Seed demo data (Admin, Employee, attendance history, leave requests, payrolls)
-npm run db:seed
-```
-
-### 4. Run Development Servers
-In two separate terminal windows:
-
-**Terminal 1 (Backend API - Port 5000):**
-```bash
-cd server
-npm run dev
-```
-
-**Terminal 2 (Frontend UI - Port 5173):**
-```bash
-cd client
 npm run dev
 ```
 
@@ -116,19 +109,12 @@ Open your browser at [http://localhost:5173](http://localhost:5173).
 
 ---
 
-## 👥 Development Team
-
-- **Naman-Spike** (`2630btech1749@kiet.edu`) - Team Leader & Full Stack Architecture
-- **Vanshika_01_M** (`shikavan12352@gmail.com`) - Auth Controller, Database Schema, Profile & Payroll
-- **Vaishnavi1143** (`2630btech1143@kiet.edu`) - UI System, Auth Frontend & Dashboards
-- **Varnit-T** (`2630btech2237@kiet.edu`) - Attendance Engine, Leave Quota & Database Seeder
-
----
-
 ## 📁 Project Structure
 
 ```
 dayflow-hrms/
+├── start.js                         # Unified single-command launcher
+├── start-dayflow.bat                # Windows 1-click launcher
 ├── client/                          # React + Vite + Tailwind frontend
 │   ├── src/
 │   │   ├── api/                     # Axios API client with auth interceptor
