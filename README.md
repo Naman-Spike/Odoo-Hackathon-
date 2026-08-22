@@ -9,7 +9,7 @@
 | Name | Role / Subsystem Area | GitHub Profile |
 | :--- | :--- | :--- |
 | **Naman** | Team Lead & Full-Stack Architect (Layout, Shell, Core Routing) | [@Naman-Spike](https://github.com/Naman-Spike) |
-| **Vanshika** | Auth, Personnel Profiles & Compensation Ledger | [@Vanshika_01_M](https://github.com/Vanshika_01_M) |
+| **Vanshika** | Auth, Personnel Profiles & Compensation Ledger | [@Vanshika-01-M](https://github.com/Vanshika-01-M) |
 | **Vaishnavi** | UI Kit, White Crystal Design System & Executive Dashboards | [@Vaishnavi1143](https://github.com/Vaishnavi1143) |
 | **Varnit** | Attendance Telemetry & Leave Quota Management Engine | [@Varnit-T](https://github.com/Varnit-T) |
 
