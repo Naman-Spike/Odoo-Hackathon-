@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Zap, Mail, Lock, User, Briefcase, ArrowRight, Sparkles, CheckCircle2 } from 'lucide-react';
+import { Zap, Mail, Lock, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import { Input } from '../components/ui/Input';
 import { Button } from '../components/ui/Button';
@@ -35,7 +35,7 @@ export const SignupPage: React.FC = () => {
     }
 
     if (formData.password.length < 6) {
-      return setError('Password must be at least 6 characters long');
+      return setError('Security key must be at least 6 characters');
     }
 
     setIsLoading(true);
@@ -51,37 +51,36 @@ export const SignupPage: React.FC = () => {
       setSuccess('Account created successfully! Redirecting to login...');
       setTimeout(() => navigate('/login'), 1500);
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Failed to create account. Please check your information.');
+      setError(err.response?.data?.error || 'Failed to initialize account.');
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4 sm:p-6 lg:p-8 relative overflow-hidden">
-      {/* Decorative Glows */}
-      <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] rounded-full bg-indigo-600/20 blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-purple-600/20 blur-[120px] pointer-events-none" />
+    <div className="min-h-screen bg-obsidian-950 flex items-center justify-center p-4 sm:p-6 lg:p-8 relative overflow-hidden text-zinc-100">
+      {/* Liquid Ambient Light */}
+      <div className="absolute top-1/3 left-1/3 w-[500px] h-[500px] rounded-full bg-white/[0.025] blur-[140px] pointer-events-none" />
       
-      <div className="max-w-xl w-full bg-white rounded-3xl shadow-2xl p-6 sm:p-10 border border-slate-100 relative z-10 animate-slide-up">
+      <div className="max-w-lg w-full bg-white/[0.03] rounded-3xl shadow-liquid p-6 sm:p-10 border border-white/10 relative z-10 backdrop-blur-2xl animate-slide-up specular-highlight">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center h-12 w-12 rounded-2xl bg-gradient-to-tr from-indigo-600 to-purple-600 text-white shadow-glow mb-4">
-            <Zap className="h-6 w-6 fill-white" />
+          <div className="inline-flex items-center justify-center h-11 w-11 rounded-2xl bg-white text-black shadow-[0_0_20px_rgba(255,255,255,0.4)] mb-4">
+            <Zap className="h-5 w-5 fill-black" />
           </div>
-          <h2 className="text-2xl font-bold text-slate-900">Create your Account</h2>
-          <p className="text-sm text-slate-500 mt-1">Join Dayflow HRMS in seconds</p>
+          <h2 className="text-2xl font-black text-white tracking-tight font-sans">Personnel Onboarding</h2>
+          <p className="text-xs text-zinc-400 mt-1">Register new organization credentials</p>
         </div>
 
         {error && (
-          <div className="mb-5 p-3.5 bg-rose-50 border border-rose-200 text-rose-700 text-xs font-medium rounded-xl flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-rose-500" />
+          <div className="mb-5 p-3.5 bg-rose-950/40 border border-rose-500/30 text-rose-300 text-xs font-medium rounded-xl flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-rose-400" />
             {error}
           </div>
         )}
 
         {success && (
-          <div className="mb-5 p-3.5 bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-medium rounded-xl flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+          <div className="mb-5 p-3.5 bg-white/10 border border-white/20 text-white text-xs font-medium rounded-xl flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 text-white" />
             {success}
           </div>
         )}
@@ -89,7 +88,7 @@ export const SignupPage: React.FC = () => {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Input
-              label="Employee ID"
+              label="Staff ID"
               name="employeeId"
               value={formData.employeeId}
               onChange={handleChange}
@@ -97,7 +96,7 @@ export const SignupPage: React.FC = () => {
               required
             />
             <Select
-              label="Account Role"
+              label="Assigned Role"
               name="role"
               value={formData.role}
               onChange={handleChange}
@@ -109,13 +108,13 @@ export const SignupPage: React.FC = () => {
           </div>
 
           <Input
-            label="Email Address"
+            label="Corporate Email"
             name="email"
             type="email"
             icon={Mail}
             value={formData.email}
             onChange={handleChange}
-            placeholder="you@company.com"
+            placeholder="user@dayflow.com"
             required
           />
 
@@ -143,16 +142,16 @@ export const SignupPage: React.FC = () => {
             />
           </div>
 
-          <Button type="submit" variant="gradient" className="w-full h-11 text-sm mt-4" isLoading={isLoading}>
-            <span>Create Account</span>
-            <ArrowRight className="w-4 h-4 ml-1" />
+          <Button type="submit" variant="primary" className="w-full h-11 text-xs mt-4" isLoading={isLoading}>
+            <span>Initialize Account</span>
+            <ArrowRight className="w-3.5 h-3.5 ml-1" />
           </Button>
         </form>
 
-        <p className="mt-6 text-center text-xs text-slate-500">
-          Already have an account?{' '}
-          <Link to="/login" className="font-semibold text-indigo-600 hover:text-indigo-700">
-            Sign in
+        <p className="mt-6 text-center text-xs text-zinc-500">
+          Already registered?{' '}
+          <Link to="/login" className="font-bold text-white hover:underline">
+            Sign In
           </Link>
         </p>
       </div>
