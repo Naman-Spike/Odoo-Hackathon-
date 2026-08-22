@@ -64,12 +64,12 @@ export const handleAIQuery = async (req: Request, res: Response) => {
         const payrolls = await prisma.payroll.findMany({
           include: { user: { select: { profile: { select: { firstName: true, lastName: true, department: true } } } } }
         });
-        const totalGross = payrolls.reduce((s, p) => s + p.basicSalary + p.allowances, 0);
-        const totalDeductions = payrolls.reduce((s, p) => s + p.deductions, 0);
-        const totalNet = payrolls.reduce((s, p) => s + p.netSalary, 0);
+        const totalGross = payrolls.reduce((s: number, p: any) => s + p.basicSalary + p.allowances, 0);
+        const totalDeductions = payrolls.reduce((s: number, p: any) => s + p.deductions, 0);
+        const totalNet = payrolls.reduce((s: number, p: any) => s + p.netSalary, 0);
 
         const deptMap: Record<string, number> = {};
-        payrolls.forEach(p => {
+        payrolls.forEach((p: any) => {
           const dept = p.user?.profile?.department || 'Unassigned';
           deptMap[dept] = (deptMap[dept] || 0) + p.netSalary;
         });
@@ -104,12 +104,12 @@ export const handleAIQuery = async (req: Request, res: Response) => {
         });
         
         const totalProfiles = await prisma.profile.count();
-        const present = todayAtt.filter(a => a.status === 'PRESENT' || a.status === 'HALF_DAY').length;
-        const onLeave = todayAtt.filter(a => a.status === 'LEAVE').length;
+        const present = todayAtt.filter((a: any) => a.status === 'PRESENT' || a.status === 'HALF_DAY').length;
+        const onLeave = todayAtt.filter((a: any) => a.status === 'LEAVE').length;
         const rate = totalProfiles > 0 ? Math.round((present / totalProfiles) * 100) : 0;
 
         // Overtime detection (>9 hrs)
-        const overtimeList = todayAtt.filter(a => a.totalHours > 9).map(a => 
+        const overtimeList = todayAtt.filter((a: any) => a.totalHours > 9).map((a: any) => 
           `  • ${a.user?.profile?.firstName || 'Employee'} ${a.user?.profile?.lastName || ''}: ${a.totalHours.toFixed(1)}h`
         );
 
@@ -125,8 +125,8 @@ export const handleAIQuery = async (req: Request, res: Response) => {
         orderBy: { workDate: 'desc' }
       });
 
-      const totalHours = attendance.reduce((s, a) => s + a.totalHours, 0);
-      const presentDays = attendance.filter(a => a.status === 'PRESENT' || a.status === 'HALF_DAY').length;
+      const totalHours = attendance.reduce((s: number, a: any) => s + a.totalHours, 0);
+      const presentDays = attendance.filter((a: any) => a.status === 'PRESENT' || a.status === 'HALF_DAY').length;
       const avgHours = presentDays > 0 ? (totalHours / presentDays).toFixed(1) : '0.0';
       const monthName = now.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
 
@@ -147,7 +147,7 @@ export const handleAIQuery = async (req: Request, res: Response) => {
         return res.json({ response: '✅ No pending leave requests in the approval queue. All clear!' });
       }
 
-      const list = pendingLeaves.map((l, i) => {
+      const list = pendingLeaves.map((l: any, i: number) => {
         const name = `${l.user?.profile?.firstName || ''} ${l.user?.profile?.lastName || ''}`.trim();
         const days = Math.ceil(Math.abs(new Date(l.endDate).getTime() - new Date(l.startDate).getTime()) / 86400000) + 1;
         return `${i + 1}. **${name}** (${l.user?.employeeId}) — ${l.leaveType} leave, ${days} day(s)\n   📅 ${new Date(l.startDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} – ${new Date(l.endDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}\n   💬 "${l.reason}"`;

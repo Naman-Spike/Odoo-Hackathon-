@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { Prisma } from '@prisma/client';
 import prisma from '../lib/prisma.js';
 import { config } from '../config.js';
 import { signupSchema, loginSchema } from '../schemas/auth.schema.js';
@@ -21,7 +22,7 @@ export const signup = async (req: Request, res: Response) => {
 
     const passwordHash = await bcrypt.hash(password, 10);
 
-    const user = await prisma.$transaction(async (tx) => {
+    const user = await prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       return await tx.user.create({
         data: {
           employeeId,
