@@ -9,36 +9,36 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 export const Badge: React.FC<BadgeProps> = ({ variant = 'default', dot = true, className, children, ...props }) => {
   const variants: Record<string, { bg: string; dot: string }> = {
     success: {
-      bg: 'bg-white/10 text-white border-white/20 shadow-specular',
-      dot: 'bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)]'
-    },
-    warning: {
-      bg: 'bg-zinc-800/80 text-zinc-200 border-zinc-700/80',
-      dot: 'bg-zinc-400'
-    },
-    danger: {
-      bg: 'bg-zinc-900/90 text-zinc-300 border-zinc-700',
-      dot: 'bg-zinc-500'
-    },
-    info: {
-      bg: 'bg-white/[0.08] text-zinc-200 border-white/15',
-      dot: 'bg-zinc-300'
-    },
-    primary: {
-      bg: 'bg-white text-black font-bold border-white shadow-[0_0_15px_-3px_rgba(255,255,255,0.4)]',
+      bg: 'bg-zinc-100 text-zinc-900 border-zinc-300',
       dot: 'bg-black'
     },
-    purple: {
-      bg: 'bg-white/15 text-white border-white/25 shadow-specular',
+    warning: {
+      bg: 'bg-zinc-100 text-zinc-800 border-zinc-300',
+      dot: 'bg-zinc-600'
+    },
+    danger: {
+      bg: 'bg-zinc-100 text-zinc-700 border-zinc-300',
+      dot: 'bg-zinc-400'
+    },
+    info: {
+      bg: 'bg-zinc-100 text-zinc-800 border-zinc-200',
+      dot: 'bg-zinc-700'
+    },
+    primary: {
+      bg: 'bg-black text-white font-bold border-black shadow-sm',
       dot: 'bg-white'
     },
+    purple: {
+      bg: 'bg-zinc-100 text-zinc-900 border-zinc-300',
+      dot: 'bg-black'
+    },
     glass: {
-      bg: 'bg-white/[0.06] text-zinc-200 border-white/15 backdrop-blur-md',
-      dot: 'bg-white/80'
+      bg: 'bg-white/80 text-zinc-900 border-zinc-200 backdrop-blur-md shadow-sm',
+      dot: 'bg-zinc-700'
     },
     default: {
-      bg: 'bg-zinc-900/80 text-zinc-300 border-zinc-800',
-      dot: 'bg-zinc-500'
+      bg: 'bg-zinc-100 text-zinc-700 border-zinc-200',
+      dot: 'bg-zinc-400'
     }
   };
 

@@ -19,22 +19,22 @@ export const Button: React.FC<ButtonProps> = ({
   disabled,
   ...props
 }) => {
-  const baseStyles = 'inline-flex items-center justify-center font-semibold rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-obsidian-950 active:scale-[0.98] disabled:active:scale-100 cursor-pointer';
+  const baseStyles = 'inline-flex items-center justify-center font-semibold rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white active:scale-[0.98] disabled:active:scale-100 cursor-pointer';
   
   const variants = {
-    // Pure stark white button on dark glass
-    primary: 'bg-white text-black hover:bg-zinc-200 shadow-[0_0_20px_-5px_rgba(255,255,255,0.4)] focus:ring-white border border-white',
-    // Liquid glass gradient
-    gradient: 'bg-gradient-to-b from-white/95 to-zinc-200 text-black hover:from-white hover:to-zinc-300 shadow-[0_4px_20px_-2px_rgba(255,255,255,0.35)] focus:ring-white border border-white',
-    // Liquid Glass Translucent
-    glass: 'bg-white/[0.06] hover:bg-white/[0.12] text-white border border-white/15 backdrop-blur-xl shadow-specular hover:shadow-glow-white focus:ring-white/50',
-    // Dark secondary
-    secondary: 'bg-white/[0.08] text-zinc-200 hover:bg-white/[0.14] hover:text-white border border-white/10 focus:ring-zinc-400',
+    // Stark black primary button on light glass
+    primary: 'bg-black text-white hover:bg-zinc-800 shadow-[0_4px_14px_rgba(0,0,0,0.18)] focus:ring-black border border-black',
+    // Gradient dark pill
+    gradient: 'bg-gradient-to-b from-zinc-900 to-black text-white hover:from-black hover:to-zinc-900 shadow-md focus:ring-black border border-black',
+    // White Liquid Glass Translucent
+    glass: 'bg-white/80 hover:bg-white text-zinc-900 border border-zinc-200/80 backdrop-blur-xl shadow-sm hover:shadow-md focus:ring-zinc-400',
+    // Secondary light
+    secondary: 'bg-zinc-100 text-zinc-800 hover:bg-zinc-200 hover:text-black border border-zinc-200 focus:ring-zinc-400',
     // Minimalist monochrome states
-    success: 'bg-white text-black hover:bg-zinc-200 border border-white shadow-[0_0_20px_-5px_rgba(255,255,255,0.3)] focus:ring-white',
-    danger: 'bg-zinc-900 text-zinc-300 hover:bg-zinc-800 hover:text-white border border-zinc-700 focus:ring-zinc-500',
-    ghost: 'text-zinc-400 hover:bg-white/[0.06] hover:text-white focus:ring-white/20',
-    outline: 'border border-white/20 bg-black/40 hover:bg-white/[0.08] text-white shadow-sm backdrop-blur-md focus:ring-white/40'
+    success: 'bg-black text-white hover:bg-zinc-800 border border-black shadow-sm focus:ring-black',
+    danger: 'bg-zinc-100 text-zinc-900 hover:bg-zinc-200 border border-zinc-300 focus:ring-zinc-400',
+    ghost: 'text-zinc-600 hover:bg-zinc-100 hover:text-black focus:ring-zinc-300',
+    outline: 'border border-zinc-300 bg-white/70 hover:bg-white text-zinc-900 shadow-sm backdrop-blur-md focus:ring-zinc-400'
   };
 
   const sizes = {
