@@ -111,24 +111,24 @@ export default function AdminDashboard() {
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-10">
       {error && (
-        <div className="p-4 bg-rose-950/40 border border-rose-500/30 text-rose-300 text-xs rounded-2xl flex items-center justify-between backdrop-blur-md">
+        <div className="p-4 bg-rose-50 border border-rose-200 text-rose-700 text-xs rounded-2xl flex items-center justify-between backdrop-blur-md">
           <span>{error}</span>
           <button onClick={() => setError(null)} className="text-xs font-bold hover:underline cursor-pointer">Dismiss</button>
         </div>
       )}
 
       {/* Admin Hero Banner */}
-      <div className="relative overflow-hidden rounded-3xl bg-white/[0.03] border border-white/10 p-6 sm:p-8 shadow-liquid backdrop-blur-2xl specular-highlight">
+      <div className="relative overflow-hidden rounded-3xl bg-white/80 border border-zinc-200/90 p-6 sm:p-8 shadow-liquid backdrop-blur-2xl specular-highlight">
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.06] border border-white/10 text-zinc-300 text-[11px] font-mono mb-3 backdrop-blur-md">
-              <Shield className="w-3.5 h-3.5 text-zinc-300" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-100 border border-zinc-200 text-zinc-700 text-[11px] font-mono mb-3 backdrop-blur-md">
+              <Shield className="w-3.5 h-3.5 text-zinc-700" />
               <span>ADMINISTRATIVE EXECUTIVE OVERVIEW</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white font-sans">
+            <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-zinc-900 font-sans">
               Welcome back, {firstName}
             </h1>
-            <p className="text-zinc-400 text-xs mt-1 max-w-xl font-medium">
+            <p className="text-zinc-500 text-xs mt-1 max-w-xl font-medium">
               Real-time audit of workforce presence, pending approval queues, and corporate compensation structures.
             </p>
           </div>
@@ -161,16 +161,16 @@ export default function AdminDashboard() {
         <Card hoverEffect className="p-6 flex flex-col justify-between">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-400">Total Workforce</p>
-              <h3 className="text-3xl font-extrabold text-white mt-2 font-mono">{totalEmployees}</h3>
+              <p className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-500">Total Workforce</p>
+              <h3 className="text-3xl font-extrabold text-zinc-900 mt-2 font-mono">{totalEmployees}</h3>
             </div>
-            <div className="p-2.5 bg-white/[0.06] border border-white/10 text-white rounded-xl">
+            <div className="p-2.5 bg-zinc-100 border border-zinc-200 text-zinc-900 rounded-xl">
               <Users className="w-4 h-4" />
             </div>
           </div>
-          <div className="mt-4 pt-3 border-t border-white/[0.08] flex items-center justify-between text-[11px] text-zinc-500 font-mono">
+          <div className="mt-4 pt-3 border-t border-zinc-100 flex items-center justify-between text-[11px] text-zinc-500 font-mono">
             <span>Personnel Active</span>
-            <span className="text-zinc-300">100% Verified</span>
+            <span className="text-zinc-900 font-semibold">100% Verified</span>
           </div>
         </Card>
 
@@ -178,16 +178,16 @@ export default function AdminDashboard() {
         <Card hoverEffect className="p-6 flex flex-col justify-between">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-400">Shift Presence</p>
-              <h3 className="text-3xl font-extrabold text-white mt-2 font-mono">{attendanceRate}%</h3>
+              <p className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-500">Shift Presence</p>
+              <h3 className="text-3xl font-extrabold text-zinc-900 mt-2 font-mono">{attendanceRate}%</h3>
             </div>
-            <div className="p-2.5 bg-white/[0.06] border border-white/10 text-white rounded-xl">
+            <div className="p-2.5 bg-zinc-100 border border-zinc-200 text-zinc-900 rounded-xl">
               <Clock className="w-4 h-4" />
             </div>
           </div>
-          <div className="mt-4 pt-3 border-t border-white/[0.08] flex items-center justify-between text-[11px] text-zinc-500 font-mono">
+          <div className="mt-4 pt-3 border-t border-zinc-100 flex items-center justify-between text-[11px] text-zinc-500 font-mono">
             <span>Status</span>
-            <span className="text-zinc-300">{attendanceStats.present} / {attendanceStats.total} Logged</span>
+            <span className="text-zinc-900 font-semibold">{attendanceStats.present} / {attendanceStats.total} Logged</span>
           </div>
         </Card>
 
@@ -195,16 +195,16 @@ export default function AdminDashboard() {
         <Card hoverEffect className="p-6 flex flex-col justify-between">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-400">Pending Approvals</p>
-              <h3 className="text-3xl font-extrabold text-white mt-2 font-mono">{pendingLeaves}</h3>
+              <p className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-500">Pending Approvals</p>
+              <h3 className="text-3xl font-extrabold text-zinc-900 mt-2 font-mono">{pendingLeaves}</h3>
             </div>
-            <div className="p-2.5 bg-white/[0.06] border border-white/10 text-white rounded-xl">
+            <div className="p-2.5 bg-zinc-100 border border-zinc-200 text-zinc-900 rounded-xl">
               <CalendarDays className="w-4 h-4" />
             </div>
           </div>
-          <div className="mt-4 pt-3 border-t border-white/[0.08] flex items-center justify-between text-[11px] text-zinc-500 font-mono">
+          <div className="mt-4 pt-3 border-t border-zinc-100 flex items-center justify-between text-[11px] text-zinc-500 font-mono">
             <span>Action Required</span>
-            <span className={pendingLeaves > 0 ? 'text-white font-bold' : 'text-zinc-500'}>
+            <span className={pendingLeaves > 0 ? 'text-black font-bold' : 'text-zinc-400'}>
               {pendingLeaves > 0 ? 'Queue Active' : 'All Clear'}
             </span>
           </div>
@@ -214,16 +214,16 @@ export default function AdminDashboard() {
         <Card hoverEffect className="p-6 flex flex-col justify-between">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-400">Disbursed Payroll</p>
-              <h3 className="text-2xl font-extrabold text-white mt-2 font-mono">{formatCurrency(monthlyPayroll)}</h3>
+              <p className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-500">Disbursed Payroll</p>
+              <h3 className="text-2xl font-extrabold text-zinc-900 mt-2 font-mono">{formatCurrency(monthlyPayroll)}</h3>
             </div>
-            <div className="p-2.5 bg-white/[0.06] border border-white/10 text-white rounded-xl">
+            <div className="p-2.5 bg-zinc-100 border border-zinc-200 text-zinc-900 rounded-xl">
               <Wallet className="w-4 h-4" />
             </div>
           </div>
-          <div className="mt-4 pt-3 border-t border-white/[0.08] flex items-center justify-between text-[11px] text-zinc-500 font-mono">
+          <div className="mt-4 pt-3 border-t border-zinc-100 flex items-center justify-between text-[11px] text-zinc-500 font-mono">
             <span>Compensation</span>
-            <span className="text-zinc-300">Auto-Audited</span>
+            <span className="text-zinc-900 font-semibold">Auto-Audited</span>
           </div>
         </Card>
       </div>
@@ -235,8 +235,8 @@ export default function AdminDashboard() {
         <div className="lg:col-span-6">
           <Card className="h-full flex flex-col justify-between">
             <CardHeader className="flex flex-row items-center justify-between py-4">
-              <CardTitle className="text-sm flex items-center gap-2 font-mono uppercase tracking-wider text-zinc-300">
-                <FileCheck className="w-4 h-4 text-zinc-400" />
+              <CardTitle className="text-sm flex items-center gap-2 font-mono uppercase tracking-wider text-zinc-700">
+                <FileCheck className="w-4 h-4 text-zinc-500" />
                 Recent Leave Requests
               </CardTitle>
               <Button variant="ghost" size="sm" onClick={() => navigate('/leave/manage')}>
@@ -246,13 +246,13 @@ export default function AdminDashboard() {
             </CardHeader>
             <CardContent className="p-0 flex-1">
               {recentLeaves.length === 0 ? (
-                <div className="p-8 text-center text-xs text-zinc-500 font-mono">
+                <div className="p-8 text-center text-xs text-zinc-400 font-mono">
                   No leave requests logged in queue.
                 </div>
               ) : (
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-xs">
-                    <thead className="bg-white/[0.03] border-b border-white/[0.06] text-zinc-500 uppercase font-mono text-[10px]">
+                    <thead className="bg-zinc-50 border-b border-zinc-200 text-zinc-500 uppercase font-mono text-[10px]">
                       <tr>
                         <th className="px-4 py-3">Staff</th>
                         <th className="px-4 py-3">Type</th>
@@ -260,14 +260,14 @@ export default function AdminDashboard() {
                         <th className="px-4 py-3 text-right">Status</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-white/[0.05]">
+                    <tbody className="divide-y divide-zinc-100">
                       {recentLeaves.map((leave, idx) => (
-                        <tr key={idx} className="hover:bg-white/[0.02] transition-colors">
-                          <td className="px-4 py-3 font-semibold text-white">
+                        <tr key={idx} className="hover:bg-zinc-50/60 transition-colors">
+                          <td className="px-4 py-3 font-semibold text-zinc-900">
                             {leave.user?.profile?.firstName ? `${leave.user.profile.firstName} ${leave.user.profile.lastName}` : leave.employeeName || 'Staff Member'}
                           </td>
-                          <td className="px-4 py-3 font-mono text-zinc-400">{leave.leaveType}</td>
-                          <td className="px-4 py-3 text-zinc-400 font-mono text-[11px]">
+                          <td className="px-4 py-3 font-mono text-zinc-600">{leave.leaveType}</td>
+                          <td className="px-4 py-3 text-zinc-500 font-mono text-[11px]">
                             {formatDate(leave.startDate)} - {formatDate(leave.endDate)}
                           </td>
                           <td className="px-4 py-3 text-right">
@@ -292,8 +292,8 @@ export default function AdminDashboard() {
         <div className="lg:col-span-6">
           <Card className="h-full flex flex-col justify-between">
             <CardHeader className="flex flex-row items-center justify-between py-4">
-              <CardTitle className="text-sm flex items-center gap-2 font-mono uppercase tracking-wider text-zinc-300">
-                <Users className="w-4 h-4 text-zinc-400" />
+              <CardTitle className="text-sm flex items-center gap-2 font-mono uppercase tracking-wider text-zinc-700">
+                <Users className="w-4 h-4 text-zinc-500" />
                 Team Presence Today
               </CardTitle>
               <Button variant="ghost" size="sm" onClick={() => navigate('/employees')}>
@@ -304,28 +304,28 @@ export default function AdminDashboard() {
             <CardContent className="p-0 flex-1">
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs">
-                  <thead className="bg-white/[0.03] border-b border-white/[0.06] text-zinc-500 uppercase font-mono text-[10px]">
+                  <thead className="bg-zinc-50 border-b border-zinc-200 text-zinc-500 uppercase font-mono text-[10px]">
                     <tr>
                       <th className="px-4 py-3">Team Member</th>
                       <th className="px-4 py-3">Department</th>
                       <th className="px-4 py-3 text-right">Status</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-white/[0.05]">
+                  <tbody className="divide-y divide-zinc-100">
                     {employeesOverview.map((emp) => (
-                      <tr key={emp.id} className="hover:bg-white/[0.02] transition-colors">
+                      <tr key={emp.id} className="hover:bg-zinc-50/60 transition-colors">
                         <td className="px-4 py-3">
                           <div className="flex items-center gap-2.5">
-                            <div className="h-6 w-6 rounded-lg bg-white text-black font-bold text-[9px] flex items-center justify-center">
+                            <div className="h-6 w-6 rounded-lg bg-black text-white font-bold text-[9px] flex items-center justify-center">
                               {getInitials(emp.name, '')}
                             </div>
                             <div>
-                              <div className="font-semibold text-white">{emp.name}</div>
+                              <div className="font-semibold text-zinc-900">{emp.name}</div>
                               <div className="text-[10px] text-zinc-500 font-mono">{emp.designation}</div>
                             </div>
                           </div>
                         </td>
-                        <td className="px-4 py-3 text-zinc-400 font-mono text-[11px]">{emp.department}</td>
+                        <td className="px-4 py-3 text-zinc-600 font-mono text-[11px]">{emp.department}</td>
                         <td className="px-4 py-3 text-right">
                           <Badge variant={emp.isPresent ? 'primary' : 'default'}>
                             {emp.isPresent ? 'Active Today' : 'Absent'}
