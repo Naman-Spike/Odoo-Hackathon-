@@ -1,4 +1,4 @@
-const { spawn } = require('child_process');
+const { spawn, execSync } = require('child_process');
 const path = require('path');
 
 const rootDir = __dirname;
@@ -8,6 +8,25 @@ const npmCmd = isWindows ? 'npm.cmd' : 'npm';
 console.log('========================================================');
 console.log('         🚀 DAYFLOW HRMS - INITIALIZING SERVICES        ');
 console.log('========================================================');
+
+// Automatically free ports 5000 and 5173 if held by an old process
+if (isWindows) {
+  [5000, 5173].forEach(port => {
+    try {
+      const stdout = execSync(`netstat -ano | findstr :${port}`, { stdio: ['pipe', 'pipe', 'ignore'] }).toString();
+      const lines = stdout.trim().split('\n');
+      lines.forEach(line => {
+        const parts = line.trim().split(/\s+/);
+        const pid = parts[parts.length - 1];
+        if (pid && pid !== '0' && !isNaN(pid)) {
+          try {
+            execSync(`taskkill /F /PID ${pid}`, { stdio: 'ignore' });
+          } catch (_) {}
+        }
+      });
+    } catch (_) {}
+  });
+}
 
 // 1. Start Server
 console.log('Starting Backend Server on port 5000...');
