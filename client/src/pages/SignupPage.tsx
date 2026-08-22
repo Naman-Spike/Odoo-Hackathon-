@@ -58,29 +58,29 @@ export const SignupPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-obsidian-950 flex items-center justify-center p-4 sm:p-6 lg:p-8 relative overflow-hidden text-zinc-100">
-      {/* Liquid Ambient Light */}
-      <div className="absolute top-1/3 left-1/3 w-[500px] h-[500px] rounded-full bg-white/[0.025] blur-[140px] pointer-events-none" />
+    <div className="min-h-screen bg-[#fafbfc] flex items-center justify-center p-4 sm:p-6 lg:p-8 relative overflow-hidden text-zinc-900">
+      {/* Light Crystal Ambient Light */}
+      <div className="absolute top-1/3 left-1/3 w-[500px] h-[500px] rounded-full bg-blue-50/70 blur-[140px] pointer-events-none" />
       
-      <div className="max-w-lg w-full bg-white/[0.03] rounded-3xl shadow-liquid p-6 sm:p-10 border border-white/10 relative z-10 backdrop-blur-2xl animate-slide-up specular-highlight">
+      <div className="max-w-lg w-full bg-white/85 rounded-3xl shadow-liquid p-6 sm:p-10 border border-zinc-200/90 relative z-10 backdrop-blur-2xl animate-slide-up specular-highlight">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center h-11 w-11 rounded-2xl bg-white text-black shadow-[0_0_20px_rgba(255,255,255,0.4)] mb-4">
-            <Zap className="h-5 w-5 fill-black" />
+          <div className="inline-flex items-center justify-center h-11 w-11 rounded-2xl bg-black text-white shadow-sm mb-4">
+            <Zap className="h-5 w-5 fill-white" />
           </div>
-          <h2 className="text-2xl font-black text-white tracking-tight font-sans">Personnel Onboarding</h2>
-          <p className="text-xs text-zinc-400 mt-1">Register new organization credentials</p>
+          <h2 className="text-2xl font-black text-zinc-900 tracking-tight font-sans">Personnel Onboarding</h2>
+          <p className="text-xs text-zinc-500 mt-1">Register new organization credentials</p>
         </div>
 
         {error && (
-          <div className="mb-5 p-3.5 bg-rose-950/40 border border-rose-500/30 text-rose-300 text-xs font-medium rounded-xl flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-rose-400" />
+          <div className="mb-5 p-3.5 bg-rose-50 border border-rose-200 text-rose-700 text-xs font-medium rounded-xl flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-rose-500" />
             {error}
           </div>
         )}
 
         {success && (
-          <div className="mb-5 p-3.5 bg-white/10 border border-white/20 text-white text-xs font-medium rounded-xl flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-white" />
+          <div className="mb-5 p-3.5 bg-zinc-100 border border-zinc-300 text-zinc-900 text-xs font-medium rounded-xl flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 text-black" />
             {success}
           </div>
         )}
@@ -150,7 +150,7 @@ export const SignupPage: React.FC = () => {
 
         <p className="mt-6 text-center text-xs text-zinc-500">
           Already registered?{' '}
-          <Link to="/login" className="font-bold text-white hover:underline">
+          <Link to="/login" className="font-bold text-zinc-900 hover:underline">
             Sign In
           </Link>
         </p>
