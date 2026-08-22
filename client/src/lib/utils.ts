@@ -83,3 +83,4 @@ export function calculateDaysBetween(start: string | Date, end: string | Date): 
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   return diffDays;
 }
+

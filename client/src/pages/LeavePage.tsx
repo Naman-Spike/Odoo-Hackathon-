@@ -165,39 +165,36 @@ export const LeavePage = () => {
               </div>
             </div>
 
-            <div className="mt-4 pt-3 border-t border-zinc-100">
-              <div className="text-[10px] font-mono text-zinc-400">
-                Discretionary unpaid time-off subject to manager review
-              </div>
+            <div className="mt-4 pt-3 border-t border-zinc-100 text-[10px] font-mono text-zinc-500 flex items-center gap-1.5">
+              <Clock className="w-3.5 h-3.5 text-zinc-400" />
+              <span>Deductions calculated in payroll</span>
             </div>
           </Card>
         </div>
       )}
 
-      {/* Filter Tabs & History */}
+      {/* Tabs and Leave List */}
       <div className="space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-sm font-bold text-zinc-900 font-mono uppercase tracking-wider">Leave Applications History</h2>
-          
-          <div className="flex space-x-1 bg-zinc-100 p-1 rounded-xl border border-zinc-200 text-xs font-mono">
-            {['ALL', 'PENDING', 'APPROVED', 'REJECTED'].map((f) => (
-              <button
-                key={f}
-                onClick={() => setFilter(f)}
-                className={`px-3 py-1 rounded-lg transition-all cursor-pointer ${
-                  filter === f ? 'bg-black text-white font-bold shadow-sm' : 'text-zinc-500 hover:text-zinc-900'
-                }`}
-              >
-                {f}
-              </button>
-            ))}
-          </div>
+        <div className="flex space-x-2 bg-zinc-100 p-1 rounded-2xl border border-zinc-200 max-w-md backdrop-blur-md">
+          {['ALL', 'PENDING', 'APPROVED', 'REJECTED'].map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setFilter(tab)}
+              className={`flex-1 py-1.5 px-3 text-xs font-mono font-semibold rounded-xl transition-all cursor-pointer ${
+                filter === tab
+                  ? 'bg-white text-zinc-900 shadow-sm font-bold'
+                  : 'text-zinc-500 hover:text-zinc-900'
+              }`}
+            >
+              {tab.charAt(0) + tab.slice(1).toLowerCase()}
+            </button>
+          ))}
         </div>
 
         <LeaveList leaves={filteredLeaves} />
       </div>
 
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Submit Leave Request" size="md">
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Apply for Leave" size="md">
         <LeaveForm onSubmit={handleApply} onCancel={() => setIsModalOpen(false)} balance={balance} />
       </Modal>
     </div>
