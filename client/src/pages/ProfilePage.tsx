@@ -3,12 +3,9 @@ import { useAuth } from '../context/AuthContext';
 import api from '../api/client';
 import ProfileView from '../components/profile/ProfileView';
 import ProfileEditForm from '../components/profile/ProfileEditForm';
-import { Loader2, Users, Search, ArrowLeft, CheckCircle2, UserCheck, Shield } from 'lucide-react';
-import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/Card';
-import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '../components/ui/Table';
-import { Input } from '../components/ui/Input';
+import { Loader2, Users, Search, ArrowLeft, CheckCircle2 } from 'lucide-react';
+import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
-import { Badge } from '../components/ui/Badge';
 import { getInitials } from '../lib/utils';
 
 export default function ProfilePage() {
@@ -44,7 +41,7 @@ export default function ProfilePage() {
         });
       }
     } catch (err) {
-      showToast('Failed to load profile data', 'error');
+      showToast('Failed to load profile telemetry', 'error');
     } finally {
       setLoading(false);
     }
@@ -82,7 +79,7 @@ export default function ProfilePage() {
         await api.put('/profile/me', data);
       }
       
-      showToast('Profile updated successfully!', 'success');
+      showToast('Profile parameters updated successfully!', 'success');
       setIsEditing(false);
       
       if (isAdmin && viewingProfile && viewingProfile.userId !== user?.id) {
@@ -117,7 +114,7 @@ export default function ProfilePage() {
   if (loading && !viewingProfile && !employees.length) {
     return (
       <div className="flex h-[60vh] items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-indigo-600" />
+        <Loader2 className="h-7 w-7 animate-spin text-zinc-400" />
       </div>
     );
   }
@@ -126,10 +123,10 @@ export default function ProfilePage() {
     <div className="space-y-6 max-w-7xl mx-auto pb-10">
       {/* Toast Notification */}
       {toast && (
-        <div className={`fixed top-5 right-5 z-50 px-4 py-3 rounded-2xl shadow-xl font-medium text-xs flex items-center gap-2 animate-slide-up border ${
-          toast.type === 'success' ? 'bg-emerald-50 text-emerald-900 border-emerald-200' : 'bg-rose-50 text-rose-900 border-rose-200'
+        <div className={`fixed top-5 right-5 z-50 px-4 py-3 rounded-2xl shadow-liquid font-mono text-xs flex items-center gap-2 animate-slide-up border backdrop-blur-2xl ${
+          toast.type === 'success' ? 'bg-white/10 text-white border-white/20' : 'bg-rose-950/80 text-rose-300 border-rose-500/40'
         }`}>
-          <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+          <CheckCircle2 className="w-4 h-4 text-white" />
           <span>{toast.message}</span>
         </div>
       )}
@@ -138,41 +135,41 @@ export default function ProfilePage() {
         <div className="space-y-6">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div>
-              <h1 className="text-2xl font-extrabold text-slate-900 flex items-center gap-2">
-                <Users className="w-6 h-6 text-indigo-600" />
+              <h1 className="text-2xl font-black text-white tracking-tight font-sans flex items-center gap-2">
+                <Users className="w-6 h-6 text-zinc-400" />
                 Employee Directory
               </h1>
-              <p className="text-xs text-slate-500 mt-0.5">Comprehensive database of all registered organization personnel</p>
+              <p className="text-xs text-zinc-400 mt-0.5 font-medium">Verified database of all registered corporate personnel</p>
             </div>
             
             <div className="relative w-full sm:w-72">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
               <input 
                 placeholder="Search staff, designation, department..." 
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full h-10 pl-10 pr-4 text-xs rounded-xl border border-slate-200 bg-white focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors shadow-2xs"
+                className="w-full h-10 pl-10 pr-4 text-xs font-mono rounded-xl border border-white/10 bg-black/40 text-white placeholder:text-zinc-600 focus:bg-black/60 focus:outline-none focus:ring-1 focus:ring-white/40 focus:border-white/40 transition-colors shadow-inner backdrop-blur-md"
               />
             </div>
           </div>
 
-          <Card className="shadow-2xs border-slate-200 overflow-hidden">
+          <div className="border border-white/10 bg-white/[0.02] rounded-2xl overflow-hidden shadow-liquid backdrop-blur-xl">
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
-                <thead className="bg-slate-50 border-b border-slate-200/80 text-slate-500 uppercase font-semibold">
+                <thead className="bg-white/[0.04] border-b border-white/10 text-zinc-400 font-mono text-[10px] uppercase">
                   <tr>
-                    <th className="px-4 py-3.5">Team Member</th>
-                    <th className="px-4 py-3.5">Department</th>
+                    <th className="px-4 py-3.5">Staff Identity</th>
+                    <th className="px-4 py-3.5">Division</th>
                     <th className="px-4 py-3.5">Designation</th>
-                    <th className="px-4 py-3.5">Contact Phone</th>
+                    <th className="px-4 py-3.5">Contact Telemetry</th>
                     <th className="px-4 py-3.5 text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className="divide-y divide-white/[0.05]">
                   {filteredEmployees.length === 0 ? (
                     <tr>
-                      <td colSpan={5} className="text-center py-12 text-slate-400">
-                        No team members matching your search.
+                      <td colSpan={5} className="text-center py-12 text-zinc-500 font-mono">
+                        No personnel matching filter criteria.
                       </td>
                     </tr>
                   ) : (
@@ -180,25 +177,25 @@ export default function ProfilePage() {
                       const empName = `${emp.firstName || 'Staff'} ${emp.lastName || ''}`;
 
                       return (
-                        <tr key={emp.id || emp.userId} className="hover:bg-slate-50/60 transition-colors">
+                        <tr key={emp.id || emp.userId} className="hover:bg-white/[0.02] transition-colors">
                           <td className="px-4 py-3.5">
                             <div className="flex items-center gap-3">
                               {emp.avatarUrl ? (
-                                <img src={emp.avatarUrl} alt="" className="w-8 h-8 rounded-xl object-cover ring-1 ring-slate-200" />
+                                <img src={emp.avatarUrl} alt="" className="w-7 h-7 rounded-lg object-cover ring-1 ring-white/20" />
                               ) : (
-                                <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-600 text-white flex items-center justify-center font-bold text-xs shadow-2xs">
+                                <div className="w-7 h-7 rounded-lg bg-white text-black flex items-center justify-center font-bold text-[10px] shadow-specular">
                                   {getInitials(empName, '')}
                                 </div>
                               )}
                               <div>
-                                <div className="font-bold text-slate-900">{empName}</div>
-                                <div className="text-[10px] text-slate-400 font-mono">ID: {emp.user?.employeeId || emp.employeeId || 'EMP'}</div>
+                                <div className="font-bold text-white">{empName}</div>
+                                <div className="text-[10px] text-zinc-500 font-mono">ID: {emp.user?.employeeId || emp.employeeId || 'EMP'}</div>
                               </div>
                             </div>
                           </td>
-                          <td className="px-4 py-3.5 font-medium text-slate-700">{emp.department || 'General'}</td>
-                          <td className="px-4 py-3.5 text-slate-600">{emp.designation || 'Staff'}</td>
-                          <td className="px-4 py-3.5 font-mono text-slate-500">{emp.phone || '+91 98765 43210'}</td>
+                          <td className="px-4 py-3.5 font-mono text-zinc-300 text-[11px]">{emp.department || 'General'}</td>
+                          <td className="px-4 py-3.5 text-zinc-400 font-mono text-[11px]">{emp.designation || 'Staff'}</td>
+                          <td className="px-4 py-3.5 font-mono text-zinc-500 text-[11px]">{emp.phone || '+91 98765 43210'}</td>
                           <td className="px-4 py-3.5 text-right">
                             <Button variant="outline" size="sm" onClick={() => handleViewEmployee(emp.id, emp.userId)}>
                               View Profile
@@ -211,7 +208,7 @@ export default function ProfilePage() {
                 </tbody>
               </table>
             </div>
-          </Card>
+          </div>
         </div>
       )}
 

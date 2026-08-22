@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { Search, Edit, Wallet, DollarSign, ArrowRight, ShieldCheck, CheckCircle2 } from 'lucide-react';
+import { Search, Edit, CheckCircle2 } from 'lucide-react';
 import api from '../api/client';
 import { Input } from '../components/ui/Input';
 import { Button } from '../components/ui/Button';
 import { Modal } from '../components/ui/Modal';
-import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/Card';
+import { Card } from '../components/ui/Card';
 import { formatCurrency, getInitials } from '../lib/utils';
 
 export const AdminPayrollPage = () => {
@@ -63,7 +63,7 @@ export const AdminPayrollPage = () => {
         deductions: Number(deductions)
       });
       setEditModalOpen(false);
-      setSuccessToast('Salary structure updated successfully.');
+      setSuccessToast('Compensation parameters updated successfully.');
       setTimeout(() => setSuccessToast(''), 4000);
       fetchPayrolls();
     } catch (e) {
@@ -79,40 +79,40 @@ export const AdminPayrollPage = () => {
     <div className="space-y-6 max-w-7xl mx-auto pb-10">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-extrabold text-slate-900">Compensation Management</h1>
-          <p className="text-xs text-slate-500 mt-0.5">Configure salary bands, basic compensation, and deductions for staff</p>
+          <h1 className="text-2xl font-black text-white tracking-tight font-sans">Compensation Management</h1>
+          <p className="text-xs text-zinc-400 mt-0.5 font-medium">Configure salary bands, basic compensation, and deductions for personnel</p>
         </div>
       </div>
 
       {successToast && (
-        <div className="p-4 rounded-2xl bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-semibold flex items-center gap-2">
-          <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+        <div className="p-4 rounded-2xl bg-white/10 text-white border border-white/20 text-xs font-mono flex items-center gap-2 backdrop-blur-md">
+          <CheckCircle2 className="w-4 h-4 text-white" />
           <span>{successToast}</span>
         </div>
       )}
 
       {/* Search Header */}
-      <Card className="p-4 border-slate-200 bg-white">
+      <Card className="p-4 bg-white/[0.03]">
         <div className="max-w-md relative">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
           <input
-            placeholder="Search employee by name or ID..."
+            placeholder="Search by staff name or employee ID..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full h-10 pl-10 pr-4 text-xs rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors"
+            className="w-full h-10 pl-10 pr-4 text-xs font-mono rounded-xl border border-white/10 bg-black/40 text-white placeholder:text-zinc-600 focus:bg-black/60 focus:outline-none focus:ring-1 focus:ring-white/40 focus:border-white/40 transition-colors backdrop-blur-md"
           />
         </div>
       </Card>
 
       {/* Table */}
       {loading ? (
-        <div className="py-16 text-center text-xs text-slate-400">Loading payroll ledger...</div>
+        <div className="py-16 text-center text-xs font-mono text-zinc-500">Syncing payroll ledger...</div>
       ) : (
-        <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-2xs">
+        <div className="border border-white/10 bg-white/[0.02] rounded-2xl overflow-hidden shadow-liquid backdrop-blur-xl">
           <table className="w-full text-left text-xs">
-            <thead className="bg-slate-50 border-b border-slate-200/80 text-slate-500 uppercase font-semibold">
+            <thead className="bg-white/[0.04] border-b border-white/10 text-zinc-400 font-mono text-[10px] uppercase">
               <tr>
-                <th className="px-4 py-3.5">Team Member</th>
+                <th className="px-4 py-3.5">Staff Identity</th>
                 <th className="px-4 py-3.5">Department</th>
                 <th className="px-4 py-3.5 text-right">Basic Pay</th>
                 <th className="px-4 py-3.5 text-right">Allowances</th>
@@ -121,11 +121,11 @@ export const AdminPayrollPage = () => {
                 <th className="px-4 py-3.5 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-white/[0.05]">
               {filteredPayrolls.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="text-center py-10 text-slate-400">
-                    No payroll records matching your query.
+                  <td colSpan={7} className="text-center py-10 text-zinc-500 font-mono">
+                    No payroll entries matching query.
                   </td>
                 </tr>
               ) : (
@@ -133,23 +133,23 @@ export const AdminPayrollPage = () => {
                   const empName = `${p.user?.profile?.firstName || 'Staff'} ${p.user?.profile?.lastName || ''}`;
                   
                   return (
-                    <tr key={p.id} className="hover:bg-slate-50/60 transition-colors">
+                    <tr key={p.id} className="hover:bg-white/[0.02] transition-colors">
                       <td className="px-4 py-3.5">
                         <div className="flex items-center gap-2.5">
-                          <div className="w-7 h-7 rounded-lg bg-indigo-100 text-indigo-700 font-bold text-[10px] flex items-center justify-center">
+                          <div className="w-7 h-7 rounded-lg bg-white text-black font-bold text-[9px] flex items-center justify-center">
                             {getInitials(empName, '')}
                           </div>
                           <div>
-                            <div className="font-bold text-slate-900">{empName}</div>
-                            <div className="text-[10px] text-slate-400 font-mono">ID: {p.user?.employeeId || 'EMP'}</div>
+                            <div className="font-bold text-white">{empName}</div>
+                            <div className="text-[10px] text-zinc-500 font-mono">ID: {p.user?.employeeId || 'EMP'}</div>
                           </div>
                         </div>
                       </td>
-                      <td className="px-4 py-3.5 text-slate-600 font-medium">{p.user?.profile?.department || 'General'}</td>
-                      <td className="px-4 py-3.5 text-right font-mono text-slate-700">{formatCurrency(p.basicSalary)}</td>
-                      <td className="px-4 py-3.5 text-right font-mono text-slate-700">+{formatCurrency(p.allowances)}</td>
-                      <td className="px-4 py-3.5 text-right font-mono text-rose-600">-{formatCurrency(p.deductions)}</td>
-                      <td className="px-4 py-3.5 text-right font-mono font-bold text-emerald-700">{formatCurrency(p.netSalary)}</td>
+                      <td className="px-4 py-3.5 text-zinc-400 font-mono text-[11px]">{p.user?.profile?.department || 'General'}</td>
+                      <td className="px-4 py-3.5 text-right font-mono text-zinc-300">{formatCurrency(p.basicSalary)}</td>
+                      <td className="px-4 py-3.5 text-right font-mono text-zinc-300">+{formatCurrency(p.allowances)}</td>
+                      <td className="px-4 py-3.5 text-right font-mono text-zinc-400">-{formatCurrency(p.deductions)}</td>
+                      <td className="px-4 py-3.5 text-right font-mono font-bold text-white">{formatCurrency(p.netSalary)}</td>
                       <td className="px-4 py-3.5 text-right">
                         <Button variant="outline" size="sm" icon={Edit} onClick={() => openEditModal(p)}>
                           Adjust
@@ -165,47 +165,47 @@ export const AdminPayrollPage = () => {
       )}
 
       {/* Edit Salary Modal */}
-      <Modal isOpen={editModalOpen} onClose={() => setEditModalOpen(false)} title="Adjust Compensation Structure" size="md">
+      <Modal isOpen={editModalOpen} onClose={() => setEditModalOpen(false)} title="Adjust Compensation Package" size="md">
         {selectedPayroll && (
           <div className="space-y-4">
-            <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-200 flex items-center justify-between">
-              <span className="font-bold text-xs text-slate-900">
+            <div className="bg-black/40 p-3.5 rounded-xl border border-white/10 flex items-center justify-between font-mono">
+              <span className="font-bold text-xs text-white">
                 {selectedPayroll.user?.profile?.firstName} {selectedPayroll.user?.profile?.lastName}
               </span>
-              <span className="text-slate-500 font-mono text-xs">
+              <span className="text-zinc-500 text-xs">
                 ({selectedPayroll.user?.employeeId})
               </span>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-3 font-mono">
               <Input
-                label="Basic Salary (₹ / month)"
+                label="Basic Salary (₹ / Month)"
                 type="number"
                 value={basicSalary}
                 onChange={(e) => setBasicSalary(e.target.value)}
               />
               <Input
-                label="Total Allowances (₹ / month)"
+                label="Total Allowances (₹ / Month)"
                 type="number"
                 value={allowances}
                 onChange={(e) => setAllowances(e.target.value)}
               />
               <Input
-                label="Standard Deductions / TDS (₹ / month)"
+                label="Standard Deductions / TDS (₹ / Month)"
                 type="number"
                 value={deductions}
                 onChange={(e) => setDeductions(e.target.value)}
               />
             </div>
 
-            <div className="mt-4 border-t border-slate-100 pt-4">
-              <div className="flex justify-between items-center mb-4 p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-xs">
-                <span className="font-bold text-emerald-900">Calculated Net In-Hand:</span>
-                <span className="text-base font-extrabold text-emerald-700 font-mono">{formatCurrency(previewNetSalary)}</span>
+            <div className="mt-4 border-t border-white/10 pt-4">
+              <div className="flex justify-between items-center mb-4 p-3 bg-black/60 rounded-xl border border-white/20 text-xs font-mono">
+                <span className="font-bold text-zinc-300">Projected Net Disbursal:</span>
+                <span className="text-base font-extrabold text-white">{formatCurrency(previewNetSalary)}</span>
               </div>
               <div className="flex justify-end gap-3">
                 <Button variant="ghost" onClick={() => setEditModalOpen(false)}>Cancel</Button>
-                <Button variant="gradient" onClick={handleSave} isLoading={isSaving}>Save Salary Package</Button>
+                <Button variant="primary" onClick={handleSave} isLoading={isSaving}>Save Structure</Button>
               </div>
             </div>
           </div>

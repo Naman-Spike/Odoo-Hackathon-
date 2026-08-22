@@ -5,7 +5,7 @@ import { SalaryBreakdown } from '../components/payroll/SalaryBreakdown';
 import { SalarySlip } from '../components/payroll/SalarySlip';
 import { Modal } from '../components/ui/Modal';
 import { Button } from '../components/ui/Button';
-import { FileText, AlertCircle, Printer, Wallet } from 'lucide-react';
+import { AlertCircle, Printer } from 'lucide-react';
 
 export const PayrollPage = () => {
   const { user } = useAuth();
@@ -21,7 +21,7 @@ export const PayrollPage = () => {
         setPayroll(res.data);
       } catch (err: any) {
         if (err.response?.status === 404) {
-          setError('Payroll not yet configured for your account.');
+          setError('Payroll structure not yet configured for this account.');
         } else {
           setError('Failed to fetch payroll information.');
         }
@@ -34,19 +34,19 @@ export const PayrollPage = () => {
 
   if (loading) {
     return (
-      <div className="flex h-[60vh] items-center justify-center text-slate-400 text-xs font-semibold">
-        Loading salary structure...
+      <div className="flex h-[60vh] items-center justify-center text-zinc-500 text-xs font-mono">
+        Loading compensation structure...
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="max-w-3xl mx-auto mt-8 bg-amber-50 border border-amber-200 rounded-3xl p-8 flex flex-col items-center text-center">
-        <AlertCircle className="w-12 h-12 text-amber-500 mb-3" />
-        <h2 className="text-base font-bold text-amber-900 mb-1">Payroll Setup Pending</h2>
-        <p className="text-xs text-amber-700 max-w-sm">{error}</p>
-        <p className="text-[11px] text-amber-600 mt-4">Please request your HR Manager or System Administrator to configure your basic salary and allowances.</p>
+      <div className="max-w-3xl mx-auto mt-8 bg-white/[0.02] border border-white/10 rounded-3xl p-8 flex flex-col items-center text-center shadow-liquid">
+        <AlertCircle className="w-10 h-10 text-zinc-500 mb-3" />
+        <h2 className="text-sm font-bold text-white mb-1 font-sans">Payroll Setup Pending</h2>
+        <p className="text-xs text-zinc-400 max-w-sm font-mono">{error}</p>
+        <p className="text-[11px] text-zinc-500 mt-4 font-mono">Contact your HR Manager or System Administrator to configure your compensation tier.</p>
       </div>
     );
   }
@@ -63,10 +63,10 @@ export const PayrollPage = () => {
     <div className="max-w-5xl mx-auto space-y-6 pb-10">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-extrabold text-slate-900">Compensation & Payslips</h1>
-          <p className="text-xs text-slate-500 mt-0.5">View your current salary package, deductions, and print monthly payslips</p>
+          <h1 className="text-2xl font-black text-white tracking-tight font-sans">Compensation & Payslips</h1>
+          <p className="text-xs text-zinc-400 mt-0.5 font-medium">Audit your salary package, tax deductions, and print monthly statements</p>
         </div>
-        <Button onClick={() => setIsSlipOpen(true)} variant="gradient" icon={Printer}>
+        <Button onClick={() => setIsSlipOpen(true)} variant="primary" icon={Printer}>
           Generate Payslip
         </Button>
       </div>

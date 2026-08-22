@@ -1,6 +1,6 @@
 import React from 'react';
 import { formatCurrency, formatDate } from '../../lib/utils';
-import { Printer, Download, Zap, ShieldCheck } from 'lucide-react';
+import { Printer, Zap, ShieldCheck } from 'lucide-react';
 import { Button } from '../ui/Button';
 
 interface SalarySlipProps {
@@ -26,121 +26,121 @@ export const SalarySlip: React.FC<SalarySlipProps> = ({ payroll, employee }) => 
   return (
     <div className="space-y-4">
       {/* Top Action Bar */}
-      <div className="flex justify-between items-center print:hidden bg-slate-50 p-3 rounded-2xl border border-slate-200">
-        <span className="text-xs text-slate-500 font-medium">Click Print to save as PDF or physical print</span>
-        <Button variant="gradient" size="sm" icon={Printer} onClick={handlePrint}>
-          Print / Export Payslip
+      <div className="flex justify-between items-center print:hidden bg-white/[0.04] p-3 rounded-2xl border border-white/10">
+        <span className="text-xs text-zinc-400 font-mono">Official statement formatted for standard PDF export</span>
+        <Button variant="primary" size="sm" icon={Printer} onClick={handlePrint}>
+          Print / Export PDF
         </Button>
       </div>
 
       {/* Payslip Document Canvas */}
-      <div className="bg-white p-6 sm:p-10 border border-slate-300 rounded-2xl max-w-3xl mx-auto shadow-sm text-slate-900 print:shadow-none print:border-none print:p-0" id="salary-slip">
+      <div className="bg-obsidian-950 p-6 sm:p-10 border border-white/20 rounded-3xl max-w-3xl mx-auto shadow-liquid text-zinc-100 print:shadow-none print:border-none print:p-0 print:bg-white print:text-black" id="salary-slip">
         
         {/* Document Header */}
-        <div className="flex justify-between items-start border-b-2 border-slate-900 pb-6 mb-6">
+        <div className="flex justify-between items-start border-b border-white/20 pb-6 mb-6">
           <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-xl bg-slate-950 flex items-center justify-center text-white">
-              <Zap className="h-6 w-6 fill-white" />
+            <div className="h-10 w-10 rounded-2xl bg-white flex items-center justify-center text-black shadow-specular">
+              <Zap className="h-5 w-5 fill-black" />
             </div>
             <div>
-              <h1 className="text-xl font-black uppercase tracking-tight text-slate-900">Dayflow Technologies</h1>
-              <p className="text-[11px] text-slate-500 font-mono">123 Innovation Way, Tech District • HR Department</p>
+              <h1 className="text-xl font-black uppercase tracking-tight text-white print:text-black">Dayflow Technologies</h1>
+              <p className="text-[10px] text-zinc-400 font-mono">123 Innovation Way, Tech District • Corporate HR</p>
             </div>
           </div>
 
           <div className="text-right">
-            <span className="inline-block px-3 py-1 bg-indigo-50 text-indigo-700 font-bold text-xs rounded-lg border border-indigo-100 uppercase tracking-wider">
-              Official Payslip
+            <span className="inline-block px-3 py-1 bg-white/10 text-white font-mono font-bold text-[11px] rounded-lg border border-white/20 uppercase tracking-widest print:border-black print:text-black">
+              Formal Payslip
             </span>
-            <div className="text-xs font-bold text-slate-900 mt-1 font-mono">{currentMonth}</div>
+            <div className="text-xs font-mono font-bold text-white mt-1 print:text-black">{currentMonth}</div>
           </div>
         </div>
 
-        {/* Employee Particulars Table */}
-        <div className="bg-slate-50/70 p-4 rounded-xl border border-slate-200 mb-6">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
+        {/* Employee Particulars Grid */}
+        <div className="bg-white/[0.03] p-4 rounded-2xl border border-white/10 mb-6 print:bg-gray-100 print:border-gray-300">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs font-mono">
             <div>
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Employee Name</span>
-              <div className="font-bold text-slate-900 mt-0.5">{employee.name || 'Employee'}</div>
+              <span className="text-[9px] font-bold text-zinc-500 uppercase tracking-widest print:text-gray-600">Employee</span>
+              <div className="font-bold text-white mt-0.5 print:text-black">{employee.name || 'Employee'}</div>
             </div>
             <div>
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Employee ID</span>
-              <div className="font-mono font-bold text-slate-900 mt-0.5">{employee.employeeId || 'EMP-001'}</div>
+              <span className="text-[9px] font-bold text-zinc-500 uppercase tracking-widest print:text-gray-600">Personnel ID</span>
+              <div className="font-bold text-white mt-0.5 print:text-black">{employee.employeeId || 'EMP-001'}</div>
             </div>
             <div>
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Department</span>
-              <div className="font-bold text-slate-900 mt-0.5">{employee.department || 'Engineering'}</div>
+              <span className="text-[9px] font-bold text-zinc-500 uppercase tracking-widest print:text-gray-600">Department</span>
+              <div className="font-bold text-white mt-0.5 print:text-black">{employee.department || 'Engineering'}</div>
             </div>
             <div>
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Designation</span>
-              <div className="font-bold text-slate-900 mt-0.5">{employee.designation || 'Staff'}</div>
+              <span className="text-[9px] font-bold text-zinc-500 uppercase tracking-widest print:text-gray-600">Designation</span>
+              <div className="font-bold text-white mt-0.5 print:text-black">{employee.designation || 'Staff'}</div>
             </div>
           </div>
         </div>
 
         {/* Financial Breakdown Table */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6 font-mono text-xs">
           {/* Earnings Table */}
-          <div className="border border-slate-200 rounded-xl overflow-hidden">
-            <div className="bg-slate-100 px-4 py-2.5 font-bold text-xs text-slate-800 uppercase tracking-wider border-b border-slate-200">
+          <div className="border border-white/10 rounded-2xl overflow-hidden print:border-gray-300">
+            <div className="bg-white/[0.05] px-4 py-2.5 font-bold text-white uppercase tracking-wider border-b border-white/10 print:bg-gray-200 print:text-black">
               Earnings & Allowances
             </div>
-            <div className="p-4 space-y-2.5 text-xs">
+            <div className="p-4 space-y-2.5">
               <div className="flex justify-between">
-                <span className="text-slate-600 font-medium">Basic Pay Scale</span>
-                <span className="font-mono font-bold text-slate-900">{formatCurrency(basic)}</span>
+                <span className="text-zinc-400 print:text-gray-600">Basic Pay</span>
+                <span className="font-bold text-white print:text-black">{formatCurrency(basic)}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-600 font-medium">House Rent / Special Allowances</span>
-                <span className="font-mono font-bold text-slate-900">{formatCurrency(allowances)}</span>
+                <span className="text-zinc-400 print:text-gray-600">Allowances (HRA / Special)</span>
+                <span className="font-bold text-white print:text-black">{formatCurrency(allowances)}</span>
               </div>
-              <div className="pt-3 border-t border-slate-200 flex justify-between font-extrabold text-slate-900">
-                <span>Total Gross Earnings</span>
-                <span className="font-mono text-emerald-700">{formatCurrency(gross)}</span>
+              <div className="pt-3 border-t border-white/10 flex justify-between font-extrabold text-white print:text-black">
+                <span>Total Gross</span>
+                <span>{formatCurrency(gross)}</span>
               </div>
             </div>
           </div>
 
           {/* Deductions Table */}
-          <div className="border border-slate-200 rounded-xl overflow-hidden">
-            <div className="bg-slate-100 px-4 py-2.5 font-bold text-xs text-slate-800 uppercase tracking-wider border-b border-slate-200">
+          <div className="border border-white/10 rounded-2xl overflow-hidden print:border-gray-300">
+            <div className="bg-white/[0.05] px-4 py-2.5 font-bold text-white uppercase tracking-wider border-b border-white/10 print:bg-gray-200 print:text-black">
               Deductions & Taxes
             </div>
-            <div className="p-4 space-y-2.5 text-xs">
+            <div className="p-4 space-y-2.5">
               <div className="flex justify-between">
-                <span className="text-slate-600 font-medium">Provident Fund (PF)</span>
-                <span className="font-mono font-bold text-slate-900">{formatCurrency(deductions * 0.4)}</span>
+                <span className="text-zinc-400 print:text-gray-600">Provident Fund (PF)</span>
+                <span className="font-bold text-zinc-300 print:text-black">{formatCurrency(deductions * 0.4)}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-600 font-medium">Income Tax (TDS)</span>
-                <span className="font-mono font-bold text-slate-900">{formatCurrency(deductions * 0.6)}</span>
+                <span className="text-zinc-400 print:text-gray-600">Withholding Tax (TDS)</span>
+                <span className="font-bold text-zinc-300 print:text-black">{formatCurrency(deductions * 0.6)}</span>
               </div>
-              <div className="pt-3 border-t border-slate-200 flex justify-between font-extrabold text-slate-900">
+              <div className="pt-3 border-t border-white/10 flex justify-between font-extrabold text-white print:text-black">
                 <span>Total Deductions</span>
-                <span className="font-mono text-rose-600">-{formatCurrency(deductions)}</span>
+                <span>-{formatCurrency(deductions)}</span>
               </div>
             </div>
           </div>
         </div>
 
         {/* Net Take-Home Pay Banner */}
-        <div className="bg-slate-950 text-white p-5 rounded-2xl flex flex-col sm:flex-row justify-between items-center gap-2 mb-8">
+        <div className="bg-white text-black p-5 rounded-2xl flex flex-col sm:flex-row justify-between items-center gap-2 mb-8 shadow-specular">
           <div>
-            <span className="text-[10px] font-bold text-indigo-300 uppercase tracking-wider">Net Amount Payable</span>
-            <div className="text-sm font-semibold">Total Disbursed Take-Home Salary</div>
+            <span className="text-[9px] font-mono font-bold uppercase tracking-widest opacity-70">Net Amount Disbursed</span>
+            <div className="text-xs font-bold">Total In-Hand Take-Home Compensation</div>
           </div>
-          <div className="text-3xl font-black font-mono text-emerald-400">
+          <div className="text-2xl sm:text-3xl font-black font-mono">
             {formatCurrency(net)}
           </div>
         </div>
 
-        {/* Formal Document Verification Footer */}
-        <div className="pt-6 border-t border-slate-200 flex flex-col sm:flex-row justify-between items-center gap-4 text-[10px] text-slate-400">
+        {/* Formal Verification Footer */}
+        <div className="pt-6 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4 text-[10px] font-mono text-zinc-500 print:text-gray-500">
           <div className="flex items-center gap-1.5">
-            <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
-            <span>Electronically verified and generated by Dayflow HRMS • No signature required.</span>
+            <ShieldCheck className="w-3.5 h-3.5 text-white print:text-black" />
+            <span>Digitally verified by Dayflow HRMS • No physical signature required.</span>
           </div>
-          <div className="font-mono">Date: {new Date().toLocaleDateString()}</div>
+          <div>Issue Date: {new Date().toLocaleDateString()}</div>
         </div>
       </div>
     </div>

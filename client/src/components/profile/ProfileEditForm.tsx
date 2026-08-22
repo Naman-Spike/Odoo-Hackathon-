@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { Card, CardHeader, CardTitle, CardContent } from '../ui/Card';
-import { Save, X, Sparkles, User, ShieldAlert } from 'lucide-react';
+import { Save, User, ShieldAlert } from 'lucide-react';
 
 interface ProfileData {
   id?: string;
@@ -46,16 +46,16 @@ export default function ProfileEditForm({ profile, isAdmin, onSave, onCancel }: 
   };
 
   return (
-    <Card className="max-w-4xl mx-auto shadow-sm border-slate-200 rounded-3xl overflow-hidden">
-      <CardHeader className="border-b border-slate-100 bg-slate-50/60 py-4">
+    <Card className="max-w-4xl mx-auto shadow-liquid rounded-3xl overflow-hidden">
+      <CardHeader className="py-4">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-base flex items-center gap-2">
-            <User className="w-4 h-4 text-indigo-600" />
-            Edit Profile Information
+          <CardTitle className="text-sm font-mono uppercase tracking-wider flex items-center gap-2 text-zinc-300">
+            <User className="w-4 h-4 text-zinc-400" />
+            Edit Profile Parameters
           </CardTitle>
           {!isAdmin && (
-            <span className="text-[11px] text-amber-700 bg-amber-50 border border-amber-200 px-2.5 py-0.5 rounded-full font-medium flex items-center gap-1">
-              <ShieldAlert className="w-3 h-3" />
+            <span className="text-[10px] font-mono text-zinc-400 bg-white/[0.05] border border-white/10 px-2.5 py-0.5 rounded-full flex items-center gap-1">
+              <ShieldAlert className="w-3 h-3 text-zinc-400" />
               Role Restricted: Employment fields locked
             </span>
           )}
@@ -71,7 +71,7 @@ export default function ProfileEditForm({ profile, isAdmin, onSave, onCancel }: 
               value={formData.firstName || ''} 
               onChange={handleChange} 
               disabled={!isAdmin} 
-              className={!isAdmin ? 'bg-slate-100/80 text-slate-500 cursor-not-allowed' : ''}
+              className={!isAdmin ? 'opacity-50 cursor-not-allowed' : ''}
               required
             />
             
@@ -81,12 +81,12 @@ export default function ProfileEditForm({ profile, isAdmin, onSave, onCancel }: 
               value={formData.lastName || ''} 
               onChange={handleChange} 
               disabled={!isAdmin}
-              className={!isAdmin ? 'bg-slate-100/80 text-slate-500 cursor-not-allowed' : ''}
+              className={!isAdmin ? 'opacity-50 cursor-not-allowed' : ''}
               required
             />
 
             <Input 
-              label="Mobile Phone Number"
+              label="Contact Phone"
               name="phone" 
               value={formData.phone || ''} 
               onChange={handleChange} 
@@ -94,20 +94,20 @@ export default function ProfileEditForm({ profile, isAdmin, onSave, onCancel }: 
             />
 
             <Input 
-              label="Residential Address"
+              label="Residential Location"
               name="address" 
               value={formData.address || ''} 
               onChange={handleChange} 
-              placeholder="Apartment, Street, City, Country"
+              placeholder="Apartment, City, Country"
             />
 
             <Input 
-              label="Department"
+              label="Division / Department"
               name="department" 
               value={formData.department || ''} 
               onChange={handleChange} 
               disabled={!isAdmin}
-              className={!isAdmin ? 'bg-slate-100/80 text-slate-500 cursor-not-allowed' : ''}
+              className={!isAdmin ? 'opacity-50 cursor-not-allowed' : ''}
             />
 
             <Input 
@@ -116,7 +116,7 @@ export default function ProfileEditForm({ profile, isAdmin, onSave, onCancel }: 
               value={formData.designation || ''} 
               onChange={handleChange} 
               disabled={!isAdmin}
-              className={!isAdmin ? 'bg-slate-100/80 text-slate-500 cursor-not-allowed' : ''}
+              className={!isAdmin ? 'opacity-50 cursor-not-allowed' : ''}
             />
 
             <Input 
@@ -126,11 +126,11 @@ export default function ProfileEditForm({ profile, isAdmin, onSave, onCancel }: 
               value={formData.joiningDate || ''} 
               onChange={handleChange} 
               disabled={!isAdmin}
-              className={!isAdmin ? 'bg-slate-100/80 text-slate-500 cursor-not-allowed' : ''}
+              className={!isAdmin ? 'opacity-50 cursor-not-allowed' : ''}
             />
 
             <Input 
-              label="Avatar Profile Image URL"
+              label="Avatar Image URL"
               name="avatarUrl" 
               value={formData.avatarUrl || ''} 
               onChange={handleChange} 
@@ -138,12 +138,12 @@ export default function ProfileEditForm({ profile, isAdmin, onSave, onCancel }: 
             />
           </div>
 
-          <div className="flex justify-end gap-3 pt-6 border-t border-slate-100">
+          <div className="flex justify-end gap-3 pt-6 border-t border-white/10">
             <Button type="button" variant="ghost" onClick={onCancel}>
               Cancel
             </Button>
-            <Button type="submit" variant="gradient" icon={Save}>
-              Save Profile Changes
+            <Button type="submit" variant="primary" icon={Save}>
+              Save Parameters
             </Button>
           </div>
         </form>
