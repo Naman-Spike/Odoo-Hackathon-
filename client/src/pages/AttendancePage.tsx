@@ -124,24 +124,24 @@ export const AttendancePage: React.FC = () => {
       <div className="space-y-6 max-w-7xl mx-auto pb-10">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
-            <h1 className="text-2xl font-black text-white tracking-tight font-sans">Attendance Telemetry</h1>
-            <p className="text-xs text-zinc-400 mt-0.5">Audit personnel timecard logs across all divisions</p>
+            <h1 className="text-2xl font-black text-zinc-900 tracking-tight font-sans">Attendance Telemetry</h1>
+            <p className="text-xs text-zinc-500 mt-0.5">Audit personnel timecard logs across all divisions</p>
           </div>
 
           <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
-            <div className="flex items-center gap-2 bg-black/40 px-3 py-1.5 rounded-xl border border-white/10 shadow-inner font-mono text-xs text-zinc-300 backdrop-blur-md">
+            <div className="flex items-center gap-2 bg-zinc-50 px-3 py-1.5 rounded-xl border border-zinc-200 shadow-inner font-mono text-xs text-zinc-800 backdrop-blur-md">
               <input
                 type="date"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
-                className="text-xs text-zinc-200 bg-transparent border-0 focus:ring-0 p-0"
+                className="text-xs text-zinc-800 bg-transparent border-0 focus:ring-0 p-0"
               />
-              <span className="text-zinc-600">to</span>
+              <span className="text-zinc-400">to</span>
               <input
                 type="date"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
-                className="text-xs text-zinc-200 bg-transparent border-0 focus:ring-0 p-0"
+                className="text-xs text-zinc-800 bg-transparent border-0 focus:ring-0 p-0"
               />
             </div>
             
@@ -155,33 +155,33 @@ export const AttendancePage: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
           <Card hoverEffect className="p-5 flex items-center justify-between">
             <div>
-              <span className="text-[10px] font-mono font-bold uppercase text-zinc-400">Present Today</span>
-              <div className="text-3xl font-extrabold text-white mt-1 font-mono">{presentToday}</div>
+              <span className="text-[10px] font-mono font-bold uppercase text-zinc-500">Present Today</span>
+              <div className="text-3xl font-extrabold text-zinc-900 mt-1 font-mono">{presentToday}</div>
               <span className="text-[10px] text-zinc-500 font-mono">Verified Active</span>
             </div>
-            <div className="p-3 bg-white/[0.06] border border-white/10 text-white rounded-xl">
+            <div className="p-3 bg-zinc-100 border border-zinc-200 text-zinc-900 rounded-xl">
               <CheckCircle2 className="w-5 h-5" />
             </div>
           </Card>
 
           <Card hoverEffect className="p-5 flex items-center justify-between">
             <div>
-              <span className="text-[10px] font-mono font-bold uppercase text-zinc-400">Absent Today</span>
-              <div className="text-3xl font-extrabold text-white mt-1 font-mono">{absentToday}</div>
+              <span className="text-[10px] font-mono font-bold uppercase text-zinc-500">Absent Today</span>
+              <div className="text-3xl font-extrabold text-zinc-900 mt-1 font-mono">{absentToday}</div>
               <span className="text-[10px] text-zinc-500 font-mono">No Check-in Logged</span>
             </div>
-            <div className="p-3 bg-white/[0.06] border border-white/10 text-zinc-400 rounded-xl">
+            <div className="p-3 bg-zinc-100 border border-zinc-200 text-zinc-500 rounded-xl">
               <UserX className="w-5 h-5" />
             </div>
           </Card>
 
           <Card hoverEffect className="p-5 flex items-center justify-between">
             <div>
-              <span className="text-[10px] font-mono font-bold uppercase text-zinc-400">Approved Leave</span>
-              <div className="text-3xl font-extrabold text-white mt-1 font-mono">{leaveToday}</div>
+              <span className="text-[10px] font-mono font-bold uppercase text-zinc-500">Approved Leave</span>
+              <div className="text-3xl font-extrabold text-zinc-900 mt-1 font-mono">{leaveToday}</div>
               <span className="text-[10px] text-zinc-500 font-mono">Synced from Quotas</span>
             </div>
-            <div className="p-3 bg-white/[0.06] border border-white/10 text-white rounded-xl">
+            <div className="p-3 bg-zinc-100 border border-zinc-200 text-zinc-900 rounded-xl">
               <Plane className="w-5 h-5" />
             </div>
           </Card>
@@ -190,27 +190,27 @@ export const AttendancePage: React.FC = () => {
         {/* Filtered Attendance Table */}
         <Card>
           <CardHeader className="flex flex-col sm:flex-row items-center justify-between gap-4 py-4">
-            <CardTitle className="text-sm font-mono uppercase tracking-wider text-zinc-300 flex items-center gap-2">
-              <Clock className="w-4 h-4 text-zinc-400" />
+            <CardTitle className="text-sm font-mono uppercase tracking-wider text-zinc-700 flex items-center gap-2">
+              <Clock className="w-4 h-4 text-zinc-500" />
               Detailed Attendance Ledger
             </CardTitle>
             <div className="relative w-full sm:w-72">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-zinc-500" />
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-zinc-400" />
               <input
                 placeholder="Filter by name or employee ID..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="h-10 pl-9 pr-4 w-full text-xs rounded-xl border border-white/10 bg-black/40 text-white placeholder:text-zinc-600 focus:bg-black/60 focus:outline-none focus:ring-1 focus:ring-white/40 focus:border-white/40 transition-colors backdrop-blur-md font-mono"
+                className="h-10 pl-9 pr-4 w-full text-xs rounded-xl border border-zinc-200 bg-white/90 text-zinc-900 placeholder:text-zinc-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-black/10 focus:border-black transition-colors backdrop-blur-md font-mono"
               />
             </div>
           </CardHeader>
           <CardContent className="p-4 sm:p-6">
             {isLoading ? (
               <div className="flex justify-center p-12">
-                <div className="animate-spin rounded-full h-7 w-7 border-b-2 border-white" />
+                <div className="animate-spin rounded-full h-7 w-7 border-b-2 border-black" />
               </div>
             ) : error ? (
-              <div className="text-rose-400 p-4 text-center text-xs font-mono">{error}</div>
+              <div className="text-rose-600 p-4 text-center text-xs font-mono">{error}</div>
             ) : (
               <AttendanceTable records={filteredRecords} showEmployee={true} />
             )}
@@ -232,8 +232,8 @@ export const AttendancePage: React.FC = () => {
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-10">
       <div>
-        <h1 className="text-2xl font-black text-white tracking-tight font-sans">Attendance Telemetry</h1>
-        <p className="text-xs text-zinc-400 mt-0.5">Manage daily shifts, audit monthly ledger, and view active hours</p>
+        <h1 className="text-2xl font-black text-zinc-900 tracking-tight font-sans">Attendance Telemetry</h1>
+        <p className="text-xs text-zinc-500 mt-0.5">Manage daily shifts, audit monthly ledger, and view active hours</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -245,45 +245,45 @@ export const AttendancePage: React.FC = () => {
           <Card className="h-full flex flex-col justify-between p-6">
             <div>
               <div className="flex justify-between items-center mb-4">
-                <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-zinc-300 flex items-center gap-2">
-                  <CalendarIcon className="w-3.5 h-3.5 text-zinc-400" />
+                <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-zinc-700 flex items-center gap-2">
+                  <CalendarIcon className="w-3.5 h-3.5 text-zinc-500" />
                   Monthly Summary — {monthName}
                 </h3>
-                <span className="text-[10px] font-mono text-zinc-400 bg-white/[0.05] border border-white/10 px-2.5 py-1 rounded-full">
+                <span className="text-[10px] font-mono text-zinc-600 bg-zinc-100 border border-zinc-200 px-2.5 py-1 rounded-full">
                   Target: 160h / mo
                 </span>
               </div>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                <div className="bg-white/[0.025] p-3.5 rounded-2xl border border-white/[0.08]">
+                <div className="bg-zinc-50 p-3.5 rounded-2xl border border-zinc-200/80">
                   <div className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-widest">Present</div>
-                  <div className="text-2xl font-extrabold text-white mt-1 font-mono">{presentDays}</div>
+                  <div className="text-2xl font-extrabold text-zinc-900 mt-1 font-mono">{presentDays}</div>
                   <div className="text-[10px] text-zinc-500 font-mono mt-0.5">Days Logged</div>
                 </div>
 
-                <div className="bg-white/[0.025] p-3.5 rounded-2xl border border-white/[0.08]">
+                <div className="bg-zinc-50 p-3.5 rounded-2xl border border-zinc-200/80">
                   <div className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-widest">Half Days</div>
-                  <div className="text-2xl font-extrabold text-white mt-1 font-mono">{halfDays}</div>
+                  <div className="text-2xl font-extrabold text-zinc-900 mt-1 font-mono">{halfDays}</div>
                   <div className="text-[10px] text-zinc-500 font-mono mt-0.5">&lt; 4.0 Hours</div>
                 </div>
 
-                <div className="bg-white/[0.025] p-3.5 rounded-2xl border border-white/[0.08]">
+                <div className="bg-zinc-50 p-3.5 rounded-2xl border border-zinc-200/80">
                   <div className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-widest">Total Hours</div>
-                  <div className="text-2xl font-extrabold text-white mt-1 font-mono">{totalHours.toFixed(1)}h</div>
+                  <div className="text-2xl font-extrabold text-zinc-900 mt-1 font-mono">{totalHours.toFixed(1)}h</div>
                   <div className="text-[10px] text-zinc-500 font-mono mt-0.5">Cumulative</div>
                 </div>
 
-                <div className="bg-white/[0.025] p-3.5 rounded-2xl border border-white/[0.08]">
+                <div className="bg-zinc-50 p-3.5 rounded-2xl border border-zinc-200/80">
                   <div className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-widest">Daily Avg</div>
-                  <div className="text-2xl font-extrabold text-white mt-1 font-mono">{avgHours}h</div>
+                  <div className="text-2xl font-extrabold text-zinc-900 mt-1 font-mono">{avgHours}h</div>
                   <div className="text-[10px] text-zinc-500 font-mono mt-0.5">Per Present Day</div>
                 </div>
               </div>
             </div>
 
-            <div className="mt-4 pt-3 border-t border-white/[0.08] flex items-center justify-between text-[11px] text-zinc-500 font-mono">
+            <div className="mt-4 pt-3 border-t border-zinc-100 flex items-center justify-between text-[11px] text-zinc-500 font-mono">
               <span>Standard Shift: Monday to Friday (09:00 – 17:30)</span>
-              <span className="text-zinc-300 font-semibold">8.5h / day</span>
+              <span className="text-zinc-900 font-semibold">8.5h / day</span>
             </div>
           </Card>
         </div>
@@ -291,14 +291,14 @@ export const AttendancePage: React.FC = () => {
 
       {/* Calendar / Table Container */}
       <Card>
-        <CardHeader className="flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-white/[0.08] pb-4">
-          <div className="flex items-center bg-black/40 rounded-xl p-1 border border-white/10">
+        <CardHeader className="flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-zinc-100 pb-4">
+          <div className="flex items-center bg-zinc-100 rounded-xl p-1 border border-zinc-200">
             <button
               onClick={() => setViewMode('calendar')}
               className={`px-3 py-1.5 text-xs font-mono font-semibold rounded-lg transition-all flex items-center gap-1.5 cursor-pointer ${
                 viewMode === 'calendar' 
-                  ? 'bg-white text-black shadow-sm font-bold' 
-                  : 'text-zinc-400 hover:text-white'
+                  ? 'bg-white text-zinc-900 shadow-sm font-bold' 
+                  : 'text-zinc-500 hover:text-zinc-900'
               }`}
             >
               <CalendarIcon className="w-3.5 h-3.5" />
@@ -308,8 +308,8 @@ export const AttendancePage: React.FC = () => {
               onClick={() => setViewMode('table')}
               className={`px-3 py-1.5 text-xs font-mono font-semibold rounded-lg transition-all flex items-center gap-1.5 cursor-pointer ${
                 viewMode === 'table' 
-                  ? 'bg-white text-black shadow-sm font-bold' 
-                  : 'text-zinc-400 hover:text-white'
+                  ? 'bg-white text-zinc-900 shadow-sm font-bold' 
+                  : 'text-zinc-500 hover:text-zinc-900'
               }`}
             >
               <TableIcon className="w-3.5 h-3.5" />
@@ -321,7 +321,7 @@ export const AttendancePage: React.FC = () => {
             <Button variant="outline" size="sm" onClick={handlePrevMonth}>
               <ChevronLeft className="w-4 h-4" />
             </Button>
-            <span className="font-bold text-xs sm:text-sm text-white min-w-[140px] text-center font-mono">
+            <span className="font-bold text-xs sm:text-sm text-zinc-900 min-w-[140px] text-center font-mono">
               {monthName}
             </span>
             <Button variant="outline" size="sm" onClick={handleNextMonth}>
@@ -333,10 +333,10 @@ export const AttendancePage: React.FC = () => {
         <CardContent className="p-4 sm:p-6">
           {isLoading ? (
              <div className="flex justify-center p-12">
-               <div className="animate-spin rounded-full h-7 w-7 border-b-2 border-white" />
+               <div className="animate-spin rounded-full h-7 w-7 border-b-2 border-black" />
              </div>
           ) : error ? (
-             <div className="text-rose-400 p-8 text-center text-xs font-mono">{error}</div>
+             <div className="text-rose-600 p-8 text-center text-xs font-mono">{error}</div>
           ) : (
             <div>
               {viewMode === 'calendar' ? (

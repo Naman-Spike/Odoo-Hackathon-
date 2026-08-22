@@ -47,28 +47,28 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({ records,
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'PRESENT': 
-        return { label: 'Present', bg: 'bg-white/10 text-white border-white/20', dot: 'bg-white shadow-[0_0_6px_rgba(255,255,255,0.8)]' };
+        return { label: 'Present', bg: 'bg-zinc-100 text-zinc-900 border-zinc-300', dot: 'bg-black' };
       case 'ABSENT': 
-        return { label: 'Absent', bg: 'bg-zinc-900 text-zinc-400 border-zinc-800', dot: 'bg-zinc-600' };
+        return { label: 'Absent', bg: 'bg-zinc-100 text-zinc-600 border-zinc-200', dot: 'bg-zinc-400' };
       case 'HALF_DAY': 
-        return { label: 'Half Day', bg: 'bg-white/[0.06] text-zinc-300 border-white/10', dot: 'bg-zinc-300' };
+        return { label: 'Half Day', bg: 'bg-zinc-100 text-zinc-800 border-zinc-300', dot: 'bg-zinc-600' };
       case 'LEAVE': 
-        return { label: 'Leave', bg: 'bg-white/[0.08] text-zinc-200 border-white/15', dot: 'bg-zinc-200' };
+        return { label: 'Leave', bg: 'bg-zinc-100 text-zinc-800 border-zinc-300', dot: 'bg-zinc-500' };
       default: 
-        return { label: status, bg: 'bg-zinc-900 text-zinc-400 border-zinc-800', dot: 'bg-zinc-600' };
+        return { label: status, bg: 'bg-zinc-100 text-zinc-600 border-zinc-200', dot: 'bg-zinc-400' };
     }
   };
 
   return (
     <div className="w-full">
       {/* Calendar Legend */}
-      <div className="flex flex-wrap items-center gap-4 mb-4 text-[11px] font-mono text-zinc-400 px-1">
+      <div className="flex flex-wrap items-center gap-4 mb-4 text-[11px] font-mono text-zinc-500 px-1">
         <div className="flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full bg-white shadow-[0_0_6px_rgba(255,255,255,0.8)]" />
+          <span className="w-2 h-2 rounded-full bg-black shadow-sm" />
           <span>Present</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full bg-zinc-300" />
+          <span className="w-2 h-2 rounded-full bg-zinc-600" />
           <span>Half Day</span>
         </div>
         <div className="flex items-center gap-1.5">
@@ -76,16 +76,16 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({ records,
           <span>Leave</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <span className="w-2 h-2 rounded-full bg-zinc-700" />
+          <span className="w-2 h-2 rounded-full bg-zinc-300" />
           <span>Absent</span>
         </div>
       </div>
 
-      <div className="grid grid-cols-7 gap-1.5 bg-black/40 p-2.5 rounded-2xl border border-white/10 shadow-inner">
+      <div className="grid grid-cols-7 gap-1.5 bg-zinc-50/80 p-2.5 rounded-2xl border border-zinc-200 shadow-inner">
         {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((dayName, idx) => (
           <div key={dayName} className={classNames(
             "py-2 text-center text-[10px] font-mono font-bold uppercase tracking-wider rounded-lg",
-            idx >= 5 ? "text-zinc-600 bg-white/[0.01]" : "text-zinc-400"
+            idx >= 5 ? "text-zinc-400 bg-white/40" : "text-zinc-500"
           )}>
             {dayName}
           </div>
@@ -118,20 +118,20 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({ records,
               key={day} 
               className={classNames(
                 "min-h-[95px] p-2 rounded-xl border transition-all duration-150 flex flex-col justify-between backdrop-blur-md",
-                isWeekend ? "bg-black/30 border-white/[0.03]" : "bg-white/[0.025] border-white/[0.07] hover:border-white/20 hover:bg-white/[0.04]",
-                isToday ? "ring-1 ring-white border-white/40 bg-white/[0.08] shadow-glow-white" : "",
-                isFuture ? "opacity-30 bg-black/20" : ""
+                isWeekend ? "bg-zinc-100/40 border-zinc-200/50" : "bg-white/80 border-zinc-200 hover:border-zinc-300 hover:bg-white",
+                isToday ? "ring-2 ring-black border-black bg-white shadow-md" : "",
+                isFuture ? "opacity-40 bg-zinc-50" : ""
               )}
             >
               <div className="flex justify-between items-start">
                 <span className={classNames(
                   "text-xs font-mono font-bold px-1.5 py-0.5 rounded-md",
-                  isToday ? "bg-white text-black font-bold" : "text-zinc-300"
+                  isToday ? "bg-black text-white font-bold" : "text-zinc-800"
                 )}>
                   {day}
                 </span>
                 {isToday && (
-                  <span className="text-[9px] font-mono font-bold uppercase tracking-tight text-white">TODAY</span>
+                  <span className="text-[9px] font-mono font-bold uppercase tracking-tight text-zinc-900">TODAY</span>
                 )}
               </div>
 
@@ -151,7 +151,7 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({ records,
               )}
 
               {isWeekend && (
-                <div className="text-[9px] font-mono text-zinc-600 text-center my-auto">
+                <div className="text-[9px] font-mono text-zinc-400 text-center my-auto">
                   Weekend
                 </div>
               )}

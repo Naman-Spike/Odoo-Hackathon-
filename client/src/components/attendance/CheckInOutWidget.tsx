@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { LogIn, LogOut, Clock, CheckCircle2 } from 'lucide-react';
+import { LogIn, LogOut, Clock } from 'lucide-react';
 import api from '../../api/client';
 import { Button } from '../ui/Button';
 import { Card, CardContent } from '../ui/Card';
@@ -96,9 +96,9 @@ export const CheckInOutWidget: React.FC<CheckInOutWidgetProps> = ({ compact = fa
 
   if (isLoading) {
     return (
-      <Card className="w-full animate-pulse bg-white/[0.02]">
+      <Card className="w-full animate-pulse bg-white/70">
         <CardContent className={`p-${compact ? '4' : '6'}`}>
-          <div className="h-12 bg-white/[0.05] rounded-xl w-full"></div>
+          <div className="h-12 bg-zinc-100 rounded-xl w-full"></div>
         </CardContent>
       </Card>
     );
@@ -111,11 +111,11 @@ export const CheckInOutWidget: React.FC<CheckInOutWidgetProps> = ({ compact = fa
           <div className="flex flex-col items-center justify-center space-y-4">
             {!compact && (
               <div className="text-center">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.05] border border-white/10 text-zinc-300 text-[11px] font-mono mb-2">
-                  <Clock className="w-3.5 h-3.5 text-zinc-400" />
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-zinc-100 border border-zinc-200 text-zinc-600 text-[11px] font-mono mb-2">
+                  <Clock className="w-3.5 h-3.5 text-zinc-500" />
                   <span>Ready to initiate session</span>
                 </div>
-                <h3 className="text-sm font-bold text-white font-sans">Shift Standby</h3>
+                <h3 className="text-sm font-bold text-zinc-900 font-sans">Shift Standby</h3>
                 <p className="text-xs text-zinc-500 mt-0.5 font-mono">Record work session</p>
               </div>
             )}
@@ -128,58 +128,58 @@ export const CheckInOutWidget: React.FC<CheckInOutWidgetProps> = ({ compact = fa
             >
               Initiate Shift
             </Button>
-            {error && <p className="text-rose-400 text-xs font-mono">{error}</p>}
+            {error && <p className="text-rose-600 text-xs font-mono">{error}</p>}
           </div>
         ) : !todayRecord.checkOut ? (
           <div className="flex flex-col items-center justify-center space-y-4">
             <div className="text-center w-full">
               {!compact && (
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest font-mono">Active Shift</span>
+                  <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest font-mono">Active Shift</span>
                   <Badge variant="primary">LIVE TELEMETRY</Badge>
                 </div>
               )}
-              <div className="flex items-center justify-center space-x-2 text-3xl sm:text-4xl font-mono font-bold text-white bg-black/50 py-4 rounded-2xl w-full border border-white/10 shadow-inner">
-                <span className="w-2.5 h-2.5 rounded-full bg-white animate-pulse" />
+              <div className="flex items-center justify-center space-x-2 text-3xl sm:text-4xl font-mono font-bold text-zinc-900 bg-zinc-50 py-4 rounded-2xl w-full border border-zinc-200 shadow-inner">
+                <span className="w-2.5 h-2.5 rounded-full bg-black animate-pulse" />
                 <span>{elapsedTime}</span>
               </div>
               {!compact && (
                 <p className="text-xs text-zinc-500 mt-2 font-mono">
-                  Logged in: <span className="text-zinc-300 font-semibold">{formatTime(todayRecord.checkIn)}</span>
+                  Logged in: <span className="text-zinc-900 font-semibold">{formatTime(todayRecord.checkIn)}</span>
                 </p>
               )}
             </div>
             <Button
               onClick={handleCheckOut}
               disabled={isActionLoading}
-              variant="glass"
-              className="w-full h-11 text-xs"
+              variant="outline"
+              className="w-full h-11 text-xs font-bold"
               icon={LogOut}
             >
               Conclude Workday Session
             </Button>
-            {error && <p className="text-rose-400 text-xs font-mono">{error}</p>}
+            {error && <p className="text-rose-600 text-xs font-mono">{error}</p>}
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center space-y-3">
             {!compact && (
               <div className="w-full flex justify-between items-center mb-1">
-                <h3 className="text-xs font-bold text-white font-mono uppercase tracking-wider">Shift Recorded</h3>
+                <h3 className="text-xs font-bold text-zinc-900 font-mono uppercase tracking-wider">Shift Recorded</h3>
                 <Badge variant="glass">Completed</Badge>
               </div>
             )}
             <div className="grid grid-cols-2 gap-3 w-full">
-              <div className="bg-black/40 p-3 rounded-xl border border-white/[0.08] flex flex-col items-center">
+              <div className="bg-zinc-50 p-3 rounded-xl border border-zinc-200 flex flex-col items-center">
                 <span className="text-[9px] font-mono font-bold uppercase text-zinc-500">Check In</span>
-                <span className="text-xs font-bold text-zinc-200 mt-0.5 font-mono">{formatTime(todayRecord.checkIn)}</span>
+                <span className="text-xs font-bold text-zinc-900 mt-0.5 font-mono">{formatTime(todayRecord.checkIn)}</span>
               </div>
-              <div className="bg-black/40 p-3 rounded-xl border border-white/[0.08] flex flex-col items-center">
+              <div className="bg-zinc-50 p-3 rounded-xl border border-zinc-200 flex flex-col items-center">
                 <span className="text-[9px] font-mono font-bold uppercase text-zinc-500">Check Out</span>
-                <span className="text-xs font-bold text-zinc-200 mt-0.5 font-mono">{formatTime(todayRecord.checkOut)}</span>
+                <span className="text-xs font-bold text-zinc-900 mt-0.5 font-mono">{formatTime(todayRecord.checkOut)}</span>
               </div>
             </div>
             {!compact && (
-              <div className="w-full bg-white/[0.04] text-zinc-300 p-2.5 rounded-xl text-center text-xs font-mono border border-white/10">
+              <div className="w-full bg-zinc-50 text-zinc-800 p-2.5 rounded-xl text-center text-xs font-mono border border-zinc-200">
                 Logged Duration: {todayRecord.totalHours?.toFixed(2) || '0.00'} Hours
               </div>
             )}

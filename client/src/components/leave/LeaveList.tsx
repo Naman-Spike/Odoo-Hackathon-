@@ -12,10 +12,10 @@ interface LeaveListProps {
 export const LeaveList: React.FC<LeaveListProps> = ({ leaves, showEmployee = false }) => {
   if (!leaves || leaves.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center p-12 text-zinc-500 bg-white/[0.02] rounded-2xl border border-dashed border-white/10">
-        <CalendarOff className="w-10 h-10 mb-3 text-zinc-600" />
-        <h4 className="text-sm font-bold text-white">No leave records logged</h4>
-        <p className="text-xs text-zinc-500 font-mono mt-0.5">No requests matching the selected filter.</p>
+      <div className="flex flex-col items-center justify-center p-12 text-zinc-400 bg-zinc-50 rounded-2xl border border-dashed border-zinc-200">
+        <CalendarOff className="w-10 h-10 mb-3 text-zinc-300" />
+        <h4 className="text-sm font-bold text-zinc-700">No leave records logged</h4>
+        <p className="text-xs text-zinc-400 font-mono mt-0.5">No requests matching the selected filter.</p>
       </div>
     );
   }
@@ -34,7 +34,7 @@ export const LeaveList: React.FC<LeaveListProps> = ({ leaves, showEmployee = fal
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
                 <div className="space-y-2 flex-1">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="px-2.5 py-0.5 text-xs font-mono font-bold rounded-lg bg-white/[0.06] text-white border border-white/10">
+                    <span className="px-2.5 py-0.5 text-xs font-mono font-bold rounded-lg bg-zinc-100 text-zinc-900 border border-zinc-200">
                       {leave.leaveType} LEAVE
                     </span>
                     <Badge variant={
@@ -46,10 +46,10 @@ export const LeaveList: React.FC<LeaveListProps> = ({ leaves, showEmployee = fal
                     
                     {showEmployee && (
                       <div className="flex items-center gap-1.5 ml-2">
-                        <div className="w-5 h-5 rounded-md bg-white text-black font-bold text-[9px] flex items-center justify-center">
+                        <div className="w-5 h-5 rounded-md bg-black text-white font-bold text-[9px] flex items-center justify-center">
                           {getInitials(empName, '')}
                         </div>
-                        <span className="text-xs font-bold text-white">
+                        <span className="text-xs font-bold text-zinc-900">
                           {empName}
                         </span>
                         <span className="text-[10px] text-zinc-500 font-mono">({leave.user?.employeeId || 'EMP'})</span>
@@ -57,27 +57,27 @@ export const LeaveList: React.FC<LeaveListProps> = ({ leaves, showEmployee = fal
                     )}
                   </div>
                   
-                  <div className="flex items-center text-xs text-zinc-400 gap-4 pt-1 font-mono">
-                    <div className="flex items-center gap-1.5 font-semibold text-zinc-200">
+                  <div className="flex items-center text-xs text-zinc-500 gap-4 pt-1 font-mono">
+                    <div className="flex items-center gap-1.5 font-semibold text-zinc-800">
                       <CalendarIcon className="w-3.5 h-3.5 text-zinc-400" />
                       {formatDate(leave.startDate)} — {formatDate(leave.endDate)}
                     </div>
                     <div className="flex items-center gap-1 text-zinc-500">
-                      <Clock className="w-3.5 h-3.5 text-zinc-500" />
+                      <Clock className="w-3.5 h-3.5 text-zinc-400" />
                       {days} Day{days > 1 ? 's' : ''}
                     </div>
                   </div>
 
-                  <div className="flex items-start gap-2 text-xs text-zinc-300 mt-2 bg-black/40 p-2.5 rounded-xl border border-white/[0.08] font-mono">
-                    <FileText className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-zinc-500" />
+                  <div className="flex items-start gap-2 text-xs text-zinc-700 mt-2 bg-zinc-50 p-2.5 rounded-xl border border-zinc-200/80 font-mono">
+                    <FileText className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-zinc-400" />
                     <p className="leading-relaxed">{leave.reason}</p>
                   </div>
                 </div>
 
                 {leave.adminRemarks && (
-                  <div className="sm:w-1/3 bg-white/[0.02] p-3 rounded-xl text-xs border-l-2 border-white/40">
-                    <p className="font-mono font-bold text-zinc-400 text-[10px] uppercase tracking-wider mb-1">HR Remarks:</p>
-                    <p className="text-zinc-300 italic font-mono">"{leave.adminRemarks}"</p>
+                  <div className="sm:w-1/3 bg-zinc-50 p-3 rounded-xl text-xs border-l-2 border-zinc-900">
+                    <p className="font-mono font-bold text-zinc-500 text-[10px] uppercase tracking-wider mb-1">HR Remarks:</p>
+                    <p className="text-zinc-700 italic font-mono">"{leave.adminRemarks}"</p>
                     {leave.reviewer?.profile && (
                       <p className="text-[10px] text-zinc-500 mt-1.5 text-right font-mono">
                         — {leave.reviewer.profile.firstName} {leave.reviewer.profile.lastName}

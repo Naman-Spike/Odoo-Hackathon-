@@ -19,16 +19,16 @@ export const LeaveApprovalCard: React.FC<LeaveApprovalCardProps> = ({ leave, onA
   const empName = profile ? `${profile.firstName} ${profile.lastName}` : 'Staff Member';
 
   return (
-    <Card hoverEffect className="border-l-4 border-l-white border-white/10 shadow-liquid overflow-hidden">
+    <Card hoverEffect className="border-l-4 border-l-black border-zinc-200 shadow-liquid overflow-hidden">
       <CardContent className="p-5 sm:p-6">
         <div className="flex flex-col lg:flex-row gap-6">
           <div className="flex-1 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="h-9 w-9 rounded-xl bg-white text-black flex items-center justify-center font-bold text-xs shadow-specular">
+              <div className="h-9 w-9 rounded-xl bg-black text-white flex items-center justify-center font-bold text-xs shadow-sm">
                 {getInitials(empName, '')}
               </div>
               <div>
-                <h4 className="font-bold text-white text-sm">{empName}</h4>
+                <h4 className="font-bold text-zinc-900 text-sm">{empName}</h4>
                 <p className="text-[10px] text-zinc-500 font-mono">
                   {leave.user?.employeeId || 'EMP'} • {profile?.department || 'General'}
                 </p>
@@ -36,31 +36,31 @@ export const LeaveApprovalCard: React.FC<LeaveApprovalCardProps> = ({ leave, onA
             </div>
 
             <div className="flex flex-wrap items-center gap-2.5 text-xs font-mono">
-              <span className="px-2.5 py-0.5 rounded-lg bg-white/[0.08] text-white font-bold border border-white/15">
+              <span className="px-2.5 py-0.5 rounded-lg bg-zinc-100 text-zinc-900 font-bold border border-zinc-200">
                 {leave.leaveType} LEAVE
               </span>
-              <span className="flex items-center text-zinc-300 gap-1 font-semibold">
-                <Calendar className="w-3.5 h-3.5 text-zinc-400" />
+              <span className="flex items-center text-zinc-700 gap-1 font-semibold">
+                <Calendar className="w-3.5 h-3.5 text-zinc-500" />
                 {formatDate(leave.startDate)} to {formatDate(leave.endDate)}
               </span>
-              <span className="text-zinc-400 bg-white/[0.04] px-2 py-0.5 rounded-md text-[11px]">
+              <span className="text-zinc-500 bg-zinc-100 px-2 py-0.5 rounded-md text-[11px]">
                 {days} Day{days > 1 ? 's' : ''}
               </span>
             </div>
 
-            <div className="bg-black/40 p-3 rounded-xl text-xs text-zinc-300 flex gap-2 border border-white/[0.08] font-mono">
-              <FileText className="w-4 h-4 mt-0.5 flex-shrink-0 text-zinc-500" />
+            <div className="bg-zinc-50 p-3 rounded-xl text-xs text-zinc-700 flex gap-2 border border-zinc-200/80 font-mono">
+              <FileText className="w-4 h-4 mt-0.5 flex-shrink-0 text-zinc-400" />
               <p className="leading-relaxed">{leave.reason}</p>
             </div>
           </div>
 
-          <div className="lg:w-80 flex flex-col justify-between space-y-3 pt-2 lg:pt-0 lg:border-l lg:border-white/[0.08] lg:pl-6">
+          <div className="lg:w-80 flex flex-col justify-between space-y-3 pt-2 lg:pt-0 lg:border-l lg:border-zinc-200/80 lg:pl-6">
             <div>
-              <label className="block text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-400 mb-1">
+              <label className="block text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-600 mb-1">
                 Administrative Notes
               </label>
               <textarea
-                className="w-full text-xs border border-white/10 rounded-xl focus:ring-1 focus:ring-white/40 focus:border-white/40 p-2.5 bg-black/40 text-white placeholder:text-zinc-600 resize-none transition-colors font-mono"
+                className="w-full text-xs border border-zinc-200 rounded-xl focus:ring-2 focus:ring-black/10 focus:border-black p-2.5 bg-white/90 text-zinc-900 placeholder:text-zinc-400 resize-none transition-colors font-mono"
                 placeholder="Optional remarks for applicant..."
                 rows={2}
                 value={remarks}

@@ -81,7 +81,7 @@ export const LeaveForm: React.FC<LeaveFormProps> = ({ onSubmit, onCancel, balanc
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       {error && (
-        <div className="p-3.5 bg-rose-950/40 border border-rose-500/30 text-rose-300 rounded-xl text-xs font-mono">
+        <div className="p-3.5 bg-rose-50 border border-rose-200 text-rose-700 rounded-xl text-xs font-mono">
           {error}
         </div>
       )}
@@ -116,24 +116,24 @@ export const LeaveForm: React.FC<LeaveFormProps> = ({ onSubmit, onCancel, balanc
       </div>
 
       {days > 0 && (
-        <div className="flex items-center text-xs font-mono text-zinc-300 bg-white/[0.04] p-3 rounded-xl border border-white/10">
-          <Info className="w-4 h-4 mr-2 flex-shrink-0 text-white" />
+        <div className="flex items-center text-xs font-mono text-zinc-700 bg-zinc-50 p-3 rounded-xl border border-zinc-200">
+          <Info className="w-4 h-4 mr-2 flex-shrink-0 text-black" />
           <span>Applying for <strong>{days} calendar day{days > 1 ? 's' : ''}</strong> of leave.</span>
         </div>
       )}
 
       {warning && (
-        <div className="flex items-center text-xs font-mono text-zinc-300 bg-zinc-900 p-3 rounded-xl border border-zinc-700">
-          <AlertTriangle className="w-4 h-4 mr-2 flex-shrink-0 text-white" />
+        <div className="flex items-center text-xs font-mono text-zinc-800 bg-amber-50 p-3 rounded-xl border border-amber-200">
+          <AlertTriangle className="w-4 h-4 mr-2 flex-shrink-0 text-amber-600" />
           <span>{warning}</span>
         </div>
       )}
 
       <div className="space-y-1.5">
-        <label className="block text-[11px] font-mono font-bold text-zinc-400 uppercase tracking-wider">Reason for Request</label>
+        <label className="block text-[11px] font-mono font-bold text-zinc-600 uppercase tracking-wider">Reason for Request</label>
         <div className="relative">
           <textarea
-            className="block w-full px-3.5 py-2.5 border border-white/10 rounded-xl bg-black/40 text-white placeholder:text-zinc-600 focus:bg-black/60 focus:outline-none focus:ring-1 focus:ring-white/40 focus:border-white/40 text-xs h-24 resize-none transition-all shadow-inner font-mono"
+            className="block w-full px-3.5 py-2.5 border border-zinc-200 rounded-xl bg-white/90 text-zinc-900 placeholder:text-zinc-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-black/10 focus:border-black text-xs h-24 resize-none transition-all shadow-sm font-mono"
             value={reason}
             onChange={(e) => setReason(e.target.value)}
             placeholder="Provide context for HR review..."
@@ -143,7 +143,7 @@ export const LeaveForm: React.FC<LeaveFormProps> = ({ onSubmit, onCancel, balanc
         </div>
       </div>
 
-      <div className="flex justify-end gap-3 pt-4 border-t border-white/10">
+      <div className="flex justify-end gap-3 pt-4 border-t border-zinc-100">
         <Button variant="ghost" type="button" onClick={onCancel} disabled={isSubmitting}>
           Cancel
         </Button>
