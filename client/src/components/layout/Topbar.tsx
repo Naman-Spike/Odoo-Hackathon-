@@ -19,12 +19,12 @@ export const Topbar: React.FC<TopbarProps> = ({ title, onMenuClick }) => {
   }, []);
 
   return (
-    <header className="sticky top-0 z-20 h-16 bg-obsidian-950/70 backdrop-blur-2xl border-b border-white/[0.08] flex items-center justify-between px-4 sm:px-6 lg:px-8 specular-highlight">
+    <header className="sticky top-0 z-20 h-16 bg-white/80 backdrop-blur-2xl border-b border-zinc-200/80 flex items-center justify-between px-4 sm:px-6 lg:px-8 specular-highlight">
       {/* Left Area: Mobile Menu & Breadcrumb Title */}
       <div className="flex items-center gap-3">
         <button
           type="button"
-          className="lg:hidden p-2 text-zinc-400 hover:text-white hover:bg-white/10 rounded-xl transition-colors cursor-pointer"
+          className="lg:hidden p-2 text-zinc-500 hover:text-black hover:bg-zinc-100 rounded-xl transition-colors cursor-pointer"
           onClick={onMenuClick}
         >
           <span className="sr-only">Open sidebar</span>
@@ -32,29 +32,29 @@ export const Topbar: React.FC<TopbarProps> = ({ title, onMenuClick }) => {
         </button>
 
         <div>
-          <div className="flex items-center gap-2 text-[10px] text-zinc-500 font-mono uppercase tracking-wider">
+          <div className="flex items-center gap-2 text-[10px] text-zinc-400 font-mono uppercase tracking-wider">
             <span>Dayflow</span>
             <span>/</span>
-            <span className="text-zinc-300 font-semibold">{isAdmin ? 'Admin Console' : 'Staff Portal'}</span>
+            <span className="text-zinc-700 font-semibold">{isAdmin ? 'Admin Console' : 'Staff Portal'}</span>
           </div>
-          <h1 className="text-sm sm:text-base font-extrabold text-white leading-tight tracking-tight">{title}</h1>
+          <h1 className="text-sm sm:text-base font-extrabold text-zinc-900 leading-tight tracking-tight">{title}</h1>
         </div>
       </div>
 
       {/* Right Area: Time, Notifications, User info */}
       <div className="flex items-center space-x-3 sm:space-x-4">
         {/* Live Digital Clock Chip */}
-        <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-zinc-300 text-xs font-mono backdrop-blur-md">
-          <Clock className="w-3.5 h-3.5 text-zinc-400" />
+        <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-zinc-100/80 border border-zinc-200/80 text-zinc-700 text-xs font-mono backdrop-blur-md">
+          <Clock className="w-3.5 h-3.5 text-zinc-500" />
           <span>{time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
         </div>
 
         {/* User Greeting */}
         <div className="hidden md:flex flex-col items-end">
-          <span className="text-xs text-zinc-300">
-            {user?.profile?.firstName} <span className="font-bold text-white">{user?.profile?.lastName}</span>
+          <span className="text-xs text-zinc-600">
+            {user?.profile?.firstName} <span className="font-bold text-zinc-900">{user?.profile?.lastName}</span>
           </span>
-          <span className="text-[10px] text-zinc-500 font-mono">
+          <span className="text-[10px] text-zinc-400 font-mono">
             {user?.employeeId || 'EMP'}
           </span>
         </div>
@@ -65,14 +65,14 @@ export const Topbar: React.FC<TopbarProps> = ({ title, onMenuClick }) => {
         </Badge>
         
         {/* Notification Bell */}
-        <button className="relative p-2 text-zinc-400 hover:text-white hover:bg-white/10 rounded-xl transition-colors cursor-pointer">
+        <button className="relative p-2 text-zinc-500 hover:text-black hover:bg-zinc-100 rounded-xl transition-colors cursor-pointer">
           <span className="sr-only">View notifications</span>
           <Bell className="h-4 w-4" />
-          <span className="absolute top-2 right-2 block h-1.5 w-1.5 rounded-full bg-white ring-2 ring-black" />
+          <span className="absolute top-2 right-2 block h-1.5 w-1.5 rounded-full bg-black ring-2 ring-white" />
         </button>
 
         {/* Mobile Avatar Circle */}
-        <div className="h-8 w-8 rounded-xl bg-white text-black flex items-center justify-center font-bold text-xs shadow-specular md:hidden">
+        <div className="h-8 w-8 rounded-xl bg-black text-white flex items-center justify-center font-bold text-xs shadow-sm md:hidden">
           {getInitials(user?.profile?.firstName || 'U', user?.profile?.lastName || '')}
         </div>
       </div>

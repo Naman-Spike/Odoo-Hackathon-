@@ -21,10 +21,10 @@ export const AppLayout: React.FC = () => {
   }, [location]);
 
   return (
-    <div className="min-h-screen bg-obsidian-950 text-zinc-100 relative overflow-x-hidden selection:bg-white selection:text-black">
-      {/* Liquid Ambient Light Elements */}
-      <div className="fixed top-0 left-1/4 w-[600px] h-[300px] bg-white/[0.025] blur-[150px] rounded-full pointer-events-none -translate-y-1/2" />
-      <div className="fixed bottom-0 right-1/4 w-[500px] h-[400px] bg-white/[0.015] blur-[160px] rounded-full pointer-events-none translate-y-1/3" />
+    <div className="min-h-screen bg-[#fafbfc] text-zinc-900 relative overflow-x-hidden selection:bg-black selection:text-white">
+      {/* Light Crystal Ambient Glow Elements */}
+      <div className="fixed top-0 left-1/4 w-[600px] h-[300px] bg-blue-50/40 blur-[150px] rounded-full pointer-events-none -translate-y-1/2" />
+      <div className="fixed bottom-0 right-1/4 w-[500px] h-[400px] bg-zinc-100/60 blur-[160px] rounded-full pointer-events-none translate-y-1/3" />
       
       <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
       
