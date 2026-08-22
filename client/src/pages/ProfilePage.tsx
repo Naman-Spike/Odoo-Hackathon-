@@ -33,11 +33,11 @@ export default function ProfilePage() {
         setEmployees(res.data || []);
       } else {
         const res = await api.get('/profile/me');
-        setViewingProfile(res.data.profile || {});
+        setViewingProfile(res.data || {});
         setViewingUser({
-          employeeId: res.data.employeeId,
-          email: res.data.email,
-          role: res.data.role
+          employeeId: res.data.user?.employeeId || user?.employeeId || 'EMP',
+          email: res.data.user?.email || user?.email || '',
+          role: res.data.user?.role || user?.role || 'EMPLOYEE'
         });
       }
     } catch (err) {
@@ -89,7 +89,7 @@ export default function ProfilePage() {
         if (updated) setViewingProfile(updated);
       } else {
         const res = await api.get('/profile/me');
-        setViewingProfile(res.data.profile);
+        setViewingProfile(res.data);
       }
     } catch (err) {
       showToast('Failed to update profile', 'error');

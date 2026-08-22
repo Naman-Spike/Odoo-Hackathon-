@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { Topbar } from './Topbar';
+import { AICopilotDrawer } from '../ai/AICopilotDrawer';
 
 export const AppLayout: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -40,6 +41,9 @@ export const AppLayout: React.FC = () => {
           </div>
         </main>
       </div>
+
+      {/* Global AI Copilot Floating Assistant */}
+      <AICopilotDrawer />
     </div>
   );
 };
