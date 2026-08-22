@@ -3,7 +3,7 @@ import { LucideIcon } from 'lucide-react';
 import { classNames } from '../../lib/utils';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'danger' | 'success' | 'ghost' | 'outline' | 'gradient';
+  variant?: 'primary' | 'secondary' | 'danger' | 'success' | 'ghost' | 'outline' | 'gradient' | 'glass';
   size?: 'sm' | 'md' | 'lg';
   isLoading?: boolean;
   icon?: LucideIcon;
@@ -19,16 +19,22 @@ export const Button: React.FC<ButtonProps> = ({
   disabled,
   ...props
 }) => {
-  const baseStyles = 'inline-flex items-center justify-center font-semibold rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 active:scale-[0.98] disabled:active:scale-100';
+  const baseStyles = 'inline-flex items-center justify-center font-semibold rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-obsidian-950 active:scale-[0.98] disabled:active:scale-100 cursor-pointer';
   
   const variants = {
-    primary: 'bg-indigo-600 text-white hover:bg-indigo-700 shadow-sm hover:shadow focus:ring-indigo-500',
-    gradient: 'bg-gradient-to-r from-indigo-600 via-indigo-700 to-purple-600 text-white hover:opacity-95 shadow-md hover:shadow-glow focus:ring-indigo-500',
-    secondary: 'bg-slate-100 text-slate-700 hover:bg-slate-200 hover:text-slate-900 focus:ring-slate-400',
-    success: 'bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm hover:shadow focus:ring-emerald-500',
-    danger: 'bg-rose-600 text-white hover:bg-rose-700 shadow-sm hover:shadow focus:ring-rose-500',
-    ghost: 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 focus:ring-slate-400',
-    outline: 'border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 hover:border-slate-300 shadow-sm focus:ring-indigo-500'
+    // Pure stark white button on dark glass
+    primary: 'bg-white text-black hover:bg-zinc-200 shadow-[0_0_20px_-5px_rgba(255,255,255,0.4)] focus:ring-white border border-white',
+    // Liquid glass gradient
+    gradient: 'bg-gradient-to-b from-white/95 to-zinc-200 text-black hover:from-white hover:to-zinc-300 shadow-[0_4px_20px_-2px_rgba(255,255,255,0.35)] focus:ring-white border border-white',
+    // Liquid Glass Translucent
+    glass: 'bg-white/[0.06] hover:bg-white/[0.12] text-white border border-white/15 backdrop-blur-xl shadow-specular hover:shadow-glow-white focus:ring-white/50',
+    // Dark secondary
+    secondary: 'bg-white/[0.08] text-zinc-200 hover:bg-white/[0.14] hover:text-white border border-white/10 focus:ring-zinc-400',
+    // Minimalist monochrome states
+    success: 'bg-white text-black hover:bg-zinc-200 border border-white shadow-[0_0_20px_-5px_rgba(255,255,255,0.3)] focus:ring-white',
+    danger: 'bg-zinc-900 text-zinc-300 hover:bg-zinc-800 hover:text-white border border-zinc-700 focus:ring-zinc-500',
+    ghost: 'text-zinc-400 hover:bg-white/[0.06] hover:text-white focus:ring-white/20',
+    outline: 'border border-white/20 bg-black/40 hover:bg-white/[0.08] text-white shadow-sm backdrop-blur-md focus:ring-white/40'
   };
 
   const sizes = {
@@ -43,7 +49,7 @@ export const Button: React.FC<ButtonProps> = ({
         baseStyles,
         variants[variant],
         sizes[size],
-        (disabled || isLoading) ? 'opacity-50 cursor-not-allowed shadow-none' : '',
+        (disabled || isLoading) ? 'opacity-40 cursor-not-allowed shadow-none' : '',
         className
       )}
       disabled={disabled || isLoading}

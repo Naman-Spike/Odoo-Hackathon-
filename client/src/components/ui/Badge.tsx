@@ -2,39 +2,43 @@ import React from 'react';
 import { classNames } from '../../lib/utils';
 
 export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
-  variant?: 'success' | 'warning' | 'danger' | 'info' | 'default' | 'primary' | 'purple';
+  variant?: 'success' | 'warning' | 'danger' | 'info' | 'default' | 'primary' | 'purple' | 'glass';
   dot?: boolean;
 }
 
 export const Badge: React.FC<BadgeProps> = ({ variant = 'default', dot = true, className, children, ...props }) => {
   const variants: Record<string, { bg: string; dot: string }> = {
     success: {
-      bg: 'bg-emerald-50 text-emerald-700 border-emerald-200/80 ring-1 ring-emerald-500/10',
-      dot: 'bg-emerald-500'
+      bg: 'bg-white/10 text-white border-white/20 shadow-specular',
+      dot: 'bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)]'
     },
     warning: {
-      bg: 'bg-amber-50 text-amber-700 border-amber-200/80 ring-1 ring-amber-500/10',
-      dot: 'bg-amber-500'
+      bg: 'bg-zinc-800/80 text-zinc-200 border-zinc-700/80',
+      dot: 'bg-zinc-400'
     },
     danger: {
-      bg: 'bg-rose-50 text-rose-700 border-rose-200/80 ring-1 ring-rose-500/10',
-      dot: 'bg-rose-500'
+      bg: 'bg-zinc-900/90 text-zinc-300 border-zinc-700',
+      dot: 'bg-zinc-500'
     },
     info: {
-      bg: 'bg-sky-50 text-sky-700 border-sky-200/80 ring-1 ring-sky-500/10',
-      dot: 'bg-sky-500'
+      bg: 'bg-white/[0.08] text-zinc-200 border-white/15',
+      dot: 'bg-zinc-300'
     },
     primary: {
-      bg: 'bg-indigo-50 text-indigo-700 border-indigo-200/80 ring-1 ring-indigo-500/10',
-      dot: 'bg-indigo-500'
+      bg: 'bg-white text-black font-bold border-white shadow-[0_0_15px_-3px_rgba(255,255,255,0.4)]',
+      dot: 'bg-black'
     },
     purple: {
-      bg: 'bg-purple-50 text-purple-700 border-purple-200/80 ring-1 ring-purple-500/10',
-      dot: 'bg-purple-500'
+      bg: 'bg-white/15 text-white border-white/25 shadow-specular',
+      dot: 'bg-white'
+    },
+    glass: {
+      bg: 'bg-white/[0.06] text-zinc-200 border-white/15 backdrop-blur-md',
+      dot: 'bg-white/80'
     },
     default: {
-      bg: 'bg-slate-100 text-slate-700 border-slate-200/80 ring-1 ring-slate-500/10',
-      dot: 'bg-slate-400'
+      bg: 'bg-zinc-900/80 text-zinc-300 border-zinc-800',
+      dot: 'bg-zinc-500'
     }
   };
 
@@ -43,14 +47,14 @@ export const Badge: React.FC<BadgeProps> = ({ variant = 'default', dot = true, c
   return (
     <span 
       className={classNames(
-        "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold border transition-colors",
+        "inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-semibold border backdrop-blur-md transition-colors tracking-tight",
         currentVariant.bg,
         className
       )}
       {...props}
     >
       {dot && (
-        <span className={classNames("w-1.5 h-1.5 rounded-full mr-1.5 animate-pulse-subtle", currentVariant.dot)} />
+        <span className={classNames("w-1.5 h-1.5 rounded-full mr-1.5", currentVariant.dot)} />
       )}
       {children}
     </span>
