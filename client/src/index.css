@@ -6,13 +6,14 @@
 
 @layer base {
   body {
-    @apply bg-zinc-50 text-zinc-900 antialiased font-sans selection:bg-black selection:text-white;
+    @apply bg-[#fafbfc] text-zinc-900 antialiased font-sans selection:bg-black selection:text-white;
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-    background-color: #fafbfc;
+    background-color: #f8fafc;
     background-image: 
-      radial-gradient(circle at 10% 10%, rgba(240, 243, 248, 0.9) 0%, transparent 45%),
-      radial-gradient(circle at 90% 90%, rgba(243, 245, 249, 0.8) 0%, transparent 50%),
-      radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.6) 0%, transparent 60%);
+      radial-gradient(circle at 15% 15%, rgba(224, 242, 254, 0.45) 0%, transparent 40%),
+      radial-gradient(circle at 85% 20%, rgba(243, 232, 255, 0.35) 0%, transparent 45%),
+      radial-gradient(circle at 50% 80%, rgba(238, 242, 255, 0.4) 0%, transparent 50%),
+      radial-gradient(circle at 85% 85%, rgba(240, 253, 250, 0.4) 0%, transparent 40%);
     background-attachment: fixed;
     min-height: 100vh;
   }
@@ -22,47 +23,75 @@
   }
 }
 
+@keyframes liquidFloat {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-12px) scale(1.02); }
+}
+
+@keyframes liquidPulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.65; }
+}
+
 @layer utilities {
   .transition-smooth {
     @apply transition-all duration-200 ease-out;
   }
 
-  /* White Crystal Liquid Glass Styles */
+  /* Ultimate White Crystal Liquid Glass Tokens */
   .liquid-glass {
-    background: rgba(255, 255, 255, 0.75);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(228, 228, 231, 0.8);
-    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.95);
-  }
-
-  .liquid-glass-subtle {
-    background: rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(228, 228, 231, 0.6);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.78) 0%, rgba(255, 255, 255, 0.58) 100%);
+    backdrop-filter: blur(28px) saturate(180%);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    box-shadow: 
+      0 16px 36px -8px rgba(0, 0, 0, 0.04),
+      0 4px 12px -2px rgba(0, 0, 0, 0.02),
+      inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.95),
+      inset 0 -1px 1px 0 rgba(0, 0, 0, 0.02);
   }
 
   .liquid-glass-card {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.65) 100%);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(228, 228, 231, 0.8);
-    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.04), 0 1px 3px 0 rgba(0, 0, 0, 0.02), inset 0 1px 0 rgba(255, 255, 255, 1);
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.62) 100%);
+    backdrop-filter: blur(32px) saturate(190%);
+    -webkit-backdrop-filter: blur(32px) saturate(190%);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 
+      0 20px 40px -12px rgba(0, 0, 0, 0.05),
+      0 6px 16px -4px rgba(0, 0, 0, 0.02),
+      inset 0 1.5px 1.5px 0 rgba(255, 255, 255, 1),
+      inset 0 -1px 1px 0 rgba(0, 0, 0, 0.02);
+  }
+
+  .liquid-glass-card:hover {
+    box-shadow: 
+      0 24px 48px -12px rgba(0, 0, 0, 0.08),
+      0 8px 24px -4px rgba(0, 0, 0, 0.04),
+      inset 0 1.5px 1.5px 0 rgba(255, 255, 255, 1);
+  }
+
+  .liquid-glass-subtle {
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.9);
   }
 
   .liquid-glass-header {
     background: rgba(255, 255, 255, 0.82);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border-bottom: 1px solid rgba(228, 228, 231, 0.8);
+    backdrop-filter: blur(30px) saturate(190%);
+    -webkit-backdrop-filter: blur(30px) saturate(190%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.02);
   }
 
   .liquid-glass-pill {
-    background: rgba(244, 244, 245, 0.8);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(228, 228, 231, 0.8);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.85) 0%, rgba(244, 244, 245, 0.7) 100%);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 1), 0 2px 6px rgba(0, 0, 0, 0.02);
   }
 
   .specular-highlight {
@@ -77,50 +106,77 @@
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.95) 50%, transparent 100%);
+    pointer-events: none;
+  }
+
+  .glass-sheen {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .glass-sheen::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      45deg,
+      transparent 40%,
+      rgba(255, 255, 255, 0.25) 50%,
+      transparent 60%
+    );
+    transform: rotate(35deg) translateY(-100%);
+    transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+  }
+
+  .glass-sheen:hover::before {
+    transform: rotate(35deg) translateY(100%);
+  }
+
+  .animate-liquid-float {
+    animation: liquidFloat 8s ease-in-out infinite;
+  }
+
+  .animate-liquid-pulse {
+    animation: liquidPulse 6s ease-in-out infinite;
   }
 }
 
-/* Custom Scrollbar for White Theme */
+/* Custom Ultra-Clean Scrollbar */
 ::-webkit-scrollbar {
   width: 5px;
   height: 5px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.03);
+  background: rgba(0, 0, 0, 0.02);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.15);
+  background: rgba(0, 0, 0, 0.12);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(0, 0, 0, 0.22);
 }
 
-/* Print Styles for Payslips */
+/* Print Styles */
 @media print {
   body {
     background: white !important;
-    color: black !important;
+    background-image: none !important;
   }
-  aside, header, nav, button, .print\:hidden {
-    display: none !important;
-  }
-  main, .print\:m-0 {
-    margin: 0 !important;
-    padding: 0 !important;
-    width: 100% !important;
-  }
-  #salary-slip {
+  
+  .liquid-glass, .liquid-glass-card, .liquid-glass-header {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
     background: white !important;
-    color: black !important;
-    border: none !important;
     box-shadow: none !important;
-    padding: 0 !important;
-    width: 100% !important;
-    max-width: 100% !important;
+    border: 1px solid #e4e4e7 !important;
   }
 }
