@@ -6,6 +6,7 @@ import profileRoutes from './routes/profile.routes.js';
 import attendanceRoutes from './routes/attendance.routes.js';
 import leaveRoutes from './routes/leave.routes.js';
 import payrollRoutes from './routes/payroll.routes.js';
+import aiRoutes from './routes/ai.routes.js';
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use('/api/profile', profileRoutes);
 app.use('/api/attendance', attendanceRoutes);
 app.use('/api/leaves', leaveRoutes);
 app.use('/api/payroll', payrollRoutes);
+app.use('/api/ai', aiRoutes);
 
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
   console.error(err.stack);
