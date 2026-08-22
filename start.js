@@ -1,15 +1,17 @@
 const { spawn, execSync } = require('child_process');
 const path = require('path');
+const fs = require('fs');
 
 const rootDir = __dirname;
 const isWindows = process.platform === 'win32';
 const npmCmd = isWindows ? 'npm.cmd' : 'npm';
+const npxCmd = isWindows ? 'npx.cmd' : 'npx';
 
 console.log('========================================================');
 console.log('         🚀 DAYFLOW HRMS - INITIALIZING SERVICES        ');
 console.log('========================================================');
 
-// Automatically free ports 5000 and 5173 if held by an old process
+// 1. Auto-cleanup any old process holding port 5000 or 5173
 if (isWindows) {
   [5000, 5173].forEach(port => {
     try {
@@ -28,18 +30,46 @@ if (isWindows) {
   });
 }
 
-// 1. Start Server
-console.log('Starting Backend Server on port 5000...');
+// 2. Auto-install server dependencies and seed database if downloaded fresh from GitHub ZIP
+const serverDir = path.join(rootDir, 'server');
+const serverModules = path.join(serverDir, 'node_modules');
+if (!fs.existsSync(serverModules)) {
+  console.log('\n📦 Installing Backend Dependencies (First-Time Setup)...');
+  try {
+    execSync(`${npmCmd} install`, { cwd: serverDir, stdio: 'inherit' });
+    console.log('🗄️ Setting up SQLite database & seeding demo accounts...');
+    execSync(`${npxCmd} prisma generate`, { cwd: serverDir, stdio: 'inherit' });
+    execSync(`${npxCmd} prisma migrate dev --name init`, { cwd: serverDir, stdio: 'inherit' });
+    execSync(`${npmCmd} run db:seed`, { cwd: serverDir, stdio: 'inherit' });
+  } catch (err) {
+    console.error('Backend setup error:', err);
+  }
+}
+
+// 3. Auto-install client dependencies if downloaded fresh from GitHub ZIP
+const clientDir = path.join(rootDir, 'client');
+const clientModules = path.join(clientDir, 'node_modules');
+if (!fs.existsSync(clientModules)) {
+  console.log('\n📦 Installing Frontend Dependencies (First-Time Setup)...');
+  try {
+    execSync(`${npmCmd} install`, { cwd: clientDir, stdio: 'inherit' });
+  } catch (err) {
+    console.error('Frontend setup error:', err);
+  }
+}
+
+// 4. Start Server
+console.log('\n🚀 Starting Backend Server on http://localhost:5000 ...');
 const serverProcess = spawn(npmCmd, ['run', 'dev'], {
-  cwd: path.join(rootDir, 'server'),
+  cwd: serverDir,
   stdio: 'inherit',
   shell: true
 });
 
-// 2. Start Client
-console.log('Starting Frontend Client on port 5173...');
+// 5. Start Client
+console.log('🌐 Starting Frontend Client on http://localhost:5173 ...\n');
 const clientProcess = spawn(npmCmd, ['run', 'dev'], {
-  cwd: path.join(rootDir, 'client'),
+  cwd: clientDir,
   stdio: 'inherit',
   shell: true
 });
