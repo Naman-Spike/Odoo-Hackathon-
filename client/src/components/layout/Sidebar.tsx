@@ -11,12 +11,10 @@ import {
   CheckSquare, 
   ClipboardList, 
   DollarSign,
-  LogOut,
-  Sparkles
+  LogOut
 } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import { classNames, getInitials } from '../../lib/utils';
-import { Badge } from '../ui/Badge';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -28,16 +26,16 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
 
   const employeeLinks = [
     { name: 'Dashboard', to: '/dashboard', icon: LayoutDashboard },
-    { name: 'My Profile', to: '/profile', icon: User },
-    { name: 'Attendance', to: '/attendance', icon: Clock },
+    { name: 'Personnel Profile', to: '/profile', icon: User },
+    { name: 'Attendance & Logs', to: '/attendance', icon: Clock },
     { name: 'Leave Tracker', to: '/leave', icon: CalendarDays },
-    { name: 'My Payroll', to: '/payroll', icon: Wallet },
+    { name: 'Compensation', to: '/payroll', icon: Wallet },
   ];
 
   const adminLinks = [
-    { name: 'Admin Dashboard', to: '/dashboard', icon: LayoutDashboard },
+    { name: 'Executive Overview', to: '/dashboard', icon: LayoutDashboard },
     { name: 'Employee Directory', to: '/employees', icon: Users },
-    { name: 'Team Attendance', to: '/attendance', icon: CheckSquare },
+    { name: 'Attendance Ledger', to: '/attendance', icon: CheckSquare },
     { name: 'Leave Approvals', to: '/leave/manage', icon: ClipboardList },
     { name: 'Payroll Engine', to: '/payroll/manage', icon: DollarSign },
   ];
@@ -49,34 +47,34 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
       {/* Mobile overlay */}
       {isOpen && (
         <div 
-          className="fixed inset-0 z-30 bg-slate-950/50 backdrop-blur-sm lg:hidden transition-opacity"
+          className="fixed inset-0 z-30 bg-black/80 backdrop-blur-md lg:hidden transition-opacity"
           onClick={() => setIsOpen(false)}
         />
       )}
 
-      {/* Sidebar Shell */}
+      {/* Liquid Glass Sidebar */}
       <aside className={classNames(
-        "fixed inset-y-0 left-0 z-40 w-64 bg-slate-900 text-slate-200 transform transition-transform duration-200 ease-in-out lg:translate-x-0 flex flex-col shadow-xl border-r border-slate-800",
+        "fixed inset-y-0 left-0 z-40 w-64 bg-black/60 backdrop-blur-2xl text-zinc-300 transform transition-transform duration-200 ease-in-out lg:translate-x-0 flex flex-col border-r border-white/[0.08] shadow-[10px_0_40px_rgba(0,0,0,0.6)] specular-highlight",
         isOpen ? "translate-x-0" : "-translate-x-full"
       )}>
         {/* Brand Header */}
-        <div className="h-16 flex items-center justify-between px-6 border-b border-slate-800/80 bg-slate-950/40">
+        <div className="h-16 flex items-center justify-between px-6 border-b border-white/[0.07] bg-white/[0.02]">
           <div className="flex items-center gap-3">
-            <div className="h-9 w-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-500 flex items-center justify-center text-white shadow-glow">
-              <Zap className="h-5 w-5 fill-white" />
+            <div className="h-8 w-8 rounded-xl bg-white flex items-center justify-center text-black shadow-[0_0_15px_rgba(255,255,255,0.4)]">
+              <Zap className="h-4 w-4 fill-black" />
             </div>
             <div>
-              <span className="text-lg font-bold text-white tracking-tight flex items-center gap-1.5">
-                Dayflow <span className="text-[10px] font-semibold text-indigo-400 bg-indigo-950/80 px-1.5 py-0.5 rounded border border-indigo-800/50">PRO</span>
+              <span className="text-base font-extrabold text-white tracking-tight flex items-center gap-1.5 font-sans">
+                Dayflow <span className="text-[9px] font-bold text-zinc-400 bg-white/10 px-1.5 py-0.5 rounded border border-white/10 font-mono">HRMS</span>
               </span>
             </div>
           </div>
         </div>
 
-        {/* Section Title */}
-        <div className="px-5 pt-5 pb-2">
-          <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-            {isAdmin ? 'HR Administration' : 'Workspace'}
+        {/* Section Label */}
+        <div className="px-5 pt-6 pb-2">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 font-mono">
+            {isAdmin ? 'Administration' : 'Workspace'}
           </p>
         </div>
 
@@ -88,21 +86,21 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
               to={link.to}
               onClick={() => setIsOpen(false)}
               className={({ isActive }) => classNames(
-                "flex items-center px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 group relative",
+                "flex items-center px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all duration-150 group relative cursor-pointer",
                 isActive 
-                  ? "bg-indigo-600/20 text-white font-semibold border border-indigo-500/30 shadow-sm" 
-                  : "text-slate-400 hover:bg-slate-800/70 hover:text-slate-100"
+                  ? "bg-white text-black font-bold shadow-[0_0_20px_-3px_rgba(255,255,255,0.35)]" 
+                  : "text-zinc-400 hover:bg-white/[0.05] hover:text-white"
               )}
             >
               {({ isActive }) => (
                 <>
                   <link.icon className={classNames(
-                    "mr-3 flex-shrink-0 h-5 w-5 transition-colors",
-                    isActive ? "text-indigo-400" : "text-slate-400 group-hover:text-slate-200"
+                    "mr-3 flex-shrink-0 h-4 w-4 transition-colors",
+                    isActive ? "text-black" : "text-zinc-500 group-hover:text-white"
                   )} />
-                  <span className="flex-1">{link.name}</span>
+                  <span className="flex-1 tracking-tight">{link.name}</span>
                   {isActive && (
-                    <span className="w-1.5 h-4 bg-indigo-400 rounded-full" />
+                    <span className="w-1.5 h-1.5 bg-black rounded-full" />
                   )}
                 </>
               )}
@@ -110,35 +108,35 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
           ))}
         </nav>
 
-        {/* System Online Status Pill */}
-        <div className="px-4 py-3 mx-3 my-2 rounded-xl bg-slate-950/40 border border-slate-800/60 flex items-center justify-between">
+        {/* Liquid Glass Status Pill */}
+        <div className="px-4 py-3 mx-3 my-2 rounded-xl bg-white/[0.02] border border-white/[0.06] flex items-center justify-between text-xs">
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-            <span className="text-xs text-slate-300 font-medium">All systems normal</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+            <span className="text-[11px] text-zinc-400 font-medium">Node Sync Active</span>
           </div>
-          <span className="text-[10px] text-slate-500 font-mono">v1.2</span>
+          <span className="text-[10px] text-zinc-600 font-mono">v1.2</span>
         </div>
 
         {/* User Card at Bottom */}
         {user && (
-          <div className="p-3 border-t border-slate-800/80 bg-slate-950/60">
-            <div className="flex items-center gap-3 p-2 rounded-xl bg-slate-900/80 border border-slate-800">
+          <div className="p-3 border-t border-white/[0.07] bg-white/[0.01]">
+            <div className="flex items-center gap-3 p-2 rounded-xl bg-white/[0.03] border border-white/[0.06]">
               <div className="flex-shrink-0">
-                <div className="h-9 w-9 rounded-lg bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-sm shadow-sm ring-2 ring-indigo-400/20">
+                <div className="h-8 w-8 rounded-lg bg-white text-black flex items-center justify-center font-bold text-xs shadow-specular">
                   {getInitials(user.profile?.firstName || 'U', user.profile?.lastName || '')}
                 </div>
               </div>
               <div className="min-w-0 flex-1">
-                <p className="text-xs font-semibold text-white truncate">
+                <p className="text-xs font-bold text-white truncate">
                   {user.profile?.firstName} {user.profile?.lastName}
                 </p>
-                <p className="text-[10px] text-slate-400 truncate">
+                <p className="text-[10px] text-zinc-500 truncate font-mono">
                   {user.profile?.designation || user.email}
                 </p>
               </div>
               <button 
                 onClick={logout}
-                className="p-1.5 text-slate-400 hover:text-rose-400 hover:bg-rose-950/40 rounded-lg transition-colors"
+                className="p-1.5 text-zinc-500 hover:text-white hover:bg-white/10 rounded-lg transition-colors cursor-pointer"
                 title="Sign out"
               >
                 <LogOut className="h-4 w-4" />
