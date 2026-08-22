@@ -1,0 +1,91 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id           String   @id @default(uuid())
+  employeeId   String   @unique @map("employee_id")
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  role         String   @default("EMPLOYEE") // ADMIN | EMPLOYEE
+  isVerified   Boolean  @default(true) @map("is_verified")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  profile    Profile?
+  attendance Attendance[]
+  leaves     Leave[]
+  payroll    Payroll?
+  reviewedLeaves Leave[] @relation("ReviewedLeaves")
+
+  @@map("users")
+}
+
+model Profile {
+  id          String   @id @default(uuid())
+  userId      String   @unique @map("user_id")
+  firstName   String   @map("first_name")
+  lastName    String   @map("last_name")
+  phone       String   @default("")
+  address     String   @default("")
+  avatarUrl   String   @default("") @map("avatar_url")
+  department  String   @default("")
+  designation String   @default("")
+  joiningDate DateTime @default(now()) @map("joining_date")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("profiles")
+}
+
+model Attendance {
+  id         String    @id @default(uuid())
+  userId     String    @map("user_id")
+  workDate   DateTime  @map("work_date")
+  checkIn    DateTime? @map("check_in")
+  checkOut   DateTime? @map("check_out")
+  status     String    @default("PRESENT") // PRESENT | ABSENT | HALF_DAY | LEAVE
+  totalHours Float     @default(0) @map("total_hours")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, workDate])
+  @@map("attendance")
+}
+
+model Leave {
+  id           String    @id @default(uuid())
+  userId       String    @map("user_id")
+  leaveType    String    @map("leave_type") // PAID | SICK | UNPAID
+  startDate    DateTime  @map("start_date")
+  endDate      DateTime  @map("end_date")
+  reason       String
+  status       String    @default("PENDING") // PENDING | APPROVED | REJECTED
+  adminRemarks String?   @map("admin_remarks")
+  reviewedBy   String?   @map("reviewed_by")
+  reviewedAt   DateTime? @map("reviewed_at")
+
+  user     User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reviewer User? @relation("ReviewedLeaves", fields: [reviewedBy], references: [id])
+
+  @@map("leaves")
+}
+
+model Payroll {
+  id            String   @id @default(uuid())
+  userId        String   @unique @map("user_id")
+  basicSalary   Float    @default(0) @map("basic_salary")
+  allowances    Float    @default(0)
+  deductions    Float    @default(0)
+  netSalary     Float    @default(0) @map("net_salary")
+  effectiveDate DateTime @default(now()) @map("effective_date")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("payroll")
+}
