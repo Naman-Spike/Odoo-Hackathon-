@@ -34,7 +34,7 @@ export const PayrollPage = () => {
 
   if (loading) {
     return (
-      <div className="flex h-[60vh] items-center justify-center text-zinc-500 text-xs font-mono">
+      <div className="flex h-[60vh] items-center justify-center text-zinc-400 text-xs font-mono">
         Loading compensation structure...
       </div>
     );
@@ -42,11 +42,11 @@ export const PayrollPage = () => {
 
   if (error) {
     return (
-      <div className="max-w-3xl mx-auto mt-8 bg-white/[0.02] border border-white/10 rounded-3xl p-8 flex flex-col items-center text-center shadow-liquid">
-        <AlertCircle className="w-10 h-10 text-zinc-500 mb-3" />
-        <h2 className="text-sm font-bold text-white mb-1 font-sans">Payroll Setup Pending</h2>
-        <p className="text-xs text-zinc-400 max-w-sm font-mono">{error}</p>
-        <p className="text-[11px] text-zinc-500 mt-4 font-mono">Contact your HR Manager or System Administrator to configure your compensation tier.</p>
+      <div className="max-w-3xl mx-auto mt-8 bg-white/80 border border-zinc-200 rounded-3xl p-8 flex flex-col items-center text-center shadow-liquid">
+        <AlertCircle className="w-10 h-10 text-zinc-400 mb-3" />
+        <h2 className="text-sm font-bold text-zinc-900 mb-1 font-sans">Payroll Setup Pending</h2>
+        <p className="text-xs text-zinc-500 max-w-sm font-mono">{error}</p>
+        <p className="text-[11px] text-zinc-400 mt-4 font-mono">Contact your HR Manager or System Administrator to configure your compensation tier.</p>
       </div>
     );
   }
@@ -63,8 +63,8 @@ export const PayrollPage = () => {
     <div className="max-w-5xl mx-auto space-y-6 pb-10">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-black text-white tracking-tight font-sans">Compensation & Payslips</h1>
-          <p className="text-xs text-zinc-400 mt-0.5 font-medium">Audit your salary package, tax deductions, and print monthly statements</p>
+          <h1 className="text-2xl font-black text-zinc-900 tracking-tight font-sans">Compensation & Payslips</h1>
+          <p className="text-xs text-zinc-500 mt-0.5 font-medium">Audit your salary package, tax deductions, and print monthly statements</p>
         </div>
         <Button onClick={() => setIsSlipOpen(true)} variant="primary" icon={Printer}>
           Generate Payslip

@@ -49,13 +49,13 @@ export default function ProfileEditForm({ profile, isAdmin, onSave, onCancel }: 
     <Card className="max-w-4xl mx-auto shadow-liquid rounded-3xl overflow-hidden">
       <CardHeader className="py-4">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-sm font-mono uppercase tracking-wider flex items-center gap-2 text-zinc-300">
-            <User className="w-4 h-4 text-zinc-400" />
+          <CardTitle className="text-sm font-mono uppercase tracking-wider flex items-center gap-2 text-zinc-700">
+            <User className="w-4 h-4 text-zinc-500" />
             Edit Profile Parameters
           </CardTitle>
           {!isAdmin && (
-            <span className="text-[10px] font-mono text-zinc-400 bg-white/[0.05] border border-white/10 px-2.5 py-0.5 rounded-full flex items-center gap-1">
-              <ShieldAlert className="w-3 h-3 text-zinc-400" />
+            <span className="text-[10px] font-mono text-zinc-600 bg-zinc-100 border border-zinc-200 px-2.5 py-0.5 rounded-full flex items-center gap-1">
+              <ShieldAlert className="w-3 h-3 text-zinc-500" />
               Role Restricted: Employment fields locked
             </span>
           )}
@@ -71,7 +71,7 @@ export default function ProfileEditForm({ profile, isAdmin, onSave, onCancel }: 
               value={formData.firstName || ''} 
               onChange={handleChange} 
               disabled={!isAdmin} 
-              className={!isAdmin ? 'opacity-50 cursor-not-allowed' : ''}
+              className={!isAdmin ? 'opacity-50 cursor-not-allowed bg-zinc-100' : ''}
               required
             />
             
@@ -81,7 +81,7 @@ export default function ProfileEditForm({ profile, isAdmin, onSave, onCancel }: 
               value={formData.lastName || ''} 
               onChange={handleChange} 
               disabled={!isAdmin}
-              className={!isAdmin ? 'opacity-50 cursor-not-allowed' : ''}
+              className={!isAdmin ? 'opacity-50 cursor-not-allowed bg-zinc-100' : ''}
               required
             />
 
@@ -107,7 +107,7 @@ export default function ProfileEditForm({ profile, isAdmin, onSave, onCancel }: 
               value={formData.department || ''} 
               onChange={handleChange} 
               disabled={!isAdmin}
-              className={!isAdmin ? 'opacity-50 cursor-not-allowed' : ''}
+              className={!isAdmin ? 'opacity-50 cursor-not-allowed bg-zinc-100' : ''}
             />
 
             <Input 
@@ -116,7 +116,7 @@ export default function ProfileEditForm({ profile, isAdmin, onSave, onCancel }: 
               value={formData.designation || ''} 
               onChange={handleChange} 
               disabled={!isAdmin}
-              className={!isAdmin ? 'opacity-50 cursor-not-allowed' : ''}
+              className={!isAdmin ? 'opacity-50 cursor-not-allowed bg-zinc-100' : ''}
             />
 
             <Input 
@@ -126,7 +126,7 @@ export default function ProfileEditForm({ profile, isAdmin, onSave, onCancel }: 
               value={formData.joiningDate || ''} 
               onChange={handleChange} 
               disabled={!isAdmin}
-              className={!isAdmin ? 'opacity-50 cursor-not-allowed' : ''}
+              className={!isAdmin ? 'opacity-50 cursor-not-allowed bg-zinc-100' : ''}
             />
 
             <Input 
@@ -138,7 +138,7 @@ export default function ProfileEditForm({ profile, isAdmin, onSave, onCancel }: 
             />
           </div>
 
-          <div className="flex justify-end gap-3 pt-6 border-t border-white/10">
+          <div className="flex justify-end gap-3 pt-6 border-t border-zinc-100">
             <Button type="button" variant="ghost" onClick={onCancel}>
               Cancel
             </Button>
