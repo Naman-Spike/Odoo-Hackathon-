@@ -21,12 +21,13 @@ export const AppLayout: React.FC = () => {
   }, [location]);
 
   return (
-    <div className="min-h-screen bg-[#fafbfc] text-zinc-900 flex selection:bg-black selection:text-white relative">
-      {/* Light Crystal Ambient Glow Elements */}
-      <div className="fixed top-0 left-1/4 w-[600px] h-[300px] bg-blue-50/40 blur-[150px] rounded-full pointer-events-none -translate-y-1/2" />
-      <div className="fixed bottom-0 right-1/4 w-[500px] h-[400px] bg-zinc-100/60 blur-[160px] rounded-full pointer-events-none translate-y-1/3" />
+    <div className="min-h-screen bg-[#fafbfc] text-zinc-900 flex selection:bg-black selection:text-white relative overflow-x-hidden">
+      {/* Dynamic Liquid Glass Iridescent Diffuser Mesh */}
+      <div className="fixed top-0 left-1/4 w-[750px] h-[450px] bg-gradient-to-tr from-sky-100/50 via-indigo-100/40 to-transparent blur-[140px] rounded-full pointer-events-none -translate-y-1/3 animate-liquid-float z-0" />
+      <div className="fixed bottom-0 right-1/4 w-[650px] h-[500px] bg-gradient-to-bl from-teal-50/50 via-slate-100/60 to-transparent blur-[160px] rounded-full pointer-events-none translate-y-1/4 animate-liquid-pulse z-0" />
+      <div className="fixed top-1/2 left-2/3 w-[450px] h-[350px] bg-purple-50/40 blur-[130px] rounded-full pointer-events-none z-0" />
       
-      {/* Fixed/Sticky Sidebar Navigation */}
+      {/* Fixed/Sticky Liquid Glass Sidebar */}
       <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
       
       {/* Main Content Workspace Column */}
