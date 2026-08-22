@@ -21,18 +21,20 @@ export const AppLayout: React.FC = () => {
   }, [location]);
 
   return (
-    <div className="min-h-screen bg-[#fafbfc] text-zinc-900 relative overflow-x-hidden selection:bg-black selection:text-white">
+    <div className="min-h-screen bg-[#fafbfc] text-zinc-900 flex selection:bg-black selection:text-white relative">
       {/* Light Crystal Ambient Glow Elements */}
       <div className="fixed top-0 left-1/4 w-[600px] h-[300px] bg-blue-50/40 blur-[150px] rounded-full pointer-events-none -translate-y-1/2" />
       <div className="fixed bottom-0 right-1/4 w-[500px] h-[400px] bg-zinc-100/60 blur-[160px] rounded-full pointer-events-none translate-y-1/3" />
       
+      {/* Fixed/Sticky Sidebar Navigation */}
       <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
       
-      <div className="lg:pl-64 flex flex-col flex-1 min-h-screen transition-all duration-200 relative z-10">
+      {/* Main Content Workspace Column */}
+      <div className="flex-1 flex flex-col min-w-0 min-h-screen relative z-10">
         <Topbar title={pageTitle} onMenuClick={() => setIsSidebarOpen(true)} />
         
         <main className="flex-1 p-4 sm:p-6 lg:p-8">
-          <div className="max-w-7xl mx-auto">
+          <div className="max-w-7xl mx-auto w-full">
             <Outlet />
           </div>
         </main>
