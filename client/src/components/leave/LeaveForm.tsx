@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Calendar, AlignLeft, Info, AlertTriangle } from 'lucide-react';
+import { Calendar, AlignLeft, Info, AlertTriangle, Send } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { Select } from '../ui/Select';
@@ -37,15 +37,15 @@ export const LeaveForm: React.FC<LeaveFormProps> = ({ onSubmit, onCancel, balanc
   }, [startDate, endDate]);
 
   const leaveOptions = [
-    { value: 'PAID', label: `Paid Leave (Remaining: ${balance?.paid.remaining ?? 0})` },
-    { value: 'SICK', label: `Sick Leave (Remaining: ${balance?.sick.remaining ?? 0})` },
-    { value: 'UNPAID', label: 'Unpaid Leave (Unlimited)' }
+    { value: 'PAID', label: `Paid Annual Leave (Available: ${balance?.paid.remaining ?? 12})` },
+    { value: 'SICK', label: `Sick Leave (Available: ${balance?.sick.remaining ?? 6})` },
+    { value: 'UNPAID', label: 'Unpaid Leave (Unlimited Quota)' }
   ];
 
   const warning = useMemo(() => {
     if (days > 0 && balance) {
-      if (leaveType === 'PAID' && days > balance.paid.remaining) return 'This exceeds your remaining Paid Leave balance.';
-      if (leaveType === 'SICK' && days > balance.sick.remaining) return 'This exceeds your remaining Sick Leave balance.';
+      if (leaveType === 'PAID' && days > balance.paid.remaining) return `Requested ${days} days exceeds your ${balance.paid.remaining} remaining Paid leave days.`;
+      if (leaveType === 'SICK' && days > balance.sick.remaining) return `Requested ${days} days exceeds your ${balance.sick.remaining} remaining Sick leave days.`;
     }
     return null;
   }, [leaveType, days, balance]);
@@ -54,15 +54,15 @@ export const LeaveForm: React.FC<LeaveFormProps> = ({ onSubmit, onCancel, balanc
     e.preventDefault();
     setError(null);
     if (!startDate || !endDate || !reason) {
-      setError('Please fill in all fields.');
+      setError('Please fill in all required fields.');
       return;
     }
     if (new Date(endDate) < new Date(startDate)) {
-      setError('End date cannot be before start date.');
+      setError('End date cannot precede the start date.');
       return;
     }
-    if (reason.length < 10) {
-      setError('Reason must be at least 10 characters.');
+    if (reason.trim().length < 8) {
+      setError('Please provide a descriptive reason (minimum 8 characters).');
       return;
     }
 
@@ -81,20 +81,20 @@ export const LeaveForm: React.FC<LeaveFormProps> = ({ onSubmit, onCancel, balanc
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       {error && (
-        <div className="p-3 bg-red-50 text-red-600 rounded-md text-sm mb-4">
+        <div className="p-3.5 bg-rose-50 border border-rose-200 text-rose-700 rounded-xl text-xs font-semibold">
           {error}
         </div>
       )}
       
       <Select
-        label="Leave Type"
+        label="Select Leave Type"
         options={leaveOptions}
         value={leaveType}
         onChange={(e) => setLeaveType(e.target.value)}
         required
       />
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Input
           label="Start Date"
           type="date"
@@ -116,41 +116,38 @@ export const LeaveForm: React.FC<LeaveFormProps> = ({ onSubmit, onCancel, balanc
       </div>
 
       {days > 0 && (
-        <div className="flex items-center text-sm text-blue-600 bg-blue-50 p-2 rounded-md">
-          <Info className="w-4 h-4 mr-2" />
-          Applying for {days} day{days > 1 ? 's' : ''} of leave.
+        <div className="flex items-center text-xs font-semibold text-indigo-700 bg-indigo-50/80 p-3 rounded-xl border border-indigo-100">
+          <Info className="w-4 h-4 mr-2 flex-shrink-0 text-indigo-600" />
+          <span>Applying for <strong>{days} calendar day{days > 1 ? 's' : ''}</strong> of leave.</span>
         </div>
       )}
 
       {warning && (
-        <div className="flex items-center text-sm text-yellow-600 bg-yellow-50 p-2 rounded-md">
-          <AlertTriangle className="w-4 h-4 mr-2" />
-          {warning}
+        <div className="flex items-center text-xs font-semibold text-amber-800 bg-amber-50 p-3 rounded-xl border border-amber-200">
+          <AlertTriangle className="w-4 h-4 mr-2 flex-shrink-0 text-amber-600" />
+          <span>{warning}</span>
         </div>
       )}
 
-      <div className="space-y-1">
-        <label className="block text-sm font-medium text-gray-700">Reason</label>
+      <div className="space-y-1.5">
+        <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider">Reason for Leave</label>
         <div className="relative">
-          <div className="absolute top-3 left-3 flex items-center pointer-events-none text-gray-400">
-            <AlignLeft className="h-5 w-5" />
-          </div>
           <textarea
-            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm h-24 resize-none"
+            className="block w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50/50 hover:bg-white focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 text-xs text-slate-900 placeholder:text-slate-400 h-24 resize-none transition-all shadow-sm"
             value={reason}
             onChange={(e) => setReason(e.target.value)}
-            placeholder="Please provide a valid reason..."
+            placeholder="E.g., Attending family function, medical appointment..."
             required
-            minLength={10}
+            minLength={8}
           />
         </div>
       </div>
 
-      <div className="flex justify-end space-x-3 pt-4 border-t">
+      <div className="flex justify-end gap-3 pt-4 border-t border-slate-100">
         <Button variant="ghost" type="button" onClick={onCancel} disabled={isSubmitting}>
           Cancel
         </Button>
-        <Button variant="primary" type="submit" isLoading={isSubmitting}>
+        <Button variant="gradient" type="submit" isLoading={isSubmitting} icon={Send}>
           Submit Application
         </Button>
       </div>
