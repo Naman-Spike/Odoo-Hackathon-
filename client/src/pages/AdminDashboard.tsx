@@ -6,22 +6,17 @@ import {
   CalendarDays, 
   Wallet, 
   Loader2, 
-  Sparkles,
   ArrowRight,
   TrendingUp,
-  ShieldCheck,
+  Shield,
   CheckCircle2,
-  AlertCircle,
-  FileCheck,
-  Building,
-  UserCheck
+  FileCheck
 } from 'lucide-react';
 import api from '../api/client';
 import { useAuth } from '../context/AuthContext';
 import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/Card';
 import { Badge } from '../components/ui/Badge';
 import { Button } from '../components/ui/Button';
-import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '../components/ui/Table';
 import { formatDate, formatCurrency, getInitials } from '../lib/utils';
 
 export default function AdminDashboard() {
@@ -40,7 +35,6 @@ export default function AdminDashboard() {
   const [employeesOverview, setEmployeesOverview] = useState<any[]>([]);
 
   const firstName = user?.profile?.firstName || 'Admin';
-  const currentDate = new Date();
 
   useEffect(() => {
     fetchAdminData();
@@ -107,8 +101,8 @@ export default function AdminDashboard() {
     return (
       <div className="flex h-[70vh] items-center justify-center">
         <div className="flex flex-col items-center gap-3">
-          <Loader2 className="h-8 w-8 animate-spin text-indigo-600" />
-          <p className="text-sm font-medium text-slate-500">Loading HR metrics & company data...</p>
+          <Loader2 className="h-7 w-7 animate-spin text-zinc-400" />
+          <p className="text-xs font-mono text-zinc-500 uppercase tracking-wider">Syncing organization telemetry...</p>
         </div>
       </div>
     );
@@ -117,35 +111,32 @@ export default function AdminDashboard() {
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-10">
       {error && (
-        <div className="p-4 bg-rose-50 border border-rose-200 text-rose-700 text-sm rounded-2xl flex items-center justify-between">
+        <div className="p-4 bg-rose-950/40 border border-rose-500/30 text-rose-300 text-xs rounded-2xl flex items-center justify-between backdrop-blur-md">
           <span>{error}</span>
-          <button onClick={() => setError(null)} className="text-xs font-semibold hover:underline">Dismiss</button>
+          <button onClick={() => setError(null)} className="text-xs font-bold hover:underline cursor-pointer">Dismiss</button>
         </div>
       )}
 
       {/* Admin Hero Banner */}
-      <div className="relative overflow-hidden rounded-3xl bg-slate-950 text-white p-6 sm:p-8 shadow-xl border border-slate-800">
-        <div className="absolute right-0 top-0 translate-x-12 -translate-y-12 w-80 h-80 rounded-full bg-indigo-500/10 blur-3xl pointer-events-none" />
-        <div className="absolute left-1/4 bottom-0 translate-y-12 w-64 h-64 rounded-full bg-purple-500/10 blur-3xl pointer-events-none" />
-        
+      <div className="relative overflow-hidden rounded-3xl bg-white/[0.03] border border-white/10 p-6 sm:p-8 shadow-liquid backdrop-blur-2xl specular-highlight">
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-950/80 text-indigo-400 text-xs font-semibold mb-3 border border-indigo-800/60">
-              <ShieldCheck className="w-3.5 h-3.5" />
-              <span>HR Administrative Executive View</span>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.06] border border-white/10 text-zinc-300 text-[11px] font-mono mb-3 backdrop-blur-md">
+              <Shield className="w-3.5 h-3.5 text-zinc-300" />
+              <span>ADMINISTRATIVE EXECUTIVE OVERVIEW</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
-              Welcome back, {firstName} 📊
+            <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white font-sans">
+              Welcome back, {firstName}
             </h1>
-            <p className="text-slate-400 text-sm mt-1 max-w-xl">
-              Overview of staff attendance, leave approval requests, and compensation structures across all departments.
+            <p className="text-zinc-400 text-xs mt-1 max-w-xl font-medium">
+              Real-time audit of workforce presence, pending approval queues, and corporate compensation structures.
             </p>
           </div>
 
           <div className="flex gap-3">
             <Button 
               onClick={() => navigate('/leave/manage')} 
-              variant="gradient" 
+              variant="primary" 
               size="sm"
               icon={FileCheck}
             >
@@ -155,98 +146,97 @@ export default function AdminDashboard() {
               onClick={() => navigate('/attendance')} 
               variant="outline" 
               size="sm"
-              className="bg-slate-900 border-slate-700 text-white hover:bg-slate-800"
               icon={Clock}
             >
-              Live Logs
+              Audit Ledger
             </Button>
           </div>
         </div>
       </div>
 
-      {/* 4 KPI Cards Row */}
+      {/* 4 KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         
         {/* Total Employees */}
-        <Card hoverEffect className="p-6 bg-gradient-to-br from-white to-blue-50/30 border-blue-100 flex flex-col justify-between">
+        <Card hoverEffect className="p-6 flex flex-col justify-between">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-blue-600">Total Workforce</p>
-              <h3 className="text-3xl font-extrabold text-slate-900 mt-2">{totalEmployees}</h3>
+              <p className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-400">Total Workforce</p>
+              <h3 className="text-3xl font-extrabold text-white mt-2 font-mono">{totalEmployees}</h3>
             </div>
-            <div className="p-3 bg-blue-100/80 text-blue-700 rounded-2xl">
-              <Users className="w-5 h-5" />
+            <div className="p-2.5 bg-white/[0.06] border border-white/10 text-white rounded-xl">
+              <Users className="w-4 h-4" />
             </div>
           </div>
-          <div className="mt-4 pt-3 border-t border-blue-50 flex items-center justify-between text-xs text-slate-500">
-            <span>Active Staff</span>
-            <span className="font-semibold text-blue-700">100% Onboarded</span>
+          <div className="mt-4 pt-3 border-t border-white/[0.08] flex items-center justify-between text-[11px] text-zinc-500 font-mono">
+            <span>Personnel Active</span>
+            <span className="text-zinc-300">100% Verified</span>
           </div>
         </Card>
 
         {/* Today's Attendance */}
-        <Card hoverEffect className="p-6 bg-gradient-to-br from-white to-emerald-50/30 border-emerald-100 flex flex-col justify-between">
+        <Card hoverEffect className="p-6 flex flex-col justify-between">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-emerald-600">Today's Attendance</p>
-              <h3 className="text-3xl font-extrabold text-slate-900 mt-2">{attendanceRate}%</h3>
+              <p className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-400">Shift Presence</p>
+              <h3 className="text-3xl font-extrabold text-white mt-2 font-mono">{attendanceRate}%</h3>
             </div>
-            <div className="p-3 bg-emerald-100/80 text-emerald-700 rounded-2xl">
-              <Clock className="w-5 h-5" />
+            <div className="p-2.5 bg-white/[0.06] border border-white/10 text-white rounded-xl">
+              <Clock className="w-4 h-4" />
             </div>
           </div>
-          <div className="mt-4 pt-3 border-t border-emerald-50 flex items-center justify-between text-xs text-slate-500">
-            <span>Check-in Count</span>
-            <span className="font-semibold text-emerald-700">{attendanceStats.present} / {attendanceStats.total} Present</span>
+          <div className="mt-4 pt-3 border-t border-white/[0.08] flex items-center justify-between text-[11px] text-zinc-500 font-mono">
+            <span>Status</span>
+            <span className="text-zinc-300">{attendanceStats.present} / {attendanceStats.total} Logged</span>
           </div>
         </Card>
 
         {/* Pending Leaves */}
-        <Card hoverEffect className="p-6 bg-gradient-to-br from-white to-amber-50/30 border-amber-100 flex flex-col justify-between">
+        <Card hoverEffect className="p-6 flex flex-col justify-between">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-amber-600">Pending Approvals</p>
-              <h3 className="text-3xl font-extrabold text-slate-900 mt-2">{pendingLeaves}</h3>
+              <p className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-400">Pending Approvals</p>
+              <h3 className="text-3xl font-extrabold text-white mt-2 font-mono">{pendingLeaves}</h3>
             </div>
-            <div className="p-3 bg-amber-100/80 text-amber-700 rounded-2xl">
-              <CalendarDays className="w-5 h-5" />
+            <div className="p-2.5 bg-white/[0.06] border border-white/10 text-white rounded-xl">
+              <CalendarDays className="w-4 h-4" />
             </div>
           </div>
-          <div className="mt-4 pt-3 border-t border-amber-50 flex items-center justify-between text-xs text-slate-500">
+          <div className="mt-4 pt-3 border-t border-white/[0.08] flex items-center justify-between text-[11px] text-zinc-500 font-mono">
             <span>Action Required</span>
-            <span className={`font-semibold ${pendingLeaves > 0 ? 'text-amber-600' : 'text-slate-400'}`}>
-              {pendingLeaves > 0 ? 'Review Queue' : 'All Clear'}
+            <span className={pendingLeaves > 0 ? 'text-white font-bold' : 'text-zinc-500'}>
+              {pendingLeaves > 0 ? 'Queue Active' : 'All Clear'}
             </span>
           </div>
         </Card>
 
         {/* Monthly Payroll */}
-        <Card hoverEffect className="p-6 bg-gradient-to-br from-white to-purple-50/30 border-purple-100 flex flex-col justify-between">
+        <Card hoverEffect className="p-6 flex flex-col justify-between">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-purple-600">Monthly Payroll</p>
-              <h3 className="text-2xl font-extrabold text-slate-900 mt-2">{formatCurrency(monthlyPayroll)}</h3>
+              <p className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-400">Disbursed Payroll</p>
+              <h3 className="text-2xl font-extrabold text-white mt-2 font-mono">{formatCurrency(monthlyPayroll)}</h3>
             </div>
-            <div className="p-3 bg-purple-100/80 text-purple-700 rounded-2xl">
-              <Wallet className="w-5 h-5" />
+            <div className="p-2.5 bg-white/[0.06] border border-white/10 text-white rounded-xl">
+              <Wallet className="w-4 h-4" />
             </div>
           </div>
-          <div className="mt-4 pt-3 border-t border-purple-50 flex items-center justify-between text-xs text-slate-500">
-            <span>Net Salaries</span>
-            <span className="font-semibold text-purple-700">Auto-Calculated</span>
+          <div className="mt-4 pt-3 border-t border-white/[0.08] flex items-center justify-between text-[11px] text-zinc-500 font-mono">
+            <span>Compensation</span>
+            <span className="text-zinc-300">Auto-Audited</span>
           </div>
         </Card>
       </div>
 
-      {/* Tables Grid: Recent Leave Requests + Employee Overview */}
+      {/* Tables Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         
         {/* Recent Leave Requests */}
         <div className="lg:col-span-6">
-          <Card className="border-slate-200 h-full flex flex-col justify-between">
+          <Card className="h-full flex flex-col justify-between">
             <CardHeader className="flex flex-row items-center justify-between py-4">
-              <CardTitle className="text-base flex items-center gap-2">
-                <FileCheck className="w-4 h-4 text-indigo-600" />
+              <CardTitle className="text-sm flex items-center gap-2 font-mono uppercase tracking-wider text-zinc-300">
+                <FileCheck className="w-4 h-4 text-zinc-400" />
                 Recent Leave Requests
               </CardTitle>
               <Button variant="ghost" size="sm" onClick={() => navigate('/leave/manage')}>
@@ -256,33 +246,33 @@ export default function AdminDashboard() {
             </CardHeader>
             <CardContent className="p-0 flex-1">
               {recentLeaves.length === 0 ? (
-                <div className="p-8 text-center text-xs text-slate-400">
-                  No leave requests found in the system.
+                <div className="p-8 text-center text-xs text-zinc-500 font-mono">
+                  No leave requests logged in queue.
                 </div>
               ) : (
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-xs">
-                    <thead className="bg-slate-50 border-b border-slate-100 text-slate-500 uppercase font-semibold">
+                    <thead className="bg-white/[0.03] border-b border-white/[0.06] text-zinc-500 uppercase font-mono text-[10px]">
                       <tr>
-                        <th className="px-4 py-3">Employee</th>
+                        <th className="px-4 py-3">Staff</th>
                         <th className="px-4 py-3">Type</th>
                         <th className="px-4 py-3">Dates</th>
                         <th className="px-4 py-3 text-right">Status</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-100">
+                    <tbody className="divide-y divide-white/[0.05]">
                       {recentLeaves.map((leave, idx) => (
-                        <tr key={idx} className="hover:bg-slate-50/50 transition-colors">
-                          <td className="px-4 py-3 font-semibold text-slate-900">
+                        <tr key={idx} className="hover:bg-white/[0.02] transition-colors">
+                          <td className="px-4 py-3 font-semibold text-white">
                             {leave.user?.profile?.firstName ? `${leave.user.profile.firstName} ${leave.user.profile.lastName}` : leave.employeeName || 'Staff Member'}
                           </td>
-                          <td className="px-4 py-3 font-medium text-slate-600">{leave.leaveType}</td>
-                          <td className="px-4 py-3 text-slate-500">
+                          <td className="px-4 py-3 font-mono text-zinc-400">{leave.leaveType}</td>
+                          <td className="px-4 py-3 text-zinc-400 font-mono text-[11px]">
                             {formatDate(leave.startDate)} - {formatDate(leave.endDate)}
                           </td>
                           <td className="px-4 py-3 text-right">
                             <Badge variant={
-                              leave.status === 'APPROVED' ? 'success' :
+                              leave.status === 'APPROVED' ? 'primary' :
                               leave.status === 'REJECTED' ? 'danger' : 'warning'
                             }>
                               {leave.status || 'PENDING'}
@@ -300,10 +290,10 @@ export default function AdminDashboard() {
 
         {/* Employee Overview Table */}
         <div className="lg:col-span-6">
-          <Card className="border-slate-200 h-full flex flex-col justify-between">
+          <Card className="h-full flex flex-col justify-between">
             <CardHeader className="flex flex-row items-center justify-between py-4">
-              <CardTitle className="text-base flex items-center gap-2">
-                <Users className="w-4 h-4 text-indigo-600" />
+              <CardTitle className="text-sm flex items-center gap-2 font-mono uppercase tracking-wider text-zinc-300">
+                <Users className="w-4 h-4 text-zinc-400" />
                 Team Presence Today
               </CardTitle>
               <Button variant="ghost" size="sm" onClick={() => navigate('/employees')}>
@@ -314,31 +304,31 @@ export default function AdminDashboard() {
             <CardContent className="p-0 flex-1">
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs">
-                  <thead className="bg-slate-50 border-b border-slate-100 text-slate-500 uppercase font-semibold">
+                  <thead className="bg-white/[0.03] border-b border-white/[0.06] text-zinc-500 uppercase font-mono text-[10px]">
                     <tr>
                       <th className="px-4 py-3">Team Member</th>
                       <th className="px-4 py-3">Department</th>
-                      <th className="px-4 py-3 text-right">Today's Status</th>
+                      <th className="px-4 py-3 text-right">Status</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-100">
+                  <tbody className="divide-y divide-white/[0.05]">
                     {employeesOverview.map((emp) => (
-                      <tr key={emp.id} className="hover:bg-slate-50/50 transition-colors">
+                      <tr key={emp.id} className="hover:bg-white/[0.02] transition-colors">
                         <td className="px-4 py-3">
                           <div className="flex items-center gap-2.5">
-                            <div className="h-7 w-7 rounded-lg bg-indigo-100 text-indigo-700 font-bold text-[10px] flex items-center justify-center">
+                            <div className="h-6 w-6 rounded-lg bg-white text-black font-bold text-[9px] flex items-center justify-center">
                               {getInitials(emp.name, '')}
                             </div>
                             <div>
-                              <div className="font-semibold text-slate-900">{emp.name}</div>
-                              <div className="text-[10px] text-slate-400">{emp.designation}</div>
+                              <div className="font-semibold text-white">{emp.name}</div>
+                              <div className="text-[10px] text-zinc-500 font-mono">{emp.designation}</div>
                             </div>
                           </div>
                         </td>
-                        <td className="px-4 py-3 text-slate-600 font-medium">{emp.department}</td>
+                        <td className="px-4 py-3 text-zinc-400 font-mono text-[11px]">{emp.department}</td>
                         <td className="px-4 py-3 text-right">
-                          <Badge variant={emp.isPresent ? 'success' : 'default'}>
-                            {emp.isPresent ? 'Present Today' : 'Absent'}
+                          <Badge variant={emp.isPresent ? 'primary' : 'default'}>
+                            {emp.isPresent ? 'Active Today' : 'Absent'}
                           </Badge>
                         </td>
                       </tr>

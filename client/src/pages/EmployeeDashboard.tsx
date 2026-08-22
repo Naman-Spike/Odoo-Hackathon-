@@ -8,13 +8,11 @@ import {
   LogIn, 
   LogOut, 
   Loader2, 
-  Sparkles, 
   ArrowRight,
   TrendingUp,
   CheckCircle2,
-  Calendar,
-  ShieldCheck,
-  ChevronRight
+  ChevronRight,
+  Shield
 } from 'lucide-react';
 import api from '../api/client';
 import { useAuth } from '../context/AuthContext';
@@ -38,7 +36,7 @@ export default function EmployeeDashboard() {
   const [error, setError] = useState<string | null>(null);
   const [isActionLoading, setIsActionLoading] = useState<boolean>(false);
 
-  const firstName = user?.profile?.firstName || 'Employee';
+  const firstName = user?.profile?.firstName || 'Staff';
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -105,7 +103,7 @@ export default function EmployeeDashboard() {
       const leaves = Array.isArray(leavesRes.data) ? leavesRes.data : [];
       setRecentLeaves(leaves.slice(0, 5));
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Failed to load dashboard data.');
+      setError(err.response?.data?.error || 'Failed to load dashboard telemetry.');
     } finally {
       setLoading(false);
     }
@@ -117,7 +115,7 @@ export default function EmployeeDashboard() {
       const res = await api.post('/attendance/check-in');
       setAttendanceToday(res.data);
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Failed to check in');
+      setError(err.response?.data?.error || 'Check-in failed');
     } finally {
       setIsActionLoading(false);
     }
@@ -129,7 +127,7 @@ export default function EmployeeDashboard() {
       const res = await api.post('/attendance/check-out');
       setAttendanceToday(res.data);
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Failed to check out');
+      setError(err.response?.data?.error || 'Check-out failed');
     } finally {
       setIsActionLoading(false);
     }
@@ -153,14 +151,14 @@ export default function EmployeeDashboard() {
     return (
       <div className="flex h-[70vh] items-center justify-center">
         <div className="flex flex-col items-center gap-3">
-          <Loader2 className="h-8 w-8 animate-spin text-indigo-600" />
-          <p className="text-sm font-medium text-slate-500">Loading your workspace...</p>
+          <Loader2 className="h-7 w-7 animate-spin text-zinc-400" />
+          <p className="text-xs font-mono text-zinc-500 uppercase tracking-wider">Syncing node data...</p>
         </div>
       </div>
     );
   }
 
-  // Progress of 8 hour workday
+  // Workday Progress
   const currentWorkSeconds = attendanceToday?.checkOut 
     ? (attendanceToday.totalHours || 0) * 3600 
     : elapsedSeconds;
@@ -169,107 +167,104 @@ export default function EmployeeDashboard() {
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-10">
       {error && (
-        <div className="p-4 bg-rose-50 border border-rose-200 text-rose-700 text-sm rounded-2xl flex items-center justify-between">
+        <div className="p-4 bg-rose-950/40 border border-rose-500/30 text-rose-300 text-xs rounded-2xl flex items-center justify-between backdrop-blur-md">
           <span>{error}</span>
-          <button onClick={() => setError(null)} className="text-xs font-semibold hover:underline">Dismiss</button>
+          <button onClick={() => setError(null)} className="text-xs font-bold hover:underline cursor-pointer">Dismiss</button>
         </div>
       )}
 
-      {/* Hero Welcome Banner */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-indigo-900 via-indigo-800 to-purple-900 text-white p-6 sm:p-8 shadow-xl">
-        <div className="absolute right-0 top-0 translate-x-12 -translate-y-12 w-80 h-80 rounded-full bg-indigo-500/20 blur-3xl pointer-events-none" />
-        <div className="absolute left-1/3 bottom-0 translate-y-12 w-64 h-64 rounded-full bg-purple-500/20 blur-3xl pointer-events-none" />
-        
+      {/* Hero Welcome Banner (Liquid Glass) */}
+      <div className="relative overflow-hidden rounded-3xl bg-white/[0.03] border border-white/10 p-6 sm:p-8 shadow-liquid backdrop-blur-2xl specular-highlight">
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-indigo-200 text-xs font-medium mb-3 border border-white/10">
-              <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-              <span>Employee Portal</span>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.06] border border-white/10 text-zinc-300 text-[11px] font-mono mb-3 backdrop-blur-md">
+              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+              <span>STAFF PORTAL</span>
               <span>•</span>
-              <span>{user?.profile?.department || 'General Department'}</span>
+              <span className="text-zinc-400">{user?.profile?.department || 'Engineering'}</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
-              {getGreeting()}, {firstName}! 👋
+            <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white font-sans">
+              {getGreeting()}, {firstName}
             </h1>
-            <p className="text-indigo-100/80 text-sm mt-1 max-w-lg">
+            <p className="text-zinc-400 text-xs mt-1 max-w-lg font-medium">
               {attendanceToday?.checkIn && !attendanceToday?.checkOut
-                ? 'Your shift is currently active. Keep up the productive momentum!'
+                ? 'Work session currently active and streaming logs.'
                 : attendanceToday?.checkOut
-                ? 'Great work today! Your shift hours have been recorded in the system.'
-                : 'Ready to kick off today? Click check-in to begin logging your hours.'}
+                ? 'Workday completed. Daily timecard synced to payroll.'
+                : 'Session idle. Initiate shift below to begin recording timecard.'}
             </p>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-3">
-            <div className="bg-white/10 backdrop-blur-md px-4 py-3 rounded-2xl border border-white/10 text-center">
-              <div className="text-[11px] font-semibold text-indigo-200 uppercase tracking-wider">Date</div>
-              <div className="text-sm font-bold text-white mt-0.5">
+            <div className="bg-black/40 backdrop-blur-xl px-4 py-3 rounded-2xl border border-white/10 text-center shadow-inner">
+              <div className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-widest">Calendar</div>
+              <div className="text-xs font-bold text-white mt-0.5 font-mono">
                 {currentTime.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' })}
               </div>
             </div>
-            <div className="bg-white/10 backdrop-blur-md px-4 py-3 rounded-2xl border border-white/10 text-center">
-              <div className="text-[11px] font-semibold text-indigo-200 uppercase tracking-wider">Status</div>
-              <div className="text-sm font-bold text-white mt-0.5 flex items-center justify-center gap-1.5">
-                <span className={`w-2 h-2 rounded-full ${
+            <div className="bg-black/40 backdrop-blur-xl px-4 py-3 rounded-2xl border border-white/10 text-center shadow-inner">
+              <div className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-widest">Shift State</div>
+              <div className="text-xs font-bold text-white mt-0.5 flex items-center justify-center gap-1.5">
+                <span className={`w-1.5 h-1.5 rounded-full ${
                   attendanceToday?.checkIn && !attendanceToday?.checkOut 
-                    ? 'bg-emerald-400 animate-pulse' 
+                    ? 'bg-white animate-ping' 
                     : attendanceToday?.checkOut 
-                    ? 'bg-sky-400' 
-                    : 'bg-amber-400'
+                    ? 'bg-zinc-400' 
+                    : 'bg-zinc-600'
                 }`} />
-                {attendanceToday?.checkIn && !attendanceToday?.checkOut ? 'Active' : attendanceToday?.checkOut ? 'Completed' : 'Off-Duty'}
+                <span>{attendanceToday?.checkIn && !attendanceToday?.checkOut ? 'Active' : attendanceToday?.checkOut ? 'Logged' : 'Off-Shift'}</span>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Grid Row: Live Timecard Widget + 3 Stats Cards */}
+      {/* Grid: Liquid Glass Stopwatch + 3 Monochrome Metric Cards */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         
-        {/* Live Attendance / Timecard Card */}
+        {/* Timecard Stopwatch */}
         <div className="lg:col-span-5">
-          <Card className="h-full border-slate-200 shadow-sm flex flex-col justify-between overflow-hidden">
-            <CardHeader className="bg-slate-50/50 pb-4">
+          <Card className="h-full flex flex-col justify-between overflow-hidden">
+            <CardHeader className="pb-4">
               <div className="flex justify-between items-center">
-                <CardTitle className="text-base flex items-center gap-2 text-slate-800">
-                  <Clock className="w-4 h-4 text-indigo-600" />
+                <CardTitle className="text-sm flex items-center gap-2 font-mono uppercase tracking-wider text-zinc-300">
+                  <Clock className="w-4 h-4 text-zinc-400" />
                   Today's Timecard
                 </CardTitle>
-                <Badge variant={attendanceToday?.checkIn && !attendanceToday?.checkOut ? 'success' : attendanceToday?.checkOut ? 'info' : 'default'}>
-                  {attendanceToday?.checkIn && !attendanceToday?.checkOut ? 'In Progress' : attendanceToday?.checkOut ? 'Recorded' : 'Not Started'}
+                <Badge variant={attendanceToday?.checkIn && !attendanceToday?.checkOut ? 'primary' : attendanceToday?.checkOut ? 'glass' : 'default'}>
+                  {attendanceToday?.checkIn && !attendanceToday?.checkOut ? 'Live Session' : attendanceToday?.checkOut ? 'Completed' : 'Standby'}
                 </Badge>
               </div>
             </CardHeader>
 
             <CardContent className="p-6 flex-1 flex flex-col justify-center items-center text-center">
-              {/* Digital Timer Display */}
-              <div className="mb-4">
-                <div className="text-4xl sm:text-5xl font-mono font-bold text-slate-900 tracking-tight">
+              {/* Digital Stopwatch Display */}
+              <div className="mb-5 bg-black/40 w-full py-6 rounded-2xl border border-white/[0.08] shadow-inner">
+                <div className="text-4xl sm:text-5xl font-mono font-bold text-white tracking-tight">
                   {attendanceToday?.checkIn && !attendanceToday?.checkOut
                     ? formatElapsed(elapsedSeconds)
                     : attendanceToday?.checkOut
                     ? `${(attendanceToday.totalHours || 0).toFixed(2)} hrs`
                     : '00:00:00'}
                 </div>
-                <p className="text-xs text-slate-400 mt-1 font-medium">
+                <p className="text-[11px] font-mono text-zinc-500 mt-2">
                   {attendanceToday?.checkIn && !attendanceToday?.checkOut
-                    ? `Checked in at ${new Date(attendanceToday.checkIn).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`
+                    ? `Logged at ${new Date(attendanceToday.checkIn).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`
                     : attendanceToday?.checkOut
-                    ? `Shift completed (${new Date(attendanceToday.checkIn).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - ${new Date(attendanceToday.checkOut).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })})`
-                    : 'Standard target: 8.0 hours / day'}
+                    ? `Recorded: ${new Date(attendanceToday.checkIn).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} – ${new Date(attendanceToday.checkOut).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`
+                    : 'Standard Day Target: 8.00 Hours'}
                 </p>
               </div>
 
               {/* Workday Progress Bar */}
               <div className="w-full mb-6">
-                <div className="flex justify-between text-xs font-semibold text-slate-600 mb-1.5">
-                  <span>Shift Progress</span>
+                <div className="flex justify-between text-[11px] font-mono text-zinc-400 mb-1.5">
+                  <span>Shift Telemetry</span>
                   <span>{progressPercent}%</span>
                 </div>
-                <div className="h-2.5 w-full bg-slate-100 rounded-full overflow-hidden p-0.5 border border-slate-200">
+                <div className="h-2 w-full bg-white/[0.05] rounded-full overflow-hidden p-0.5 border border-white/10">
                   <div 
-                    className="h-full bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full transition-all duration-500"
+                    className="h-full bg-white rounded-full transition-all duration-500 shadow-[0_0_10px_rgba(255,255,255,0.5)]"
                     style={{ width: `${progressPercent}%` }}
                   />
                 </div>
@@ -280,8 +275,8 @@ export default function EmployeeDashboard() {
                 {!attendanceToday?.checkIn ? (
                   <Button 
                     onClick={handleCheckIn} 
-                    variant="success" 
-                    className="w-full h-12 text-sm shadow-glow-success"
+                    variant="primary" 
+                    className="w-full h-11 text-xs"
                     isLoading={isActionLoading}
                     icon={LogIn}
                   >
@@ -290,17 +285,17 @@ export default function EmployeeDashboard() {
                 ) : attendanceToday?.checkIn && !attendanceToday?.checkOut ? (
                   <Button 
                     onClick={handleCheckOut} 
-                    variant="danger" 
-                    className="w-full h-12 text-sm shadow-glow-danger"
+                    variant="glass" 
+                    className="w-full h-11 text-xs"
                     isLoading={isActionLoading}
                     icon={LogOut}
                   >
                     Complete & Check Out
                   </Button>
                 ) : (
-                  <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-100 text-xs font-medium text-emerald-800 flex items-center justify-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                    <span>You have finished your work session for today.</span>
+                  <div className="p-3 bg-white/[0.04] rounded-xl border border-white/10 text-xs font-mono text-zinc-300 flex items-center justify-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-white" />
+                    <span>Session verified and submitted</span>
                   </div>
                 )}
               </div>
@@ -311,74 +306,74 @@ export default function EmployeeDashboard() {
         {/* 3 Metric Cards */}
         <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
           {/* Card 1: Paid Leave */}
-          <Card hoverEffect className="bg-gradient-to-br from-white to-blue-50/40 border-blue-100 flex flex-col justify-between p-5 sm:p-6">
+          <Card hoverEffect className="flex flex-col justify-between p-5 sm:p-6">
             <div className="flex justify-between items-start">
               <div>
-                <span className="text-xs font-semibold uppercase tracking-wider text-blue-600">Paid Leave</span>
-                <div className="text-3xl font-extrabold text-slate-900 mt-2">{leaveBalance.paid}</div>
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-400">Paid Leave</span>
+                <div className="text-3xl font-extrabold text-white mt-2 font-mono">{leaveBalance.paid}</div>
               </div>
-              <div className="p-3 rounded-2xl bg-blue-100 text-blue-600">
-                <CalendarDays className="w-5 h-5" />
+              <div className="p-2.5 rounded-xl bg-white/[0.06] border border-white/10 text-white">
+                <CalendarDays className="w-4 h-4" />
               </div>
             </div>
-            <div className="mt-4 pt-3 border-t border-blue-50 flex items-center justify-between text-xs text-slate-500">
+            <div className="mt-4 pt-3 border-t border-white/[0.08] flex items-center justify-between text-[11px] text-zinc-500 font-mono">
               <span>Annual Quota</span>
-              <span className="font-semibold text-slate-700">12 Days</span>
+              <span className="text-zinc-300">12 Days</span>
             </div>
           </Card>
 
           {/* Card 2: Hours This Month */}
-          <Card hoverEffect className="bg-gradient-to-br from-white to-indigo-50/40 border-indigo-100 flex flex-col justify-between p-5 sm:p-6">
+          <Card hoverEffect className="flex flex-col justify-between p-5 sm:p-6">
             <div className="flex justify-between items-start">
               <div>
-                <span className="text-xs font-semibold uppercase tracking-wider text-indigo-600">Hours Logged</span>
-                <div className="text-3xl font-extrabold text-slate-900 mt-2">{monthlyHours.toFixed(1)}h</div>
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-400">Hours Logged</span>
+                <div className="text-3xl font-extrabold text-white mt-2 font-mono">{monthlyHours.toFixed(1)}h</div>
               </div>
-              <div className="p-3 rounded-2xl bg-indigo-100 text-indigo-600">
-                <TrendingUp className="w-5 h-5" />
+              <div className="p-2.5 rounded-xl bg-white/[0.06] border border-white/10 text-white">
+                <TrendingUp className="w-4 h-4" />
               </div>
             </div>
-            <div className="mt-4 pt-3 border-t border-indigo-50 flex items-center justify-between text-xs text-slate-500">
+            <div className="mt-4 pt-3 border-t border-white/[0.08] flex items-center justify-between text-[11px] text-zinc-500 font-mono">
               <span>This Month</span>
-              <span className="font-semibold text-emerald-600">On Track</span>
+              <span className="text-zinc-300">100% Target</span>
             </div>
           </Card>
 
           {/* Card 3: Days Present */}
-          <Card hoverEffect className="bg-gradient-to-br from-white to-emerald-50/40 border-emerald-100 flex flex-col justify-between p-5 sm:p-6">
+          <Card hoverEffect className="flex flex-col justify-between p-5 sm:p-6">
             <div className="flex justify-between items-start">
               <div>
-                <span className="text-xs font-semibold uppercase tracking-wider text-emerald-600">Days Present</span>
-                <div className="text-3xl font-extrabold text-slate-900 mt-2">{presentDays}</div>
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-400">Days Present</span>
+                <div className="text-3xl font-extrabold text-white mt-2 font-mono">{presentDays}</div>
               </div>
-              <div className="p-3 rounded-2xl bg-emerald-100 text-emerald-600">
-                <CheckCircle2 className="w-5 h-5" />
+              <div className="p-2.5 rounded-xl bg-white/[0.06] border border-white/10 text-white">
+                <CheckCircle2 className="w-4 h-4" />
               </div>
             </div>
-            <div className="mt-4 pt-3 border-t border-emerald-50 flex items-center justify-between text-xs text-slate-500">
-              <span>Attendance Rate</span>
-              <span className="font-semibold text-slate-700">100%</span>
+            <div className="mt-4 pt-3 border-t border-white/[0.08] flex items-center justify-between text-[11px] text-zinc-500 font-mono">
+              <span>Attendance</span>
+              <span className="text-zinc-300">Synchronized</span>
             </div>
           </Card>
 
           {/* Quick Action Navigation Buttons */}
           <div className="sm:col-span-3 grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
             {[
-              { label: 'My Profile', to: '/profile', icon: User, color: 'text-purple-600 bg-purple-50 hover:bg-purple-100 border-purple-100' },
-              { label: 'Timecard', to: '/attendance', icon: Clock, color: 'text-blue-600 bg-blue-50 hover:bg-blue-100 border-blue-100' },
-              { label: 'Apply Leave', to: '/leave', icon: CalendarDays, color: 'text-amber-600 bg-amber-50 hover:bg-amber-100 border-amber-100' },
-              { label: 'Payslip', to: '/payroll', icon: Wallet, color: 'text-emerald-600 bg-emerald-50 hover:bg-emerald-100 border-emerald-100' },
+              { label: 'Personnel Profile', to: '/profile', icon: User },
+              { label: 'Timecard Ledger', to: '/attendance', icon: Clock },
+              { label: 'Apply for Leave', to: '/leave', icon: CalendarDays },
+              { label: 'Salary Payslip', to: '/payroll', icon: Wallet },
             ].map((item, idx) => (
               <button
                 key={idx}
                 onClick={() => navigate(item.to)}
-                className={`p-3.5 rounded-2xl border transition-all text-left flex items-center justify-between group cursor-pointer ${item.color}`}
+                className="p-3.5 rounded-2xl border border-white/10 bg-white/[0.03] hover:bg-white/[0.07] hover:border-white/20 transition-all text-left flex items-center justify-between group cursor-pointer backdrop-blur-md"
               >
                 <div className="flex items-center gap-2.5">
-                  <item.icon className="w-4 h-4" />
-                  <span className="text-xs font-bold text-slate-800">{item.label}</span>
+                  <item.icon className="w-4 h-4 text-zinc-400 group-hover:text-white transition-colors" />
+                  <span className="text-xs font-semibold text-zinc-300 group-hover:text-white tracking-tight">{item.label}</span>
                 </div>
-                <ChevronRight className="w-3.5 h-3.5 opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
+                <ChevronRight className="w-3.5 h-3.5 text-zinc-600 group-hover:text-white group-hover:translate-x-0.5 transition-all" />
               </button>
             ))}
           </div>
@@ -386,10 +381,10 @@ export default function EmployeeDashboard() {
       </div>
 
       {/* Recent Leave Requests List */}
-      <Card className="border-slate-200">
+      <Card>
         <CardHeader className="flex flex-row items-center justify-between py-4">
-          <CardTitle className="text-base flex items-center gap-2">
-            <CalendarDays className="w-4 h-4 text-indigo-600" />
+          <CardTitle className="text-sm flex items-center gap-2 font-mono uppercase tracking-wider text-zinc-300">
+            <CalendarDays className="w-4 h-4 text-zinc-400" />
             Recent Leave Applications
           </CardTitle>
           <Button variant="ghost" size="sm" onClick={() => navigate('/leave')}>
@@ -399,29 +394,29 @@ export default function EmployeeDashboard() {
         </CardHeader>
         <CardContent className="p-0">
           {recentLeaves.length === 0 ? (
-            <div className="p-8 text-center text-xs text-slate-400">
-              No leave requests filed yet. You can apply for leaves anytime from the Leave Tracker tab.
+            <div className="p-8 text-center text-xs text-zinc-500 font-mono">
+              No leave requests filed yet.
             </div>
           ) : (
-            <div className="divide-y divide-slate-100">
+            <div className="divide-y divide-white/[0.06]">
               {recentLeaves.map((leave, idx) => (
-                <div key={idx} className="p-4 sm:px-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-50/60 transition-colors">
+                <div key={idx} className="p-4 sm:px-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-white/[0.02] transition-colors">
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
-                      <span className="font-bold text-xs text-slate-800">{leave.leaveType} LEAVE</span>
+                      <span className="font-bold text-xs text-white font-mono">{leave.leaveType} LEAVE</span>
                       <Badge variant={
-                        leave.status === 'APPROVED' ? 'success' :
+                        leave.status === 'APPROVED' ? 'primary' :
                         leave.status === 'REJECTED' ? 'danger' : 'warning'
                       }>
                         {leave.status || 'PENDING'}
                       </Badge>
                     </div>
-                    <p className="text-xs text-slate-500">
+                    <p className="text-xs text-zinc-500 font-mono">
                       {formatDate(leave.startDate)} — {formatDate(leave.endDate)}
                     </p>
                   </div>
 
-                  <div className="text-xs text-slate-600 italic bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100 max-w-md truncate">
+                  <div className="text-xs text-zinc-400 italic bg-black/40 px-3 py-1.5 rounded-xl border border-white/[0.08] max-w-md truncate">
                     "{leave.reason}"
                   </div>
                 </div>
