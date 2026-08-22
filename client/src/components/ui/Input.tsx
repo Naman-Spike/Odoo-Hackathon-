@@ -26,9 +26,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           <input
             type={type}
             className={classNames(
-              "flex h-11 w-full rounded-xl border bg-white/90 text-zinc-900 placeholder:text-zinc-400 px-3.5 py-2 text-xs focus:bg-white focus:outline-none focus:ring-2 focus:ring-black/10 focus:border-black disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200 shadow-sm backdrop-blur-md",
+              "flex h-11 w-full rounded-2xl border bg-white/80 text-zinc-900 placeholder:text-zinc-400 px-4 py-2 text-xs focus:bg-white focus:outline-none focus:ring-4 focus:ring-black/5 focus:border-black disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200 shadow-[inset_0_1.5px_1px_rgba(255,255,255,1),0_2px_8px_rgba(0,0,0,0.02)] backdrop-blur-xl",
               Icon && "pl-10",
-              error ? "border-rose-400 focus:border-rose-500 focus:ring-rose-500/20 bg-rose-50/50" : "border-zinc-200 hover:border-zinc-300",
+              error ? "border-rose-400 focus:border-rose-500 focus:ring-rose-500/20 bg-rose-50/50" : "border-white/90 hover:border-zinc-300",
               className
             )}
             ref={ref}
@@ -36,7 +36,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           />
         </div>
         {error && (
-          <p className="mt-1.5 text-xs font-medium text-rose-600 flex items-center gap-1">
+          <p className="mt-1.5 text-xs font-medium text-rose-600 flex items-center gap-1 font-mono">
             <span>●</span> {error}
           </p>
         )}
