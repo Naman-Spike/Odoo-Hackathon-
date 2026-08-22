@@ -15,12 +15,12 @@ if %errorlevel% neq 0 (
 )
 
 echo [2/3] Launching Backend Server on port 5000...
-start "Dayflow Backend Server" cmd /c "cd /d %~dp0server && npm run dev"
+start "Dayflow Backend Server" cmd /k "cd /d %~dp0server && npm run dev"
 
 timeout /t 2 /nobreak >nul
 
 echo [3/3] Launching Frontend Client on port 5173...
-start "Dayflow Frontend Client" cmd /c "cd /d %~dp0client && npm run dev"
+start "Dayflow Frontend Client" cmd /k "cd /d %~dp0client && npm run dev"
 
 timeout /t 3 /nobreak >nul
 

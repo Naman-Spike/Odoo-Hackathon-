@@ -30,7 +30,6 @@ export const createLeave = async (req: Request, res: Response) => {
       
       let usedDays = 0;
       for (const leave of leavesThisYear) {
-        // approximate simple counting
         const diffTime = Math.abs(new Date(leave.endDate).getTime() - new Date(leave.startDate).getTime());
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
         usedDays += diffDays;
@@ -41,7 +40,10 @@ export const createLeave = async (req: Request, res: Response) => {
       
       const maxAllowed = leaveType === 'PAID' ? 12 : 6;
       if (usedDays + newDiffDays > maxAllowed) {
-        return res.status(400).json({ error: `Insufficient ${leaveType} leave balance` });
+        const remaining = Math.max(0, maxAllowed - usedDays);
+        return res.status(400).json({ 
+          error: `Insufficient ${leaveType} leave balance. Requested ${newDiffDays} days but only ${remaining} days available.` 
+        });
       }
     }
 
@@ -58,7 +60,7 @@ export const createLeave = async (req: Request, res: Response) => {
 
     return res.status(201).json(leave);
   } catch (error) {
-    console.error(error);
+    console.error('Create leave error:', error);
     return res.status(500).json({ error: 'Internal server error' });
   }
 };
@@ -81,7 +83,7 @@ export const getMyLeaves = async (req: Request, res: Response) => {
     });
     return res.json(leaves);
   } catch (error) {
-    console.error(error);
+    console.error('Get my leaves error:', error);
     return res.status(500).json({ error: 'Internal server error' });
   }
 };
@@ -104,22 +106,24 @@ export const getLeaveBalance = async (req: Request, res: Response) => {
     
     let paidUsed = 0;
     let sickUsed = 0;
+    let unpaidUsed = 0;
     
     for (const leave of leavesThisYear) {
       const diffTime = Math.abs(new Date(leave.endDate).getTime() - new Date(leave.startDate).getTime());
       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
       
       if (leave.leaveType === 'PAID') paidUsed += diffDays;
-      if (leave.leaveType === 'SICK') sickUsed += diffDays;
+      else if (leave.leaveType === 'SICK') sickUsed += diffDays;
+      else if (leave.leaveType === 'UNPAID') unpaidUsed += diffDays;
     }
     
     return res.json({
-      paid: { used: paidUsed, total: 12, balance: 12 - paidUsed },
-      sick: { used: sickUsed, total: 6, balance: 6 - sickUsed },
-      unpaid: { used: leavesThisYear.filter(l => l.leaveType === 'UNPAID').length, total: null, balance: null }
+      paid: { used: paidUsed, total: 12, remaining: Math.max(0, 12 - paidUsed), balance: Math.max(0, 12 - paidUsed) },
+      sick: { used: sickUsed, total: 6, remaining: Math.max(0, 6 - sickUsed), balance: Math.max(0, 6 - sickUsed) },
+      unpaid: { used: unpaidUsed, total: 'Unlimited', remaining: 'Unlimited', balance: null }
     });
   } catch (error) {
-    console.error(error);
+    console.error('Get leave balance error:', error);
     return res.status(500).json({ error: 'Internal server error' });
   }
 };
@@ -141,7 +145,7 @@ export const getPendingLeaves = async (req: Request, res: Response) => {
     });
     return res.json(leaves);
   } catch (error) {
-    console.error(error);
+    console.error('Get pending leaves error:', error);
     return res.status(500).json({ error: 'Internal server error' });
   }
 };
@@ -167,7 +171,7 @@ export const getAllLeaves = async (req: Request, res: Response) => {
     });
     return res.json(leaves);
   } catch (error) {
-    console.error(error);
+    console.error('Get all leaves error:', error);
     return res.status(500).json({ error: 'Internal server error' });
   }
 };
@@ -218,7 +222,7 @@ export const reviewLeave = async (req: Request, res: Response) => {
 
     return res.json(leave);
   } catch (error) {
-    console.error(error);
+    console.error('Review leave error:', error);
     return res.status(500).json({ error: 'Internal server error' });
   }
 };

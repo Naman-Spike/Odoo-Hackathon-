@@ -40,8 +40,14 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({ records,
   }
 
   const getRecordForDay = (day: number) => {
-    const dateStr = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-    return records.find(r => (r.workDate || (r as any).date)?.startsWith(dateStr));
+    const targetDateStr = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+    return records.find(r => {
+      const raw = r.workDate || (r as any).date;
+      if (!raw) return false;
+      if (typeof raw === 'string' && raw.startsWith(targetDateStr)) return true;
+      const d = new Date(raw);
+      return !isNaN(d.getTime()) && d.getDate() === day && (d.getMonth() + 1) === month && d.getFullYear() === year;
+    });
   };
 
   const getStatusBadge = (status: string) => {
