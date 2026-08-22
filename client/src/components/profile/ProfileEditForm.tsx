@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { Card, CardHeader, CardTitle, CardContent } from '../ui/Card';
-import { Save, X } from 'lucide-react';
+import { Save, X, Sparkles, User, ShieldAlert } from 'lucide-react';
 
 interface ProfileData {
   id?: string;
@@ -46,109 +46,104 @@ export default function ProfileEditForm({ profile, isAdmin, onSave, onCancel }: 
   };
 
   return (
-    <Card className="max-w-4xl mx-auto shadow-md border-0">
-      <CardHeader className="border-b bg-gray-50/50">
-        <CardTitle className="text-xl">Edit Profile</CardTitle>
+    <Card className="max-w-4xl mx-auto shadow-sm border-slate-200 rounded-3xl overflow-hidden">
+      <CardHeader className="border-b border-slate-100 bg-slate-50/60 py-4">
+        <div className="flex items-center justify-between">
+          <CardTitle className="text-base flex items-center gap-2">
+            <User className="w-4 h-4 text-indigo-600" />
+            Edit Profile Information
+          </CardTitle>
+          {!isAdmin && (
+            <span className="text-[11px] text-amber-700 bg-amber-50 border border-amber-200 px-2.5 py-0.5 rounded-full font-medium flex items-center gap-1">
+              <ShieldAlert className="w-3 h-3" />
+              Role Restricted: Employment fields locked
+            </span>
+          )}
+        </div>
       </CardHeader>
-      <CardContent className="p-6">
+      
+      <CardContent className="p-6 sm:p-8">
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700">First Name</label>
-              <Input 
-                name="firstName" 
-                value={formData.firstName || ''} 
-                onChange={handleChange} 
-                disabled={!isAdmin} 
-                className={!isAdmin ? 'bg-gray-100 text-gray-500' : ''}
-                required
-              />
-            </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <Input 
+              label="First Name"
+              name="firstName" 
+              value={formData.firstName || ''} 
+              onChange={handleChange} 
+              disabled={!isAdmin} 
+              className={!isAdmin ? 'bg-slate-100/80 text-slate-500 cursor-not-allowed' : ''}
+              required
+            />
             
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700">Last Name</label>
-              <Input 
-                name="lastName" 
-                value={formData.lastName || ''} 
-                onChange={handleChange} 
-                disabled={!isAdmin}
-                className={!isAdmin ? 'bg-gray-100 text-gray-500' : ''}
-                required
-              />
-            </div>
+            <Input 
+              label="Last Name"
+              name="lastName" 
+              value={formData.lastName || ''} 
+              onChange={handleChange} 
+              disabled={!isAdmin}
+              className={!isAdmin ? 'bg-slate-100/80 text-slate-500 cursor-not-allowed' : ''}
+              required
+            />
 
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700">Phone Number</label>
-              <Input 
-                name="phone" 
-                value={formData.phone || ''} 
-                onChange={handleChange} 
-                placeholder="+1 (555) 000-0000"
-              />
-            </div>
+            <Input 
+              label="Mobile Phone Number"
+              name="phone" 
+              value={formData.phone || ''} 
+              onChange={handleChange} 
+              placeholder="+91 98765 43210"
+            />
 
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700">Address</label>
-              <Input 
-                name="address" 
-                value={formData.address || ''} 
-                onChange={handleChange} 
-                placeholder="123 Main St, City, Country"
-              />
-            </div>
+            <Input 
+              label="Residential Address"
+              name="address" 
+              value={formData.address || ''} 
+              onChange={handleChange} 
+              placeholder="Apartment, Street, City, Country"
+            />
 
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700">Department</label>
-              <Input 
-                name="department" 
-                value={formData.department || ''} 
-                onChange={handleChange} 
-                disabled={!isAdmin}
-                className={!isAdmin ? 'bg-gray-100 text-gray-500' : ''}
-              />
-            </div>
+            <Input 
+              label="Department"
+              name="department" 
+              value={formData.department || ''} 
+              onChange={handleChange} 
+              disabled={!isAdmin}
+              className={!isAdmin ? 'bg-slate-100/80 text-slate-500 cursor-not-allowed' : ''}
+            />
 
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700">Designation</label>
-              <Input 
-                name="designation" 
-                value={formData.designation || ''} 
-                onChange={handleChange} 
-                disabled={!isAdmin}
-                className={!isAdmin ? 'bg-gray-100 text-gray-500' : ''}
-              />
-            </div>
+            <Input 
+              label="Designation / Title"
+              name="designation" 
+              value={formData.designation || ''} 
+              onChange={handleChange} 
+              disabled={!isAdmin}
+              className={!isAdmin ? 'bg-slate-100/80 text-slate-500 cursor-not-allowed' : ''}
+            />
 
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700">Joining Date</label>
-              <Input 
-                type="date"
-                name="joiningDate" 
-                value={formData.joiningDate || ''} 
-                onChange={handleChange} 
-                disabled={!isAdmin}
-                className={!isAdmin ? 'bg-gray-100 text-gray-500' : ''}
-              />
-            </div>
+            <Input 
+              label="Joining Date"
+              type="date"
+              name="joiningDate" 
+              value={formData.joiningDate || ''} 
+              onChange={handleChange} 
+              disabled={!isAdmin}
+              className={!isAdmin ? 'bg-slate-100/80 text-slate-500 cursor-not-allowed' : ''}
+            />
 
-            <div className="space-y-2 md:col-span-2">
-              <label className="text-sm font-medium text-gray-700">Avatar URL</label>
-              <Input 
-                name="avatarUrl" 
-                value={formData.avatarUrl || ''} 
-                onChange={handleChange} 
-                placeholder="https://example.com/avatar.jpg"
-              />
-              <p className="text-xs text-gray-500 mt-1">Provide a valid image URL for the profile picture.</p>
-            </div>
+            <Input 
+              label="Avatar Profile Image URL"
+              name="avatarUrl" 
+              value={formData.avatarUrl || ''} 
+              onChange={handleChange} 
+              placeholder="https://images.unsplash.com/photo-..."
+            />
           </div>
 
-          <div className="flex justify-end gap-3 pt-4 border-t">
-            <Button type="button" variant="outline" onClick={onCancel}>
-              <X className="w-4 h-4 mr-2" /> Cancel
+          <div className="flex justify-end gap-3 pt-6 border-t border-slate-100">
+            <Button type="button" variant="ghost" onClick={onCancel}>
+              Cancel
             </Button>
-            <Button type="submit" className="bg-blue-600 hover:bg-blue-700">
-              <Save className="w-4 h-4 mr-2" /> Save Changes
+            <Button type="submit" variant="gradient" icon={Save}>
+              Save Profile Changes
             </Button>
           </div>
         </form>

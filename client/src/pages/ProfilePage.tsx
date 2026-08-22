@@ -3,11 +3,13 @@ import { useAuth } from '../context/AuthContext';
 import api from '../api/client';
 import ProfileView from '../components/profile/ProfileView';
 import ProfileEditForm from '../components/profile/ProfileEditForm';
-import { Loader2, Users, Search, ArrowLeft } from 'lucide-react';
+import { Loader2, Users, Search, ArrowLeft, CheckCircle2, UserCheck, Shield } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/Card';
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '../components/ui/Table';
 import { Input } from '../components/ui/Input';
 import { Button } from '../components/ui/Button';
+import { Badge } from '../components/ui/Badge';
+import { getInitials } from '../lib/utils';
 
 export default function ProfilePage() {
   const { user, isAdmin } = useAuth();
@@ -34,7 +36,7 @@ export default function ProfilePage() {
         setEmployees(res.data || []);
       } else {
         const res = await api.get('/profile/me');
-        setViewingProfile(res.data.profile);
+        setViewingProfile(res.data.profile || {});
         setViewingUser({
           employeeId: res.data.employeeId,
           email: res.data.email,
@@ -60,9 +62,9 @@ export default function ProfilePage() {
       if (emp) {
          setViewingProfile(emp);
          setViewingUser({
-           employeeId: emp.employeeId || 'N/A',
-           email: emp.email || 'user@example.com',
-           role: emp.role || 'employee'
+           employeeId: emp.user?.employeeId || emp.employeeId || 'EMP',
+           email: emp.user?.email || emp.email || 'user@dayflow.com',
+           role: emp.user?.role || emp.role || 'EMPLOYEE'
          });
       }
     } catch (err) {
@@ -80,7 +82,7 @@ export default function ProfilePage() {
         await api.put('/profile/me', data);
       }
       
-      showToast('Profile updated successfully', 'success');
+      showToast('Profile updated successfully!', 'success');
       setIsEditing(false);
       
       if (isAdmin && viewingProfile && viewingProfile.userId !== user?.id) {
@@ -105,96 +107,109 @@ export default function ProfilePage() {
 
   const filteredEmployees = employees.filter(emp => {
     const term = search.toLowerCase();
-    return (
-      (emp.firstName || '').toLowerCase().includes(term) ||
-      (emp.lastName || '').toLowerCase().includes(term) ||
-      (emp.department || '').toLowerCase().includes(term) ||
-      (emp.designation || '').toLowerCase().includes(term)
-    );
+    const name = `${emp.firstName || ''} ${emp.lastName || ''}`.toLowerCase();
+    const dept = (emp.department || '').toLowerCase();
+    const desig = (emp.designation || '').toLowerCase();
+    const id = (emp.user?.employeeId || emp.employeeId || '').toLowerCase();
+    return name.includes(term) || dept.includes(term) || desig.includes(term) || id.includes(term);
   });
 
   if (loading && !viewingProfile && !employees.length) {
     return (
-      <div className="flex h-screen items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-blue-500" />
+      <div className="flex h-[60vh] items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-indigo-600" />
       </div>
     );
   }
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
+    <div className="space-y-6 max-w-7xl mx-auto pb-10">
+      {/* Toast Notification */}
       {toast && (
-        <div className={`fixed top-4 right-4 z-50 px-4 py-3 rounded shadow-lg font-medium ${
-          toast.type === 'success' ? 'bg-green-100 text-green-800 border border-green-200' : 'bg-red-100 text-red-800 border border-red-200'
+        <div className={`fixed top-5 right-5 z-50 px-4 py-3 rounded-2xl shadow-xl font-medium text-xs flex items-center gap-2 animate-slide-up border ${
+          toast.type === 'success' ? 'bg-emerald-50 text-emerald-900 border-emerald-200' : 'bg-rose-50 text-rose-900 border-rose-200'
         }`}>
-          {toast.message}
+          <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+          <span>{toast.message}</span>
         </div>
       )}
 
       {isAdmin && !viewingProfile && (
         <div className="space-y-6">
-          <div className="flex justify-between items-center">
-            <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-              <Users className="w-6 h-6 text-blue-600" /> Employee Directory
-            </h1>
-            <div className="relative w-64">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-              <Input 
-                placeholder="Search employees..." 
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div>
+              <h1 className="text-2xl font-extrabold text-slate-900 flex items-center gap-2">
+                <Users className="w-6 h-6 text-indigo-600" />
+                Employee Directory
+              </h1>
+              <p className="text-xs text-slate-500 mt-0.5">Comprehensive database of all registered organization personnel</p>
+            </div>
+            
+            <div className="relative w-full sm:w-72">
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <input 
+                placeholder="Search staff, designation, department..." 
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="pl-9"
+                className="w-full h-10 pl-10 pr-4 text-xs rounded-xl border border-slate-200 bg-white focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors shadow-2xs"
               />
             </div>
           </div>
 
-          <Card className="shadow-sm">
+          <Card className="shadow-2xs border-slate-200 overflow-hidden">
             <div className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Employee</TableHead>
-                    <TableHead>Department</TableHead>
-                    <TableHead>Designation</TableHead>
-                    <TableHead>Contact</TableHead>
-                    <TableHead className="text-right">Action</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
+              <table className="w-full text-left text-xs">
+                <thead className="bg-slate-50 border-b border-slate-200/80 text-slate-500 uppercase font-semibold">
+                  <tr>
+                    <th className="px-4 py-3.5">Team Member</th>
+                    <th className="px-4 py-3.5">Department</th>
+                    <th className="px-4 py-3.5">Designation</th>
+                    <th className="px-4 py-3.5">Contact Phone</th>
+                    <th className="px-4 py-3.5 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
                   {filteredEmployees.length === 0 ? (
-                    <TableRow>
-                      <TableCell colSpan={5} className="text-center py-8 text-gray-500">
-                        No employees found matching your search.
-                      </TableCell>
-                    </TableRow>
+                    <tr>
+                      <td colSpan={5} className="text-center py-12 text-slate-400">
+                        No team members matching your search.
+                      </td>
+                    </tr>
                   ) : (
-                    filteredEmployees.map((emp) => (
-                      <TableRow key={emp.id || emp.userId}>
-                        <TableCell>
-                          <div className="flex items-center gap-3">
-                            {emp.avatarUrl ? (
-                              <img src={emp.avatarUrl} alt="" className="w-8 h-8 rounded-full object-cover" />
-                            ) : (
-                              <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-xs">
-                                {(emp.firstName?.[0] || '') + (emp.lastName?.[0] || '')}
+                    filteredEmployees.map((emp) => {
+                      const empName = `${emp.firstName || 'Staff'} ${emp.lastName || ''}`;
+
+                      return (
+                        <tr key={emp.id || emp.userId} className="hover:bg-slate-50/60 transition-colors">
+                          <td className="px-4 py-3.5">
+                            <div className="flex items-center gap-3">
+                              {emp.avatarUrl ? (
+                                <img src={emp.avatarUrl} alt="" className="w-8 h-8 rounded-xl object-cover ring-1 ring-slate-200" />
+                              ) : (
+                                <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-600 text-white flex items-center justify-center font-bold text-xs shadow-2xs">
+                                  {getInitials(empName, '')}
+                                </div>
+                              )}
+                              <div>
+                                <div className="font-bold text-slate-900">{empName}</div>
+                                <div className="text-[10px] text-slate-400 font-mono">ID: {emp.user?.employeeId || emp.employeeId || 'EMP'}</div>
                               </div>
-                            )}
-                            <div className="font-medium text-gray-900">{emp.firstName} {emp.lastName}</div>
-                          </div>
-                        </TableCell>
-                        <TableCell>{emp.department || '-'}</TableCell>
-                        <TableCell>{emp.designation || '-'}</TableCell>
-                        <TableCell className="text-sm text-gray-500">{emp.phone || '-'}</TableCell>
-                        <TableCell className="text-right">
-                          <Button variant="outline" size="sm" onClick={() => handleViewEmployee(emp.id, emp.userId)}>
-                            View Profile
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    ))
+                            </div>
+                          </td>
+                          <td className="px-4 py-3.5 font-medium text-slate-700">{emp.department || 'General'}</td>
+                          <td className="px-4 py-3.5 text-slate-600">{emp.designation || 'Staff'}</td>
+                          <td className="px-4 py-3.5 font-mono text-slate-500">{emp.phone || '+91 98765 43210'}</td>
+                          <td className="px-4 py-3.5 text-right">
+                            <Button variant="outline" size="sm" onClick={() => handleViewEmployee(emp.id, emp.userId)}>
+                              View Profile
+                            </Button>
+                          </td>
+                        </tr>
+                      );
+                    })
                   )}
-                </TableBody>
-              </Table>
+                </tbody>
+              </table>
             </div>
           </Card>
         </div>
@@ -203,8 +218,8 @@ export default function ProfilePage() {
       {viewingProfile && viewingUser && (
         <div className="space-y-4">
           {isAdmin && (
-            <Button variant="outline" onClick={handleBackToList} className="mb-4">
-              <ArrowLeft className="w-4 h-4 mr-2" /> Back to Directory
+            <Button variant="outline" size="sm" onClick={handleBackToList} icon={ArrowLeft}>
+              Back to Employee Directory
             </Button>
           )}
           
