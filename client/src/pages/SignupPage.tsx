@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Zap, Mail, Lock, User, Briefcase } from 'lucide-react';
+import { Zap, Mail, Lock, User, Briefcase, ArrowRight, Sparkles, CheckCircle2 } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import { Input } from '../components/ui/Input';
 import { Button } from '../components/ui/Button';
@@ -8,8 +8,7 @@ import { Select } from '../components/ui/Select';
 
 export const SignupPage: React.FC = () => {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    employeeId: 'EMP-' + Math.floor(100 + Math.random() * 900),
     email: '',
     password: '',
     confirmPassword: '',
@@ -36,72 +35,76 @@ export const SignupPage: React.FC = () => {
     }
 
     if (formData.password.length < 6) {
-      return setError('Password must be at least 6 characters');
+      return setError('Password must be at least 6 characters long');
     }
 
     setIsLoading(true);
 
     try {
       await signup({
+        employeeId: formData.employeeId,
         email: formData.email,
         password: formData.password,
-        role: formData.role,
-        profile: {
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          department: 'General',
-          designation: 'Staff'
-        }
+        role: formData.role
       });
       
       setSuccess('Account created successfully! Redirecting to login...');
-      setTimeout(() => navigate('/login'), 2000);
+      setTimeout(() => navigate('/login'), 1500);
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Failed to create account.');
+      setError(err.response?.data?.error || 'Failed to create account. Please check your information.');
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center p-4 py-12">
-      <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+    <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4 sm:p-6 lg:p-8 relative overflow-hidden">
+      {/* Decorative Glows */}
+      <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] rounded-full bg-indigo-600/20 blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-purple-600/20 blur-[120px] pointer-events-none" />
+      
+      <div className="max-w-xl w-full bg-white rounded-3xl shadow-2xl p-6 sm:p-10 border border-slate-100 relative z-10 animate-slide-up">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center h-12 w-12 rounded-xl bg-primary-100 text-primary-600 mb-4">
-            <Zap className="h-6 w-6" />
+          <div className="inline-flex items-center justify-center h-12 w-12 rounded-2xl bg-gradient-to-tr from-indigo-600 to-purple-600 text-white shadow-glow mb-4">
+            <Zap className="h-6 w-6 fill-white" />
           </div>
-          <h2 className="text-2xl font-bold text-gray-900">Create an account</h2>
-          <p className="text-sm text-gray-500 mt-2">Join Dayflow HRMS today</p>
+          <h2 className="text-2xl font-bold text-slate-900">Create your Account</h2>
+          <p className="text-sm text-slate-500 mt-1">Join Dayflow HRMS in seconds</p>
         </div>
 
         {error && (
-          <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 text-sm rounded-r">
+          <div className="mb-5 p-3.5 bg-rose-50 border border-rose-200 text-rose-700 text-xs font-medium rounded-xl flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-rose-500" />
             {error}
           </div>
         )}
 
         {success && (
-          <div className="mb-6 p-4 bg-green-50 border-l-4 border-green-500 text-green-700 text-sm rounded-r">
+          <div className="mb-5 p-3.5 bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-medium rounded-xl flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 text-emerald-600" />
             {success}
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <Input
-              label="First Name"
-              name="firstName"
-              icon={User}
-              value={formData.firstName}
+              label="Employee ID"
+              name="employeeId"
+              value={formData.employeeId}
               onChange={handleChange}
+              placeholder="EMP-003"
               required
             />
-            <Input
-              label="Last Name"
-              name="lastName"
-              value={formData.lastName}
+            <Select
+              label="Account Role"
+              name="role"
+              value={formData.role}
               onChange={handleChange}
-              required
+              options={[
+                { value: 'EMPLOYEE', label: 'Employee (Standard)' },
+                { value: 'ADMIN', label: 'HR Administrator' }
+              ]}
             />
           </div>
 
@@ -112,48 +115,43 @@ export const SignupPage: React.FC = () => {
             icon={Mail}
             value={formData.email}
             onChange={handleChange}
+            placeholder="you@company.com"
             required
           />
 
-          <Select
-            label="Role"
-            name="role"
-            value={formData.role}
-            onChange={handleChange}
-            options={[
-              { value: 'EMPLOYEE', label: 'Employee' },
-              { value: 'ADMIN', label: 'Administrator' }
-            ]}
-          />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <Input
+              label="Password"
+              name="password"
+              type="password"
+              icon={Lock}
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="••••••••"
+              required
+            />
 
-          <Input
-            label="Password"
-            name="password"
-            type="password"
-            icon={Lock}
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
+            <Input
+              label="Confirm Password"
+              name="confirmPassword"
+              type="password"
+              icon={Lock}
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              placeholder="••••••••"
+              required
+            />
+          </div>
 
-          <Input
-            label="Confirm Password"
-            name="confirmPassword"
-            type="password"
-            icon={Lock}
-            value={formData.confirmPassword}
-            onChange={handleChange}
-            required
-          />
-
-          <Button type="submit" className="w-full mt-2" size="lg" isLoading={isLoading}>
-            Sign Up
+          <Button type="submit" variant="gradient" className="w-full h-11 text-sm mt-4" isLoading={isLoading}>
+            <span>Create Account</span>
+            <ArrowRight className="w-4 h-4 ml-1" />
           </Button>
         </form>
 
-        <p className="mt-6 text-center text-sm text-gray-600">
+        <p className="mt-6 text-center text-xs text-slate-500">
           Already have an account?{' '}
-          <Link to="/login" className="font-medium text-primary-600 hover:text-primary-500">
+          <Link to="/login" className="font-semibold text-indigo-600 hover:text-indigo-700">
             Sign in
           </Link>
         </p>
