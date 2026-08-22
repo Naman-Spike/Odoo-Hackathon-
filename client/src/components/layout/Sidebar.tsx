@@ -11,7 +11,8 @@ import {
   CheckSquare, 
   ClipboardList, 
   DollarSign,
-  LogOut
+  LogOut,
+  Sparkles
 } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import { classNames, getInitials } from '../../lib/utils';
@@ -29,16 +30,16 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
     { name: 'Dashboard', to: '/dashboard', icon: LayoutDashboard },
     { name: 'My Profile', to: '/profile', icon: User },
     { name: 'Attendance', to: '/attendance', icon: Clock },
-    { name: 'Leave', to: '/leave', icon: CalendarDays },
-    { name: 'Payroll', to: '/payroll', icon: Wallet },
+    { name: 'Leave Tracker', to: '/leave', icon: CalendarDays },
+    { name: 'My Payroll', to: '/payroll', icon: Wallet },
   ];
 
   const adminLinks = [
-    { name: 'Dashboard', to: '/dashboard', icon: LayoutDashboard },
-    { name: 'Employees', to: '/employees', icon: Users },
-    { name: 'Attendance', to: '/attendance', icon: CheckSquare },
+    { name: 'Admin Dashboard', to: '/dashboard', icon: LayoutDashboard },
+    { name: 'Employee Directory', to: '/employees', icon: Users },
+    { name: 'Team Attendance', to: '/attendance', icon: CheckSquare },
     { name: 'Leave Approvals', to: '/leave/manage', icon: ClipboardList },
-    { name: 'Payroll Management', to: '/payroll/manage', icon: DollarSign },
+    { name: 'Payroll Engine', to: '/payroll/manage', icon: DollarSign },
   ];
 
   const links = isAdmin ? adminLinks : employeeLinks;
@@ -48,78 +49,104 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, setIsOpen }) => {
       {/* Mobile overlay */}
       {isOpen && (
         <div 
-          className="fixed inset-0 z-20 bg-black/40 lg:hidden"
+          className="fixed inset-0 z-30 bg-slate-950/50 backdrop-blur-sm lg:hidden transition-opacity"
           onClick={() => setIsOpen(false)}
         />
       )}
 
-      {/* Sidebar */}
-      <div className={classNames(
-        "fixed inset-y-0 left-0 z-30 w-64 bg-white border-r border-gray-200 transform transition-transform duration-200 ease-in-out lg:translate-x-0 flex flex-col",
+      {/* Sidebar Shell */}
+      <aside className={classNames(
+        "fixed inset-y-0 left-0 z-40 w-64 bg-slate-900 text-slate-200 transform transition-transform duration-200 ease-in-out lg:translate-x-0 flex flex-col shadow-xl border-r border-slate-800",
         isOpen ? "translate-x-0" : "-translate-x-full"
       )}>
-        {/* Brand */}
-        <div className="h-16 flex items-center px-6 border-b border-gray-100">
-          <Zap className="h-6 w-6 text-primary-600 mr-2" />
-          <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-primary-800">
-            Dayflow
-          </span>
+        {/* Brand Header */}
+        <div className="h-16 flex items-center justify-between px-6 border-b border-slate-800/80 bg-slate-950/40">
+          <div className="flex items-center gap-3">
+            <div className="h-9 w-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-500 flex items-center justify-center text-white shadow-glow">
+              <Zap className="h-5 w-5 fill-white" />
+            </div>
+            <div>
+              <span className="text-lg font-bold text-white tracking-tight flex items-center gap-1.5">
+                Dayflow <span className="text-[10px] font-semibold text-indigo-400 bg-indigo-950/80 px-1.5 py-0.5 rounded border border-indigo-800/50">PRO</span>
+              </span>
+            </div>
+          </div>
         </div>
 
-        {/* Navigation */}
-        <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-1">
+        {/* Section Title */}
+        <div className="px-5 pt-5 pb-2">
+          <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+            {isAdmin ? 'HR Administration' : 'Workspace'}
+          </p>
+        </div>
+
+        {/* Navigation Links */}
+        <nav className="flex-1 overflow-y-auto px-3 py-2 space-y-1">
           {links.map((link) => (
             <NavLink
               key={link.name}
               to={link.to}
               onClick={() => setIsOpen(false)}
               className={({ isActive }) => classNames(
-                "flex items-center px-3 py-2.5 rounded-lg text-sm font-medium transition-colors group",
+                "flex items-center px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 group relative",
                 isActive 
-                  ? "bg-primary-50 text-primary-700" 
-                  : "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                  ? "bg-indigo-600/20 text-white font-semibold border border-indigo-500/30 shadow-sm" 
+                  : "text-slate-400 hover:bg-slate-800/70 hover:text-slate-100"
               )}
             >
-              <link.icon className={classNames(
-                "mr-3 flex-shrink-0 h-5 w-5 transition-colors",
-                // Need to use isActive again somehow, but can just let parent class dictate color via currentColor
-                "text-current opacity-70 group-hover:opacity-100"
-              )} />
-              {link.name}
+              {({ isActive }) => (
+                <>
+                  <link.icon className={classNames(
+                    "mr-3 flex-shrink-0 h-5 w-5 transition-colors",
+                    isActive ? "text-indigo-400" : "text-slate-400 group-hover:text-slate-200"
+                  )} />
+                  <span className="flex-1">{link.name}</span>
+                  {isActive && (
+                    <span className="w-1.5 h-4 bg-indigo-400 rounded-full" />
+                  )}
+                </>
+              )}
             </NavLink>
           ))}
         </nav>
 
-        {/* User Info */}
+        {/* System Online Status Pill */}
+        <div className="px-4 py-3 mx-3 my-2 rounded-xl bg-slate-950/40 border border-slate-800/60 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+            <span className="text-xs text-slate-300 font-medium">All systems normal</span>
+          </div>
+          <span className="text-[10px] text-slate-500 font-mono">v1.2</span>
+        </div>
+
+        {/* User Card at Bottom */}
         {user && (
-          <div className="p-4 border-t border-gray-100">
-            <div className="flex items-center">
+          <div className="p-3 border-t border-slate-800/80 bg-slate-950/60">
+            <div className="flex items-center gap-3 p-2 rounded-xl bg-slate-900/80 border border-slate-800">
               <div className="flex-shrink-0">
-                <div className="h-10 w-10 rounded-full bg-primary-100 flex items-center justify-center text-primary-700 font-semibold border border-primary-200">
-                  {getInitials(user.profile?.firstName || 'User', user.profile?.lastName || '')}
+                <div className="h-9 w-9 rounded-lg bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-sm shadow-sm ring-2 ring-indigo-400/20">
+                  {getInitials(user.profile?.firstName || 'U', user.profile?.lastName || '')}
                 </div>
               </div>
-              <div className="ml-3 min-w-0 flex-1">
-                <p className="text-sm font-medium text-gray-900 truncate">
+              <div className="min-w-0 flex-1">
+                <p className="text-xs font-semibold text-white truncate">
                   {user.profile?.firstName} {user.profile?.lastName}
                 </p>
-                <div className="flex items-center mt-1">
-                  <Badge variant={isAdmin ? 'primary' : 'default'} className="text-[10px] px-1.5 py-0">
-                    {user.role}
-                  </Badge>
-                </div>
+                <p className="text-[10px] text-slate-400 truncate">
+                  {user.profile?.designation || user.email}
+                </p>
               </div>
               <button 
                 onClick={logout}
-                className="ml-2 p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                title="Logout"
+                className="p-1.5 text-slate-400 hover:text-rose-400 hover:bg-rose-950/40 rounded-lg transition-colors"
+                title="Sign out"
               >
-                <LogOut className="h-5 w-5" />
+                <LogOut className="h-4 w-4" />
               </button>
             </div>
           </div>
         )}
-      </div>
+      </aside>
     </>
   );
 };
