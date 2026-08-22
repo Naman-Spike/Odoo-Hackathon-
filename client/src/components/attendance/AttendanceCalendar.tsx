@@ -47,45 +47,45 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({ records,
   const getStatusBadge = (status: string) => {
     switch (status) {
       case 'PRESENT': 
-        return { label: 'Present', bg: 'bg-emerald-50 text-emerald-700 border-emerald-200', dot: 'bg-emerald-500' };
+        return { label: 'Present', bg: 'bg-white/10 text-white border-white/20', dot: 'bg-white shadow-[0_0_6px_rgba(255,255,255,0.8)]' };
       case 'ABSENT': 
-        return { label: 'Absent', bg: 'bg-rose-50 text-rose-700 border-rose-200', dot: 'bg-rose-500' };
+        return { label: 'Absent', bg: 'bg-zinc-900 text-zinc-400 border-zinc-800', dot: 'bg-zinc-600' };
       case 'HALF_DAY': 
-        return { label: 'Half Day', bg: 'bg-amber-50 text-amber-700 border-amber-200', dot: 'bg-amber-500' };
+        return { label: 'Half Day', bg: 'bg-white/[0.06] text-zinc-300 border-white/10', dot: 'bg-zinc-300' };
       case 'LEAVE': 
-        return { label: 'On Leave', bg: 'bg-sky-50 text-sky-700 border-sky-200', dot: 'bg-sky-500' };
+        return { label: 'Leave', bg: 'bg-white/[0.08] text-zinc-200 border-white/15', dot: 'bg-zinc-200' };
       default: 
-        return { label: status, bg: 'bg-slate-50 text-slate-700 border-slate-200', dot: 'bg-slate-400' };
+        return { label: status, bg: 'bg-zinc-900 text-zinc-400 border-zinc-800', dot: 'bg-zinc-600' };
     }
   };
 
   return (
     <div className="w-full">
       {/* Calendar Legend */}
-      <div className="flex flex-wrap items-center gap-4 mb-4 text-xs font-semibold text-slate-600 px-1">
+      <div className="flex flex-wrap items-center gap-4 mb-4 text-[11px] font-mono text-zinc-400 px-1">
         <div className="flex items-center gap-1.5">
-          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+          <span className="w-2 h-2 rounded-full bg-white shadow-[0_0_6px_rgba(255,255,255,0.8)]" />
           <span>Present</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <span className="w-2.5 h-2.5 rounded-full bg-amber-500" />
+          <span className="w-2 h-2 rounded-full bg-zinc-300" />
           <span>Half Day</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <span className="w-2.5 h-2.5 rounded-full bg-sky-500" />
+          <span className="w-2 h-2 rounded-full bg-zinc-400" />
           <span>Leave</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <span className="w-2.5 h-2.5 rounded-full bg-rose-500" />
+          <span className="w-2 h-2 rounded-full bg-zinc-700" />
           <span>Absent</span>
         </div>
       </div>
 
-      <div className="grid grid-cols-7 gap-1.5 bg-slate-100/70 p-2 rounded-2xl border border-slate-200">
+      <div className="grid grid-cols-7 gap-1.5 bg-black/40 p-2.5 rounded-2xl border border-white/10 shadow-inner">
         {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((dayName, idx) => (
           <div key={dayName} className={classNames(
-            "py-2 text-center text-xs font-bold uppercase tracking-wider rounded-lg",
-            idx >= 5 ? "text-slate-400 bg-slate-200/40" : "text-slate-600"
+            "py-2 text-center text-[10px] font-mono font-bold uppercase tracking-wider rounded-lg",
+            idx >= 5 ? "text-zinc-600 bg-white/[0.01]" : "text-zinc-400"
           )}>
             {dayName}
           </div>
@@ -117,41 +117,41 @@ export const AttendanceCalendar: React.FC<AttendanceCalendarProps> = ({ records,
             <div 
               key={day} 
               className={classNames(
-                "min-h-[95px] p-2 bg-white rounded-xl border transition-all duration-150 flex flex-col justify-between",
-                isWeekend ? "bg-slate-50/70 border-slate-100" : "border-slate-200/80 shadow-2xs hover:shadow-sm",
-                isToday ? "ring-2 ring-indigo-600 border-transparent shadow-glow" : "",
-                isFuture ? "opacity-40 bg-slate-50/50" : ""
+                "min-h-[95px] p-2 rounded-xl border transition-all duration-150 flex flex-col justify-between backdrop-blur-md",
+                isWeekend ? "bg-black/30 border-white/[0.03]" : "bg-white/[0.025] border-white/[0.07] hover:border-white/20 hover:bg-white/[0.04]",
+                isToday ? "ring-1 ring-white border-white/40 bg-white/[0.08] shadow-glow-white" : "",
+                isFuture ? "opacity-30 bg-black/20" : ""
               )}
             >
               <div className="flex justify-between items-start">
                 <span className={classNames(
-                  "text-xs font-bold px-1.5 py-0.5 rounded-md",
-                  isToday ? "bg-indigo-600 text-white shadow-xs" : "text-slate-700"
+                  "text-xs font-mono font-bold px-1.5 py-0.5 rounded-md",
+                  isToday ? "bg-white text-black font-bold" : "text-zinc-300"
                 )}>
                   {day}
                 </span>
                 {isToday && (
-                  <span className="text-[9px] font-extrabold uppercase tracking-tight text-indigo-600">Today</span>
+                  <span className="text-[9px] font-mono font-bold uppercase tracking-tight text-white">TODAY</span>
                 )}
               </div>
 
               {badge && !isFuture && !isWeekend && (
                 <div className="mt-2 space-y-1">
-                  <div className={classNames("px-2 py-0.5 rounded-md border text-[10px] font-semibold flex items-center gap-1", badge.bg)}>
-                    <span className={classNames("w-1.5 h-1.5 rounded-full", badge.dot)} />
+                  <div className={classNames("px-1.5 py-0.5 rounded border text-[9px] font-mono flex items-center gap-1", badge.bg)}>
+                    <span className={classNames("w-1 h-1 rounded-full", badge.dot)} />
                     <span className="truncate">{badge.label}</span>
                   </div>
                   
                   {record?.totalHours != null && record.totalHours > 0 && (
-                    <div className="text-[10px] font-mono text-slate-500 font-medium text-right">
-                      {record.totalHours.toFixed(1)} hrs
+                    <div className="text-[10px] font-mono text-zinc-500 text-right">
+                      {record.totalHours.toFixed(1)}h
                     </div>
                   )}
                 </div>
               )}
 
               {isWeekend && (
-                <div className="text-[10px] text-slate-400 font-medium text-center my-auto">
+                <div className="text-[9px] font-mono text-zinc-600 text-center my-auto">
                   Weekend
                 </div>
               )}

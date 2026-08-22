@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { PlusCircle, CalendarDays, CheckCircle2, Clock, Sparkles } from 'lucide-react';
+import { PlusCircle, Clock, CheckCircle2 } from 'lucide-react';
 import api from '../api/client';
 import { Button } from '../components/ui/Button';
-import { Card, CardContent } from '../components/ui/Card';
+import { Card } from '../components/ui/Card';
 import { Modal } from '../components/ui/Modal';
 import { LeaveForm } from '../components/leave/LeaveForm';
 import { LeaveList } from '../components/leave/LeaveList';
@@ -45,7 +45,7 @@ export const LeavePage = () => {
     try {
       await api.post('/leaves', data);
       setIsModalOpen(false);
-      setNotification({ type: 'success', message: 'Leave application submitted successfully! Pending HR review.' });
+      setNotification({ type: 'success', message: 'Leave request recorded and submitted to HR queue.' });
       fetchData();
       setTimeout(() => setNotification(null), 5000);
     } catch (error: any) {
@@ -60,8 +60,8 @@ export const LeavePage = () => {
 
   if (loading && !balance) {
     return (
-      <div className="flex h-[60vh] items-center justify-center text-slate-400 text-sm">
-        Loading leave quotas & history...
+      <div className="flex h-[60vh] items-center justify-center text-zinc-500 text-xs font-mono">
+        Loading quota telemetry...
       </div>
     );
   }
@@ -78,19 +78,17 @@ export const LeavePage = () => {
     <div className="max-w-6xl mx-auto space-y-6 pb-10">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-extrabold text-slate-900">Leave Tracker & Quotas</h1>
-          <p className="text-xs text-slate-500 mt-0.5">Apply for time off and review approval status in real-time</p>
+          <h1 className="text-2xl font-black text-white tracking-tight font-sans">Leave Management & Quotas</h1>
+          <p className="text-xs text-zinc-400 mt-0.5 font-medium">Audit annual entitlements and submit time off requests</p>
         </div>
-        <Button onClick={() => setIsModalOpen(true)} variant="gradient" icon={PlusCircle}>
+        <Button onClick={() => setIsModalOpen(true)} variant="primary" icon={PlusCircle}>
           Apply for Leave
         </Button>
       </div>
 
       {notification && (
-        <div className={`p-4 rounded-2xl text-xs font-semibold flex items-center gap-2 ${
-          notification.type === 'success' ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : 'bg-rose-50 text-rose-800 border border-rose-200'
-        }`}>
-          <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+        <div className="p-4 rounded-2xl bg-white/10 text-white border border-white/20 text-xs font-mono flex items-center gap-2 backdrop-blur-md">
+          <CheckCircle2 className="w-4 h-4 text-white" />
           <span>{notification.message}</span>
         </div>
       )}
@@ -99,75 +97,75 @@ export const LeavePage = () => {
       {balance && (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
           {/* Paid Leave Card */}
-          <Card hoverEffect className="p-6 bg-gradient-to-br from-white to-blue-50/40 border-blue-100 flex flex-col justify-between">
+          <Card hoverEffect className="p-6 flex flex-col justify-between">
             <div>
               <div className="flex justify-between items-start">
-                <span className="text-xs font-bold uppercase tracking-wider text-blue-700">Paid Annual Leave</span>
-                <span className="text-xs font-bold text-blue-600 bg-blue-100 px-2 py-0.5 rounded-full">
-                  {balance.paid.remaining} Left
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-400">Paid Annual Quota</span>
+                <span className="text-[10px] font-mono font-bold text-white bg-white/10 px-2 py-0.5 rounded-full border border-white/15">
+                  {balance.paid.remaining} Available
                 </span>
               </div>
-              <div className="flex items-baseline gap-2 mt-3">
-                <span className="text-3xl font-extrabold text-slate-900">{balance.paid.remaining}</span>
-                <span className="text-xs text-slate-500 font-medium">/ {balance.paid.total} total days</span>
+              <div className="flex items-baseline gap-2 mt-3 font-mono">
+                <span className="text-3xl font-extrabold text-white">{balance.paid.remaining}</span>
+                <span className="text-xs text-zinc-500">/ {balance.paid.total} total</span>
               </div>
             </div>
             
-            <div className="mt-4 pt-3 border-t border-blue-50">
-              <div className="flex justify-between text-[11px] font-medium text-slate-500 mb-1">
+            <div className="mt-4 pt-3 border-t border-white/[0.08]">
+              <div className="flex justify-between text-[10px] font-mono text-zinc-400 mb-1">
                 <span>Used: {balance.paid.used} days</span>
                 <span>{paidPct}%</span>
               </div>
-              <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
-                <div className="h-full bg-blue-600 rounded-full transition-all duration-300" style={{ width: `${paidPct}%` }} />
+              <div className="h-1.5 w-full bg-white/[0.06] rounded-full overflow-hidden">
+                <div className="h-full bg-white rounded-full transition-all duration-300" style={{ width: `${paidPct}%` }} />
               </div>
             </div>
           </Card>
 
           {/* Sick Leave Card */}
-          <Card hoverEffect className="p-6 bg-gradient-to-br from-white to-rose-50/40 border-rose-100 flex flex-col justify-between">
+          <Card hoverEffect className="p-6 flex flex-col justify-between">
             <div>
               <div className="flex justify-between items-start">
-                <span className="text-xs font-bold uppercase tracking-wider text-rose-700">Sick & Medical Leave</span>
-                <span className="text-xs font-bold text-rose-600 bg-rose-100 px-2 py-0.5 rounded-full">
-                  {balance.sick.remaining} Left
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-400">Medical & Sick Leave</span>
+                <span className="text-[10px] font-mono font-bold text-white bg-white/10 px-2 py-0.5 rounded-full border border-white/15">
+                  {balance.sick.remaining} Available
                 </span>
               </div>
-              <div className="flex items-baseline gap-2 mt-3">
-                <span className="text-3xl font-extrabold text-slate-900">{balance.sick.remaining}</span>
-                <span className="text-xs text-slate-500 font-medium">/ {balance.sick.total} total days</span>
+              <div className="flex items-baseline gap-2 mt-3 font-mono">
+                <span className="text-3xl font-extrabold text-white">{balance.sick.remaining}</span>
+                <span className="text-xs text-zinc-500">/ {balance.sick.total} total</span>
               </div>
             </div>
 
-            <div className="mt-4 pt-3 border-t border-rose-50">
-              <div className="flex justify-between text-[11px] font-medium text-slate-500 mb-1">
+            <div className="mt-4 pt-3 border-t border-white/[0.08]">
+              <div className="flex justify-between text-[10px] font-mono text-zinc-400 mb-1">
                 <span>Used: {balance.sick.used} days</span>
                 <span>{sickPct}%</span>
               </div>
-              <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
-                <div className="h-full bg-rose-600 rounded-full transition-all duration-300" style={{ width: `${sickPct}%` }} />
+              <div className="h-1.5 w-full bg-white/[0.06] rounded-full overflow-hidden">
+                <div className="h-full bg-zinc-300 rounded-full transition-all duration-300" style={{ width: `${sickPct}%` }} />
               </div>
             </div>
           </Card>
 
           {/* Unpaid Leave Card */}
-          <Card hoverEffect className="p-6 bg-gradient-to-br from-white to-slate-100/50 border-slate-200 flex flex-col justify-between">
+          <Card hoverEffect className="p-6 flex flex-col justify-between">
             <div>
               <div className="flex justify-between items-start">
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-700">Unpaid Leave</span>
-                <span className="text-xs font-bold text-slate-600 bg-slate-200 px-2 py-0.5 rounded-full">
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-zinc-400">Unpaid Leave</span>
+                <span className="text-[10px] font-mono font-bold text-zinc-400 bg-white/[0.05] px-2 py-0.5 rounded-full border border-white/10">
                   Unlimited
                 </span>
               </div>
-              <div className="flex items-baseline gap-2 mt-3">
-                <span className="text-3xl font-extrabold text-slate-900">{balance.unpaid.used}</span>
-                <span className="text-xs text-slate-500 font-medium">days taken this year</span>
+              <div className="flex items-baseline gap-2 mt-3 font-mono">
+                <span className="text-3xl font-extrabold text-white">{balance.unpaid.used}</span>
+                <span className="text-xs text-zinc-500">days logged this year</span>
               </div>
             </div>
 
-            <div className="mt-4 pt-3 border-t border-slate-200 text-xs text-slate-500 flex items-center gap-1.5">
-              <Clock className="w-3.5 h-3.5 text-slate-400" />
-              <span>Loss of pay calculations applied in payroll</span>
+            <div className="mt-4 pt-3 border-t border-white/[0.08] text-[10px] font-mono text-zinc-500 flex items-center gap-1.5">
+              <Clock className="w-3.5 h-3.5 text-zinc-500" />
+              <span>Deductions calculated in payroll</span>
             </div>
           </Card>
         </div>
@@ -175,15 +173,15 @@ export const LeavePage = () => {
 
       {/* Tabs and Leave List */}
       <div className="space-y-4">
-        <div className="flex space-x-2 bg-slate-100/80 p-1 rounded-2xl border border-slate-200 max-w-md">
+        <div className="flex space-x-2 bg-black/40 p-1 rounded-2xl border border-white/10 max-w-md backdrop-blur-md">
           {['ALL', 'PENDING', 'APPROVED', 'REJECTED'].map((tab) => (
             <button
               key={tab}
               onClick={() => setFilter(tab)}
-              className={`flex-1 py-1.5 px-3 text-xs font-bold rounded-xl transition-all cursor-pointer ${
+              className={`flex-1 py-1.5 px-3 text-xs font-mono font-semibold rounded-xl transition-all cursor-pointer ${
                 filter === tab
-                  ? 'bg-white text-indigo-600 shadow-sm'
-                  : 'text-slate-500 hover:text-slate-800'
+                  ? 'bg-white text-black shadow-sm font-bold'
+                  : 'text-zinc-400 hover:text-white'
               }`}
             >
               {tab.charAt(0) + tab.slice(1).toLowerCase()}

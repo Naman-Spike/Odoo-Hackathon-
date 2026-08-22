@@ -9,8 +9,7 @@ import {
   CheckCircle2, 
   UserX, 
   Plane,
-  Download,
-  Filter
+  Download
 } from 'lucide-react';
 import api from '../api/client';
 import { useAuth } from '../context/AuthContext';
@@ -19,7 +18,6 @@ import { AttendanceCalendar } from '../components/attendance/AttendanceCalendar'
 import { AttendanceTable } from '../components/attendance/AttendanceTable';
 import { Button } from '../components/ui/Button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/Card';
-import { Input } from '../components/ui/Input';
 
 export const AttendancePage: React.FC = () => {
   const { isAdmin } = useAuth();
@@ -126,24 +124,24 @@ export const AttendancePage: React.FC = () => {
       <div className="space-y-6 max-w-7xl mx-auto pb-10">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
-            <h1 className="text-2xl font-extrabold text-slate-900">Organization Attendance</h1>
-            <p className="text-xs text-slate-500 mt-0.5">Track, audit, and export staff timecard logs across all branches</p>
+            <h1 className="text-2xl font-black text-white tracking-tight font-sans">Attendance Telemetry</h1>
+            <p className="text-xs text-zinc-400 mt-0.5">Audit personnel timecard logs across all divisions</p>
           </div>
 
           <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
-            <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-xl border border-slate-200 shadow-2xs">
+            <div className="flex items-center gap-2 bg-black/40 px-3 py-1.5 rounded-xl border border-white/10 shadow-inner font-mono text-xs text-zinc-300 backdrop-blur-md">
               <input
                 type="date"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
-                className="text-xs text-slate-700 bg-transparent border-0 focus:ring-0 p-0"
+                className="text-xs text-zinc-200 bg-transparent border-0 focus:ring-0 p-0"
               />
-              <span className="text-xs text-slate-400">to</span>
+              <span className="text-zinc-600">to</span>
               <input
                 type="date"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
-                className="text-xs text-slate-700 bg-transparent border-0 focus:ring-0 p-0"
+                className="text-xs text-zinc-200 bg-transparent border-0 focus:ring-0 p-0"
               />
             </div>
             
@@ -155,64 +153,64 @@ export const AttendancePage: React.FC = () => {
 
         {/* 3 Metric Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
-          <Card hoverEffect className="p-5 bg-gradient-to-br from-white to-emerald-50/40 border-emerald-100 flex items-center justify-between">
+          <Card hoverEffect className="p-5 flex items-center justify-between">
             <div>
-              <span className="text-xs font-semibold uppercase text-emerald-700">Present Today</span>
-              <div className="text-3xl font-extrabold text-slate-900 mt-1">{presentToday}</div>
-              <span className="text-[10px] text-emerald-600 font-medium">Logged & Active</span>
+              <span className="text-[10px] font-mono font-bold uppercase text-zinc-400">Present Today</span>
+              <div className="text-3xl font-extrabold text-white mt-1 font-mono">{presentToday}</div>
+              <span className="text-[10px] text-zinc-500 font-mono">Verified Active</span>
             </div>
-            <div className="p-3.5 bg-emerald-100 text-emerald-700 rounded-2xl">
-              <CheckCircle2 className="w-6 h-6" />
+            <div className="p-3 bg-white/[0.06] border border-white/10 text-white rounded-xl">
+              <CheckCircle2 className="w-5 h-5" />
             </div>
           </Card>
 
-          <Card hoverEffect className="p-5 bg-gradient-to-br from-white to-rose-50/40 border-rose-100 flex items-center justify-between">
+          <Card hoverEffect className="p-5 flex items-center justify-between">
             <div>
-              <span className="text-xs font-semibold uppercase text-rose-700">Absent Today</span>
-              <div className="text-3xl font-extrabold text-slate-900 mt-1">{absentToday}</div>
-              <span className="text-[10px] text-rose-600 font-medium">No check-in record</span>
+              <span className="text-[10px] font-mono font-bold uppercase text-zinc-400">Absent Today</span>
+              <div className="text-3xl font-extrabold text-white mt-1 font-mono">{absentToday}</div>
+              <span className="text-[10px] text-zinc-500 font-mono">No Check-in Logged</span>
             </div>
-            <div className="p-3.5 bg-rose-100 text-rose-700 rounded-2xl">
-              <UserX className="w-6 h-6" />
+            <div className="p-3 bg-white/[0.06] border border-white/10 text-zinc-400 rounded-xl">
+              <UserX className="w-5 h-5" />
             </div>
           </Card>
 
-          <Card hoverEffect className="p-5 bg-gradient-to-br from-white to-sky-50/40 border-sky-100 flex items-center justify-between">
+          <Card hoverEffect className="p-5 flex items-center justify-between">
             <div>
-              <span className="text-xs font-semibold uppercase text-sky-700">On Approved Leave</span>
-              <div className="text-3xl font-extrabold text-slate-900 mt-1">{leaveToday}</div>
-              <span className="text-[10px] text-sky-600 font-medium">Synced from leaves</span>
+              <span className="text-[10px] font-mono font-bold uppercase text-zinc-400">Approved Leave</span>
+              <div className="text-3xl font-extrabold text-white mt-1 font-mono">{leaveToday}</div>
+              <span className="text-[10px] text-zinc-500 font-mono">Synced from Quotas</span>
             </div>
-            <div className="p-3.5 bg-sky-100 text-sky-700 rounded-2xl">
-              <Plane className="w-6 h-6" />
+            <div className="p-3 bg-white/[0.06] border border-white/10 text-white rounded-xl">
+              <Plane className="w-5 h-5" />
             </div>
           </Card>
         </div>
 
         {/* Filtered Attendance Table */}
-        <Card className="border-slate-200">
+        <Card>
           <CardHeader className="flex flex-col sm:flex-row items-center justify-between gap-4 py-4">
-            <CardTitle className="text-base flex items-center gap-2">
-              <Clock className="w-4 h-4 text-indigo-600" />
+            <CardTitle className="text-sm font-mono uppercase tracking-wider text-zinc-300 flex items-center gap-2">
+              <Clock className="w-4 h-4 text-zinc-400" />
               Detailed Attendance Ledger
             </CardTitle>
             <div className="relative w-full sm:w-72">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-zinc-500" />
               <input
-                placeholder="Filter by staff name or ID..."
+                placeholder="Filter by name or employee ID..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="h-10 pl-10 pr-4 w-full text-xs rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors"
+                className="h-10 pl-9 pr-4 w-full text-xs rounded-xl border border-white/10 bg-black/40 text-white placeholder:text-zinc-600 focus:bg-black/60 focus:outline-none focus:ring-1 focus:ring-white/40 focus:border-white/40 transition-colors backdrop-blur-md font-mono"
               />
             </div>
           </CardHeader>
           <CardContent className="p-4 sm:p-6">
             {isLoading ? (
               <div className="flex justify-center p-12">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600" />
+                <div className="animate-spin rounded-full h-7 w-7 border-b-2 border-white" />
               </div>
             ) : error ? (
-              <div className="text-rose-500 p-4 text-center text-xs font-semibold">{error}</div>
+              <div className="text-rose-400 p-4 text-center text-xs font-mono">{error}</div>
             ) : (
               <AttendanceTable records={filteredRecords} showEmployee={true} />
             )}
@@ -234,8 +232,8 @@ export const AttendancePage: React.FC = () => {
   return (
     <div className="space-y-6 max-w-7xl mx-auto pb-10">
       <div>
-        <h1 className="text-2xl font-extrabold text-slate-900">Attendance & Timecard</h1>
-        <p className="text-xs text-slate-500 mt-0.5">Manage your daily shifts, view monthly history, and audit worked hours</p>
+        <h1 className="text-2xl font-black text-white tracking-tight font-sans">Attendance Telemetry</h1>
+        <p className="text-xs text-zinc-400 mt-0.5">Manage daily shifts, audit monthly ledger, and view active hours</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -244,74 +242,74 @@ export const AttendancePage: React.FC = () => {
         </div>
 
         <div className="lg:col-span-8">
-          <Card className="h-full border-slate-200 flex flex-col justify-between p-6">
+          <Card className="h-full flex flex-col justify-between p-6">
             <div>
               <div className="flex justify-between items-center mb-4">
-                <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-                  <CalendarIcon className="w-4 h-4 text-indigo-600" />
+                <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-zinc-300 flex items-center gap-2">
+                  <CalendarIcon className="w-3.5 h-3.5 text-zinc-400" />
                   Monthly Summary — {monthName}
                 </h3>
-                <span className="text-xs font-semibold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-full border border-indigo-100">
+                <span className="text-[10px] font-mono text-zinc-400 bg-white/[0.05] border border-white/10 px-2.5 py-1 rounded-full">
                   Target: 160h / mo
                 </span>
               </div>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                <div className="bg-emerald-50/70 p-3.5 rounded-2xl border border-emerald-100">
-                  <div className="text-[11px] font-bold text-emerald-700 uppercase tracking-wider">Present</div>
-                  <div className="text-2xl font-extrabold text-emerald-900 mt-1">{presentDays}</div>
-                  <div className="text-[10px] text-emerald-600 mt-0.5">Days logged</div>
+                <div className="bg-white/[0.025] p-3.5 rounded-2xl border border-white/[0.08]">
+                  <div className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-widest">Present</div>
+                  <div className="text-2xl font-extrabold text-white mt-1 font-mono">{presentDays}</div>
+                  <div className="text-[10px] text-zinc-500 font-mono mt-0.5">Days Logged</div>
                 </div>
 
-                <div className="bg-amber-50/70 p-3.5 rounded-2xl border border-amber-100">
-                  <div className="text-[11px] font-bold text-amber-700 uppercase tracking-wider">Half Days</div>
-                  <div className="text-2xl font-extrabold text-amber-900 mt-1">{halfDays}</div>
-                  <div className="text-[10px] text-amber-600 mt-0.5">&lt; 4.0 hours</div>
+                <div className="bg-white/[0.025] p-3.5 rounded-2xl border border-white/[0.08]">
+                  <div className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-widest">Half Days</div>
+                  <div className="text-2xl font-extrabold text-white mt-1 font-mono">{halfDays}</div>
+                  <div className="text-[10px] text-zinc-500 font-mono mt-0.5">&lt; 4.0 Hours</div>
                 </div>
 
-                <div className="bg-indigo-50/70 p-3.5 rounded-2xl border border-indigo-100">
-                  <div className="text-[11px] font-bold text-indigo-700 uppercase tracking-wider">Total Hours</div>
-                  <div className="text-2xl font-extrabold text-indigo-900 mt-1">{totalHours.toFixed(1)}h</div>
-                  <div className="text-[10px] text-indigo-600 mt-0.5">Cumulative</div>
+                <div className="bg-white/[0.025] p-3.5 rounded-2xl border border-white/[0.08]">
+                  <div className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-widest">Total Hours</div>
+                  <div className="text-2xl font-extrabold text-white mt-1 font-mono">{totalHours.toFixed(1)}h</div>
+                  <div className="text-[10px] text-zinc-500 font-mono mt-0.5">Cumulative</div>
                 </div>
 
-                <div className="bg-purple-50/70 p-3.5 rounded-2xl border border-purple-100">
-                  <div className="text-[11px] font-bold text-purple-700 uppercase tracking-wider">Daily Avg</div>
-                  <div className="text-2xl font-extrabold text-purple-900 mt-1">{avgHours}h</div>
-                  <div className="text-[10px] text-purple-600 mt-0.5">Per present day</div>
+                <div className="bg-white/[0.025] p-3.5 rounded-2xl border border-white/[0.08]">
+                  <div className="text-[10px] font-mono font-bold text-zinc-500 uppercase tracking-widest">Daily Avg</div>
+                  <div className="text-2xl font-extrabold text-white mt-1 font-mono">{avgHours}h</div>
+                  <div className="text-[10px] text-zinc-500 font-mono mt-0.5">Per Present Day</div>
                 </div>
               </div>
             </div>
 
-            <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-              <span>Standard Work Schedule: Monday to Friday (9:00 AM – 5:30 PM)</span>
-              <span className="font-semibold text-slate-700">8.5h / day</span>
+            <div className="mt-4 pt-3 border-t border-white/[0.08] flex items-center justify-between text-[11px] text-zinc-500 font-mono">
+              <span>Standard Shift: Monday to Friday (09:00 – 17:30)</span>
+              <span className="text-zinc-300 font-semibold">8.5h / day</span>
             </div>
           </Card>
         </div>
       </div>
 
       {/* Calendar / Table Container */}
-      <Card className="border-slate-200">
-        <CardHeader className="flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-slate-100 pb-4">
-          <div className="flex items-center bg-slate-100/80 rounded-xl p-1 border border-slate-200">
+      <Card>
+        <CardHeader className="flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-white/[0.08] pb-4">
+          <div className="flex items-center bg-black/40 rounded-xl p-1 border border-white/10">
             <button
               onClick={() => setViewMode('calendar')}
-              className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all flex items-center gap-1.5 cursor-pointer ${
+              className={`px-3 py-1.5 text-xs font-mono font-semibold rounded-lg transition-all flex items-center gap-1.5 cursor-pointer ${
                 viewMode === 'calendar' 
-                  ? 'bg-white text-indigo-600 shadow-sm' 
-                  : 'text-slate-500 hover:text-slate-800'
+                  ? 'bg-white text-black shadow-sm font-bold' 
+                  : 'text-zinc-400 hover:text-white'
               }`}
             >
               <CalendarIcon className="w-3.5 h-3.5" />
-              Calendar View
+              Calendar Matrix
             </button>
             <button
               onClick={() => setViewMode('table')}
-              className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all flex items-center gap-1.5 cursor-pointer ${
+              className={`px-3 py-1.5 text-xs font-mono font-semibold rounded-lg transition-all flex items-center gap-1.5 cursor-pointer ${
                 viewMode === 'table' 
-                  ? 'bg-white text-indigo-600 shadow-sm' 
-                  : 'text-slate-500 hover:text-slate-800'
+                  ? 'bg-white text-black shadow-sm font-bold' 
+                  : 'text-zinc-400 hover:text-white'
               }`}
             >
               <TableIcon className="w-3.5 h-3.5" />
@@ -323,7 +321,7 @@ export const AttendancePage: React.FC = () => {
             <Button variant="outline" size="sm" onClick={handlePrevMonth}>
               <ChevronLeft className="w-4 h-4" />
             </Button>
-            <span className="font-bold text-xs sm:text-sm text-slate-800 min-w-[140px] text-center font-mono">
+            <span className="font-bold text-xs sm:text-sm text-white min-w-[140px] text-center font-mono">
               {monthName}
             </span>
             <Button variant="outline" size="sm" onClick={handleNextMonth}>
@@ -335,10 +333,10 @@ export const AttendancePage: React.FC = () => {
         <CardContent className="p-4 sm:p-6">
           {isLoading ? (
              <div className="flex justify-center p-12">
-               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600" />
+               <div className="animate-spin rounded-full h-7 w-7 border-b-2 border-white" />
              </div>
           ) : error ? (
-             <div className="text-rose-500 p-8 text-center text-xs font-semibold">{error}</div>
+             <div className="text-rose-400 p-8 text-center text-xs font-mono">{error}</div>
           ) : (
             <div>
               {viewMode === 'calendar' ? (

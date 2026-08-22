@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Calendar, AlignLeft, Info, AlertTriangle, Send } from 'lucide-react';
+import { Calendar, Info, AlertTriangle, Send } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import { Select } from '../ui/Select';
@@ -81,13 +81,13 @@ export const LeaveForm: React.FC<LeaveFormProps> = ({ onSubmit, onCancel, balanc
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       {error && (
-        <div className="p-3.5 bg-rose-50 border border-rose-200 text-rose-700 rounded-xl text-xs font-semibold">
+        <div className="p-3.5 bg-rose-950/40 border border-rose-500/30 text-rose-300 rounded-xl text-xs font-mono">
           {error}
         </div>
       )}
       
       <Select
-        label="Select Leave Type"
+        label="Select Leave Classification"
         options={leaveOptions}
         value={leaveType}
         onChange={(e) => setLeaveType(e.target.value)}
@@ -116,39 +116,39 @@ export const LeaveForm: React.FC<LeaveFormProps> = ({ onSubmit, onCancel, balanc
       </div>
 
       {days > 0 && (
-        <div className="flex items-center text-xs font-semibold text-indigo-700 bg-indigo-50/80 p-3 rounded-xl border border-indigo-100">
-          <Info className="w-4 h-4 mr-2 flex-shrink-0 text-indigo-600" />
+        <div className="flex items-center text-xs font-mono text-zinc-300 bg-white/[0.04] p-3 rounded-xl border border-white/10">
+          <Info className="w-4 h-4 mr-2 flex-shrink-0 text-white" />
           <span>Applying for <strong>{days} calendar day{days > 1 ? 's' : ''}</strong> of leave.</span>
         </div>
       )}
 
       {warning && (
-        <div className="flex items-center text-xs font-semibold text-amber-800 bg-amber-50 p-3 rounded-xl border border-amber-200">
-          <AlertTriangle className="w-4 h-4 mr-2 flex-shrink-0 text-amber-600" />
+        <div className="flex items-center text-xs font-mono text-zinc-300 bg-zinc-900 p-3 rounded-xl border border-zinc-700">
+          <AlertTriangle className="w-4 h-4 mr-2 flex-shrink-0 text-white" />
           <span>{warning}</span>
         </div>
       )}
 
       <div className="space-y-1.5">
-        <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider">Reason for Leave</label>
+        <label className="block text-[11px] font-mono font-bold text-zinc-400 uppercase tracking-wider">Reason for Request</label>
         <div className="relative">
           <textarea
-            className="block w-full px-3.5 py-2.5 border border-slate-200 rounded-xl bg-slate-50/50 hover:bg-white focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 text-xs text-slate-900 placeholder:text-slate-400 h-24 resize-none transition-all shadow-sm"
+            className="block w-full px-3.5 py-2.5 border border-white/10 rounded-xl bg-black/40 text-white placeholder:text-zinc-600 focus:bg-black/60 focus:outline-none focus:ring-1 focus:ring-white/40 focus:border-white/40 text-xs h-24 resize-none transition-all shadow-inner font-mono"
             value={reason}
             onChange={(e) => setReason(e.target.value)}
-            placeholder="E.g., Attending family function, medical appointment..."
+            placeholder="Provide context for HR review..."
             required
             minLength={8}
           />
         </div>
       </div>
 
-      <div className="flex justify-end gap-3 pt-4 border-t border-slate-100">
+      <div className="flex justify-end gap-3 pt-4 border-t border-white/10">
         <Button variant="ghost" type="button" onClick={onCancel} disabled={isSubmitting}>
           Cancel
         </Button>
-        <Button variant="gradient" type="submit" isLoading={isSubmitting} icon={Send}>
-          Submit Application
+        <Button variant="primary" type="submit" isLoading={isSubmitting} icon={Send}>
+          Submit Request
         </Button>
       </div>
     </form>
